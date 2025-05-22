@@ -1,0 +1,15 @@
+.app {
+  padding: 30px;
+  display: flex;
+}
+
+.app > div {
+  margin-right: 50px;
+}
+
+.todo{
+  background-color: aquamarine ;
+  border-radius: 10px;
+  border: 2px solid grey;
+  padding: 10px;
+}
