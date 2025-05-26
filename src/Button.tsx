@@ -1,11 +1,14 @@
+// import {Task} from "./Todolist.tsx";
+
 
 type ButtonPropsType = {
-    text: string
+    text: string,
+    onClickHandler?: () => void,
 }
 
-export const Button = ({text}: ButtonPropsType) => {
+export const Button = ({text, onClickHandler}: ButtonPropsType) => {
     return (
-        <button className="button">
+        <button onClick={onClickHandler} className="button">
             {text}
         </button>
     )
