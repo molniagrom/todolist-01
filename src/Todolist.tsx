@@ -7,6 +7,7 @@ type TodolistPropsType = {
     deleteTask: (id: Task["id"]) => void
     addTask: (title: Task["title"]) => void
     changeFilter: (filter: FilterValues) => void
+    deleteAllTask: () => void
 }
 
 export type Task = {
@@ -15,7 +16,7 @@ export type Task = {
     id: number
 }
 
-export const Todolist = ({title, tasks, deleteTask, changeFilter}: TodolistPropsType) => {
+export const Todolist = ({title, deleteAllTask, tasks, deleteTask, changeFilter}: TodolistPropsType) => {
 
 
     const tasksList = tasks.length === 0
@@ -51,6 +52,12 @@ export const Todolist = ({title, tasks, deleteTask, changeFilter}: TodolistProps
                 <Button
                     onClickHandler={() => changeFilter("completed")}
                     text={"сделано"}/>
+            </div>
+            <div>
+                <button onClick={() => {
+                    deleteAllTask()
+                }}>Delete all tasks
+                </button>
             </div>
         </div>
     )

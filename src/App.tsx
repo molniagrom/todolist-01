@@ -30,6 +30,7 @@ const [filter, setFilter] = useState<FilterValues>("all")
         const nextState = tasks.filter(t => t.id !== taskId);
         setTasks(nextState);
     }
+
     const addTask = (taskName: Task["title"]) => {
         const nextState = [
             {
@@ -43,6 +44,10 @@ const [filter, setFilter] = useState<FilterValues>("all")
     }
     const changeHandler = (nextFilter: FilterValues) => {
         setFilter(nextFilter)
+    }
+
+    function deleteAllTask (): void {
+        setTasks([])
     }
 
     let filteredTasks = tasks
@@ -60,6 +65,7 @@ const [filter, setFilter] = useState<FilterValues>("all")
                 changeFilter={changeHandler}
                 addTask={addTask}
                 deleteTask={deleteTask}
+                deleteAllTask={deleteAllTask}
                 tasks={filteredTasks}
                 title={todolistTitle_1}/>
         </div>
