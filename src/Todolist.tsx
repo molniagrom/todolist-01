@@ -1,5 +1,6 @@
 import {Button} from "./Button.tsx";
 import {FilterValues} from "./App.tsx";
+import {ChangeEvent, useState} from "react";
 
 type TodolistPropsType = {
     title: string
@@ -16,8 +17,24 @@ export type Task = {
     id: number
 }
 
-export const Todolist = ({title, deleteAllTask, tasks, deleteTask, changeFilter}: TodolistPropsType) => {
+export const Todolist = ({title, deleteAllTask, tasks, deleteTask, changeFilter, addTask}: TodolistPropsType) => {
 
+    const [inputTitle, setInputTitle] = useState("")
+
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setInputTitle(e.currentTarget.value)
+    }
+
+    const onClickHandler = () => {
+        if (inputTitle === "") {
+            alert("Add the name of the task")
+            return
+        }
+        addTask(inputTitle)
+        setInputTitle("")
+    }
+
+    console.log(inputTitle)
 
     const tasksList = tasks.length === 0
         ? <span>Your tasksList is empty</span>
@@ -38,8 +55,8 @@ export const Todolist = ({title, deleteAllTask, tasks, deleteTask, changeFilter}
         <div className="todo">
             <h3>{title}</h3>
             <div>
-                <input/>
-                <Button text={"+"}/>
+                <input value={inputTitle} onChange={onChangeHandler}/>
+                <Button onClickHandler={onClickHandler} text={"+"}/>
             </div>
             {tasksList}
             <div>
