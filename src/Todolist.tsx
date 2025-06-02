@@ -1,12 +1,12 @@
 import {Button} from "./Button.tsx";
 import {FilterValues} from "./App.tsx";
-import {ChangeEvent, useState} from "react";
+import {useRef} from "react";
 
 type TodolistPropsType = {
     title: string
     tasks: Array<Task>
     deleteTask: (id: Task["id"]) => void
-    addTask: (title: Task["title"]) => void
+    createTask: (title: Task["title"]) => void
     changeFilter: (filter: FilterValues) => void
     deleteAllTask: () => void
 }
@@ -14,27 +14,26 @@ type TodolistPropsType = {
 export type Task = {
     title: string
     isDone: boolean
-    id: number
+    id: string
 }
 
-export const Todolist = ({title, deleteAllTask, tasks, deleteTask, changeFilter, addTask}: TodolistPropsType) => {
+export const Todolist = ({
+                             title,
+                             deleteAllTask,
+                             tasks,
+                             deleteTask,
+                             changeFilter,
+                             createTask
+                         }: TodolistPropsType) => {
 
-    const [inputTitle, setInputTitle] = useState("")
-
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setInputTitle(e.currentTarget.value)
-    }
+    const inputRef = useRef<HTMLInputElement>(null);
 
     const onClickHandler = () => {
-        if (inputTitle === "") {
-            alert("Add the name of the task")
-            return
+        if (inputRef.current) {
+            inputRef.current.value && createTask(inputRef.current.value)
+            inputRef.current.value = ""
         }
-        addTask(inputTitle)
-        setInputTitle("")
     }
-
-    console.log(inputTitle)
 
     const tasksList = tasks.length === 0
         ? <span>Your tasksList is empty</span>
@@ -55,7 +54,7 @@ export const Todolist = ({title, deleteAllTask, tasks, deleteTask, changeFilter,
         <div className="todo">
             <h3>{title}</h3>
             <div>
-                <input value={inputTitle} onChange={onChangeHandler}/>
+                <input placeholder={"max 15 symbol"} ref={inputRef}/>
                 <Button onClickHandler={onClickHandler} text={"+"}/>
             </div>
             {tasksList}

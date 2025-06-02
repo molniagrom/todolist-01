@@ -1,6 +1,7 @@
 import './App.css'
 import {Task, Todolist} from "./Todolist.tsx";
 import {useState} from "react";
+import {v1} from "uuid";
 
 export type FilterValues = "all" | "active" | "completed";
 
@@ -13,16 +14,16 @@ const [filter, setFilter] = useState<FilterValues>("all")
         {
             title: " HTML&CSS",
             isDone: true,
-            id: 1,
+            id: v1(),
         },
         {
             title: "JS",
             isDone: false,
-            id: 2,
+            id: v1(),
         }, {
             title: "CSS",
             isDone: true,
-            id: 3,
+            id: v1(),
         },
     ])
 
@@ -31,11 +32,11 @@ const [filter, setFilter] = useState<FilterValues>("all")
         setTasks(nextState);
     }
 
-    const addTask = (taskName: Task["title"]) => {
-        const nextState = [
+    const createTask = (taskName: Task["title"]) => {
+        const nextState: Task[] = [
             {
                 title: taskName,
-                id: 4,
+                id: v1(),
                 isDone: false,
             },
             ...tasks,
@@ -63,7 +64,7 @@ const [filter, setFilter] = useState<FilterValues>("all")
         <div className="app">
             <Todolist
                 changeFilter={changeHandler}
-                addTask={addTask}
+                createTask={createTask}
                 deleteTask={deleteTask}
                 deleteAllTask={deleteAllTask}
                 tasks={filteredTasks}

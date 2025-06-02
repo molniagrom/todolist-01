@@ -1,5 +1,3 @@
-// import {Task} from "./Todolist.tsx";
-
 
 type ButtonPropsType = {
     text: string,
