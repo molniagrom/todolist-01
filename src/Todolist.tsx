@@ -1,6 +1,6 @@
 import {Button} from "./Button.tsx";
 import {FilterValues} from "./App.tsx";
-import {useRef} from "react";
+import {useState} from "react";
 
 type TodolistPropsType = {
     title: string
@@ -26,13 +26,12 @@ export const Todolist = ({
                              createTask
                          }: TodolistPropsType) => {
 
-    const inputRef = useRef<HTMLInputElement>(null);
+    const [taskTitle, setTaskTitle] = useState("")
+    const createTaskCondition = taskTitle === "" || taskTitle.length > 15
 
     const onClickHandler = () => {
-        if (inputRef.current) {
-            inputRef.current.value && createTask(inputRef.current.value)
-            inputRef.current.value = ""
-        }
+        createTask(taskTitle)
+        setTaskTitle("")
     }
 
     const tasksList = tasks.length === 0
@@ -54,8 +53,18 @@ export const Todolist = ({
         <div className="todo">
             <h3>{title}</h3>
             <div>
-                <input placeholder={"max 15 symbol"} ref={inputRef}/>
-                <Button onClickHandler={onClickHandler} text={"+"}/>
+                <input
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter" && !createTaskCondition) {
+                            onClickHandler()
+                        }
+                    }}
+                    onChange={e => setTaskTitle((e.currentTarget.value))}
+                    value={taskTitle} placeholder={"max 15 symbol"}/>
+                <Button disabled={createTaskCondition}
+                        onClickHandler={onClickHandler} text={"+"}/>
+                {taskTitle && taskTitle.length <= 15 && <p>"max 15 symbol"</p>}
+                {taskTitle && taskTitle.length > 15 && <p style={{color: "red"}}>"title is too long"</p>}
             </div>
             {tasksList}
             <div>
