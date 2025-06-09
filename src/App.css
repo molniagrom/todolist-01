@@ -1,15 +1,35 @@
 .app {
-  padding: 30px;
-  display: flex;
+    padding: 30px;
+    display: flex;
 }
 
 .app > div {
-  margin-right: 50px;
+    margin-right: 50px;
 }
 
-.todo{
-  background-color: #29a6ff;
-  border-radius: 10px;
-  border: 2px solid grey;
-  padding: 10px;
+.todo {
+    background-color: #29a6ff;
+    border-radius: 10px;
+    border: 2px solid grey;
+    padding: 10px;
+}
+
+.task {
+    font-weight: bold;
+}
+
+.taskDone {
+    text-decoration: line-through;
+    opacity: 0.5;
+}
+
+.btnFilterActive {
+    background-color: #00b84a;
+    border-radius: 5px;
+    color: white;
+}
+
+.inputError {
+    border: 2px solid red;
+    outline: none;
 }
