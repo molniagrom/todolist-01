@@ -5,14 +5,17 @@ import "./App.css"
 
 
 type TodolistPropsType = {
+    todolistId: string
     title: string
     filter: FilterValues
     tasks: Array<Task>
-    deleteTask: (id: Task["id"]) => void
-    changeTaskStatus: (id: Task["id"], newStatus: Task["isDone"]) => void
-    createTask: (title: Task["title"]) => void
-    changeFilter: (filter: FilterValues) => void
-    deleteAllTask: () => void
+    deleteTodolist: (todolistId: string) => void
+    deleteTask: (id: Task["id"], todolistId: string) => void
+    changeTaskStatus: (id: Task["id"], newStatus: Task["isDone"], todolistId: string) => void
+    createTask: (title: Task["title"], todolistId: string) => void
+    changeTodolistFilter: (filter: FilterValues, todolistId: string) => void
+    deleteAllTask: (todolistId: string) => void
+
 }
 
 export type Task = {
@@ -26,8 +29,10 @@ export const Todolist = ({
                              deleteAllTask,
                              tasks,
                              deleteTask,
+                             todolistId,
                              filter,
-                             changeFilter,
+                             deleteTodolist,
+                             changeTodolistFilter,
                              changeTaskStatus,
                              createTask
                          }: TodolistPropsType) => {
@@ -39,7 +44,7 @@ export const Todolist = ({
     const createTaskHandler = () => {
         const trimmedTitle = taskTitle.trim()
         if (trimmedTitle) {
-            createTask(trimmedTitle)
+            createTask(trimmedTitle, todolistId)
         } else {
             setError(true)
         }
@@ -55,17 +60,18 @@ export const Todolist = ({
         }
     }
 
+
     const tasksList = tasks.length === 0
         ? <span>Your tasksList is empty</span>
         : <ul>
             {
                 tasks.map((task: Task) => (
                     <li className={task.isDone ? "taskDone" : "task"} key={task.id}>
-                        <input onChange={() => changeTaskStatus(task.id, !task.isDone)} type="checkbox"
+                        <input onChange={() => changeTaskStatus(task.id, !task.isDone, todolistId)} type="checkbox"
                                checked={task.isDone}/>
                         <span>{task.title}</span>
                         <Button text={"x"} onClickHandler={() => {
-                            deleteTask(task.id)
+                            deleteTask(task.id, todolistId)
                         }}/>
                     </li>))
             }
@@ -73,7 +79,9 @@ export const Todolist = ({
 
     return (
         <div className="todo">
-            <h3>{title}</h3>
+            <h3>{title}
+                <Button onClickHandler={() => deleteTodolist(todolistId)}>x</Button>
+            </h3>
             <div>
                 <input
                     className={error ? "inputError" : ""}
@@ -84,26 +92,28 @@ export const Todolist = ({
                         onClickHandler={createTaskHandler} text={"+"}/>
                 {taskTitle && taskTitle.length <= 15 && <p>"max 15 symbol"</p>}
                 {taskTitle && taskTitle.length > 15 && <p style={{color: "red"}}>"title is too long"</p>}
-                {error && <><br/> <div style={{color: "red"}}>Title must be valid </div></>}
+                {error && <><br/>
+                    <div style={{color: "red"}}>Title must be valid</div>
+                </>}
             </div>
             {tasksList}
             <div>
                 <Button
                     className={filter === "all" ? "btnFilterActive" : undefined}
-                    onClickHandler={() => changeFilter("all")}
+                    onClickHandler={() => changeTodolistFilter("all", todolistId)}
                     text={"Все"}/>
                 <Button
                     className={filter === "active" ? "btnFilterActive" : undefined}
-                    onClickHandler={() => changeFilter("active")}
+                    onClickHandler={() => changeTodolistFilter("active", todolistId)}
                     text={"не выполнено"}/>
                 <Button
                     className={filter === "completed" ? "btnFilterActive" : undefined}
-                    onClickHandler={() => changeFilter("completed")}
+                    onClickHandler={() => changeTodolistFilter("completed", todolistId)}
                     text={"сделано"}/>
             </div>
             <div>
                 <button onClick={() => {
-                    deleteAllTask()
+                    deleteAllTask(todolistId)
                 }}>Delete all tasks
                 </button>
             </div>
