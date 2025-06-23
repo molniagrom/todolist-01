@@ -47,7 +47,6 @@ function App() {
         const nextState: TasksState = {
             [todolistId]: [...tasks[todolistId], {id: v1(), title: taskName, isDone: false}],
             ...tasks,
-            [todolistId]: [...tasks[todolistId], {id: v1(), title: taskName, isDone: false}]
         }
         setTasks(nextState);
     }
