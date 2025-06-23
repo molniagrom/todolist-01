@@ -45,6 +45,7 @@ function App() {
 
     const createTask = (taskName: Task["title"], todolistId: string) => {
         const nextState: TasksState = {
+            [todolistId]: [...tasks[todolistId], {id: v1(), title: taskName, isDone: false}],
             ...tasks,
             [todolistId]: [...tasks[todolistId], {id: v1(), title: taskName, isDone: false}]
         }
