@@ -2,14 +2,15 @@ import './App.css'
 import {Task, Todolist} from "./Todolist.tsx";
 import {useState} from "react";
 import {v1} from "uuid";
+import CreateItemForm from "./components/CreateItemForm.tsx";
 
 export type FilterValues = "all" | "active" | "completed";
 
-type TasksState = {
+export type TasksState = {
     [todolistId: string]: Task[]
 }
 
-type TodolistType = {
+export type TodolistType = {
     id: string,
     title: string,
     filter: FilterValues,
@@ -66,6 +67,19 @@ function App() {
         });
     }
 
+    const changeTaskTitle = (
+        taskId: Task["id"],
+        newTitle: Task["title"],
+        todolistId: string) => {
+
+        let upDateTasks: Task[] = tasks[todolistId].map(t => t.id === taskId ? {...t, title: newTitle} : t);
+        setTasks({
+            ...tasks,
+            [todolistId]: upDateTasks
+        });
+    }
+
+
     function deleteAllTask(todolistId: string) {
         setTasks({...tasks, [todolistId]: []})
     }
@@ -76,13 +90,32 @@ function App() {
             ? {...tl, filter: nextFilter}
             : tl)
         setTodolist(nextState)
+    }
 
+    const changeTodolistTitle = (
+        newTitle: TodolistType["title"], todolistId: string) => {
+        const nextState: TodolistType[] = todolists.map(tl => tl.id === todolistId
+            ? {...tl, title: newTitle}
+            : tl)
+        setTodolist(nextState)
     }
 
     const deleteTodolist = (todolistId: string) => {
         const nextState: TodolistType[] = todolists.filter(t => t.id !== todolistId)
         setTodolist(nextState)
         delete tasks[todolistId]
+    }
+
+    const createTodolist = (todolistTitle: string) => {
+        const tlId = v1()
+        setTodolist([
+            {id: tlId, title: todolistTitle, filter: "all"},
+            ...todolists,
+        ])
+        setTasks({
+            ...tasks,
+            [tlId]: [],
+        })
     }
 
     const todolistComponents = todolists.map(t => {
@@ -100,6 +133,7 @@ function App() {
             <Todolist
                 key={t.id}
                 todolistId={t.id}
+                changeTodolistTitle={changeTodolistTitle}
                 filter={t.filter}
                 deleteTodolist={deleteTodolist}
                 changeTaskStatus={changeTaskStatus}
@@ -108,6 +142,7 @@ function App() {
                 deleteTask={deleteTask}
                 deleteAllTask={deleteAllTask}
                 tasks={filteredTasks}
+                changeTaskTitle={changeTaskTitle}
                 title={t.title}/>
         )
     })
@@ -116,6 +151,7 @@ function App() {
 
     return (
         <div className="app">
+            <CreateItemForm itemTitleLength={10} createItem={createTodolist}/>
             {todolistComponents}
         </div>
     )
