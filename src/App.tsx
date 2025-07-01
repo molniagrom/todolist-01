@@ -3,10 +3,22 @@ import {Task, Todolist} from "./Todolist.tsx";
 import {useState} from "react";
 import {v1} from "uuid";
 import CreateItemForm from "./components/CreateItemForm.tsx";
-import {AppBar, Box, Button, Container, IconButton, Toolbar} from '@mui/material';
+import {
+    AppBar,
+    Box,
+    Container,
+    createTheme,
+    CssBaseline,
+    IconButton,
+    Switch,
+    ThemeProvider,
+    Toolbar
+} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu'
 import Grid from '@mui/material/Grid'
 import Paper from '@mui/material/Paper'
+import {NavButton} from "./components/NavButton.ts";
+import {orange, lightBlue} from "@mui/material/colors";
 
 
 export type FilterValues = "all" | "active" | "completed";
@@ -156,29 +168,52 @@ function App() {
         )
     })
 
+    const [isLight, setIsLight] = useState<boolean>(true)
+
+const myTheme = createTheme({
+    // palette: {
+    //     primary: green,
+    //     secondary: amber,
+    //     mode: 'dark'
+    // },
+
+    palette: {
+        primary: lightBlue,
+        secondary: orange,
+        mode: isLight ? 'light' : 'dark'
+    },
+})
+
 
     return (
         <div className="app">
-            <AppBar position="static">
-                <Toolbar>
-                    <Box sx={{display: "flex", width: "100%", justifyContent: "space-between"}}>
-                        <IconButton color="inherit">
-                            <MenuIcon/>
-                        </IconButton>
-                        <Button color="inherit">Sign in</Button>
-                    </Box>
-                </Toolbar>
-            </AppBar>
-            <Container maxWidth={"lg"}>
-                <Grid container sx={{padding: "15px 0"}}>
-                    <CreateItemForm itemTitleLength={10} createItem={createTodolist}/>
-                </Grid>
-                <Grid spacing={3} container>
-                    {todolistComponents}
-                </Grid>
-            </Container>
 
-
+            <ThemeProvider theme={myTheme}>
+                <CssBaseline />
+                <AppBar position="static">
+                    <Toolbar>
+                        <Box sx={{display: "flex", width: "100%", justifyContent: "space-between"}}>
+                            <IconButton color="inherit">
+                                <MenuIcon/>
+                            </IconButton>
+                            <Box>
+                                <Switch onChange={() => setIsLight(!isLight)}/>
+                                <NavButton background={myTheme.palette.primary.dark}>Sign in</NavButton>
+                                <NavButton background={myTheme.palette.primary.dark}>Sign out</NavButton>
+                                <NavButton background={myTheme.palette.primary.light}>FAQ</NavButton>
+                            </Box>
+                        </Box>
+                    </Toolbar>
+                </AppBar>
+                <Container maxWidth={"lg"}>
+                    <Grid container sx={{padding: "15px 0"}}>
+                        <CreateItemForm itemTitleLength={10} createItem={createTodolist}/>
+                    </Grid>
+                    <Grid spacing={3} container>
+                        {todolistComponents}
+                    </Grid>
+                </Container>
+            </ThemeProvider>
         </div>
     )
 }

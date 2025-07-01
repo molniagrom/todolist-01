@@ -8,7 +8,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import Checkbox from '@mui/material/Checkbox';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import {BoxSx} from "./components/Todolist.styles.ts";
+import {BoxSx, getListItemSx} from "./components/Todolist.styles.ts";
 
 
 type TodolistPropsType = {
@@ -57,7 +57,7 @@ export const Todolist = ({
                         changeTaskTitle(task.id, newTitle, todolistId)
                     }
 
-                    return <ListItem disablePadding className={task.isDone ? "taskDone" : "task"} key={task.id}>
+                    return <ListItem disablePadding sx={getListItemSx(task.isDone)} key={task.id}>
                         <Box sx={BoxSx}>
                             <Checkbox
                                 size="small"
@@ -65,8 +65,11 @@ export const Todolist = ({
                                     changeTaskStatus(task.id, !task.isDone, todolistId)}
                                 checked={task.isDone}/>
 
-                            <EditableSpan title={task.title} changeItemTitle={changeTaskStatusHandler}
-                                          classes={task.isDone ? "task-done" : "task"}/>
+                            <EditableSpan
+                                title={task.title}
+                                changeItemTitle={changeTaskStatusHandler}
+                                // classes={task.isDone ? "task-done" : "task"}
+                            />
                             <IconButton
                                 color={"primary"}
                                 onClick={() => deleteTask(task.id, todolistId)}>
@@ -110,7 +113,7 @@ export const Todolist = ({
                     variant={filter === "active" ? "contained" : "outlined"}
                     size={"small"}
                     onClick={() => changeTodolistFilter("active", todolistId)}
-                >не выполнено</Button>
+                >в работе</Button>
                 <Button
                     size={"small"}
                     color={"success"}
