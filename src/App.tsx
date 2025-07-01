@@ -3,6 +3,11 @@ import {Task, Todolist} from "./Todolist.tsx";
 import {useState} from "react";
 import {v1} from "uuid";
 import CreateItemForm from "./components/CreateItemForm.tsx";
+import {AppBar, Box, Button, Container, IconButton, Toolbar} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu'
+import Grid from '@mui/material/Grid'
+import Paper from '@mui/material/Paper'
+
 
 export type FilterValues = "all" | "active" | "completed";
 
@@ -130,29 +135,50 @@ function App() {
         }
 
         return (
-            <Todolist
-                key={t.id}
-                todolistId={t.id}
-                changeTodolistTitle={changeTodolistTitle}
-                filter={t.filter}
-                deleteTodolist={deleteTodolist}
-                changeTaskStatus={changeTaskStatus}
-                changeTodolistFilter={changeTodolistFilter}
-                createTask={createTask}
-                deleteTask={deleteTask}
-                deleteAllTask={deleteAllTask}
-                tasks={filteredTasks}
-                changeTaskTitle={changeTaskTitle}
-                title={t.title}/>
+            <Grid key={t.id}>
+                <Paper elevation={8}>
+                    <Todolist
+                        todolistId={t.id}
+                        changeTodolistTitle={changeTodolistTitle}
+                        filter={t.filter}
+                        deleteTodolist={deleteTodolist}
+                        changeTaskStatus={changeTaskStatus}
+                        changeTodolistFilter={changeTodolistFilter}
+                        createTask={createTask}
+                        deleteTask={deleteTask}
+                        deleteAllTask={deleteAllTask}
+                        tasks={filteredTasks}
+                        changeTaskTitle={changeTaskTitle}
+                        title={t.title}/>
+                </Paper>
+            </Grid>
+
         )
     })
 
 
-
     return (
         <div className="app">
-            <CreateItemForm itemTitleLength={10} createItem={createTodolist}/>
-            {todolistComponents}
+            <AppBar position="static">
+                <Toolbar>
+                    <Box sx={{display: "flex", width: "100%", justifyContent: "space-between"}}>
+                        <IconButton color="inherit">
+                            <MenuIcon/>
+                        </IconButton>
+                        <Button color="inherit">Sign in</Button>
+                    </Box>
+                </Toolbar>
+            </AppBar>
+            <Container maxWidth={"lg"}>
+                <Grid container sx={{padding: "15px 0"}}>
+                    <CreateItemForm itemTitleLength={10} createItem={createTodolist}/>
+                </Grid>
+                <Grid spacing={3} container>
+                    {todolistComponents}
+                </Grid>
+            </Container>
+
+
         </div>
     )
 }

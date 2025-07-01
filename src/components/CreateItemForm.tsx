@@ -1,5 +1,6 @@
 import {ChangeEvent, KeyboardEvent, useState} from 'react';
-import {Button} from "../Button.tsx";
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import {IconButton, TextField} from "@mui/material";
 
 type Props = {
     createItem: (itemTitle: string) => void;
@@ -35,18 +36,24 @@ export const CreateItemForm = ({createItem, itemTitleLength }: Props) => {
 
     return (
         <div>
-            <input
-                className={error ? "inputError" : ""}
+            <TextField
+                size="small"
+                variant={"outlined"}
                 onKeyDown={onKeyDownCreateTaskHandler}
                 onChange={createItemTitle}
+                helperText={error && "Title must be valid"}
+                error={error}
                 value={itemTitle} placeholder={`max ${itemTitleLength} symbol`}/>
-            <Button disabled={isAddBtrDisableCondition}
-                    onClickHandler={createTaskHandler} text={"+"}/>
+
+            <IconButton
+                disabled={isAddBtrDisableCondition}
+                color={"primary"}
+                onClick={createTaskHandler}>
+                <AddBoxIcon fontSize="medium"/>
+            </IconButton>
+
             {itemTitle && itemTitle.length <= itemTitleLength && <p>max {itemTitleLength} symbol</p>}
             {itemTitle && itemTitle.length > itemTitleLength && <p style={{color: "red"}}>"title is too long"</p>}
-            {error && <><br/>
-                <div style={{color: "red"}}>Title must be valid</div>
-            </>}
         </div>
     );
 };

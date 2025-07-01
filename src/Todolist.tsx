@@ -1,8 +1,14 @@
-import {Button} from "./Button.tsx";
+// import {Button} from "./Button.tsx";
 import {FilterValues, TodolistType} from "./App.tsx";
 import "./App.css"
 import CreateItemForm from "./components/CreateItemForm.tsx";
 import {EditableSpan} from "./components/EditableSpan.tsx";
+import {Box, Button, IconButton} from "@mui/material";
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import Checkbox from '@mui/material/Checkbox';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import {BoxSx} from "./components/Todolist.styles.ts";
 
 
 type TodolistPropsType = {
@@ -43,7 +49,7 @@ export const Todolist = ({
 
     const tasksList = tasks.length === 0
         ? <span>Your tasksList is empty</span>
-        : <ul>
+        : <List>
             {
                 tasks.map((task: Task) => {
 
@@ -51,18 +57,26 @@ export const Todolist = ({
                         changeTaskTitle(task.id, newTitle, todolistId)
                     }
 
-                    return <li className={task.isDone ? "taskDone" : "task"} key={task.id}>
-                        <input onChange={() => changeTaskStatus(task.id, !task.isDone, todolistId)} type="checkbox"
-                               checked={task.isDone}/>
-                        <EditableSpan title={task.title} changeItemTitle={changeTaskStatusHandler}
-                                      classes={task.isDone ? "task-done" : "task"}/>
-                        <Button text={"x"} onClickHandler={() => {
-                            deleteTask(task.id, todolistId)
-                        }}/>
-                    </li>
+                    return <ListItem disablePadding className={task.isDone ? "taskDone" : "task"} key={task.id}>
+                        <Box sx={BoxSx}>
+                            <Checkbox
+                                size="small"
+                                onChange={() =>
+                                    changeTaskStatus(task.id, !task.isDone, todolistId)}
+                                checked={task.isDone}/>
+
+                            <EditableSpan title={task.title} changeItemTitle={changeTaskStatusHandler}
+                                          classes={task.isDone ? "task-done" : "task"}/>
+                            <IconButton
+                                color={"primary"}
+                                onClick={() => deleteTask(task.id, todolistId)}>
+                                <DeleteOutlineIcon fontSize="small"/>
+                            </IconButton>
+                        </Box>
+                    </ListItem>
                 })
             }
-        </ul>
+        </List>
 
     const createTaskHandler = (taskTitle: string) => {
         createTask(taskTitle, todolistId)
@@ -76,29 +90,39 @@ export const Todolist = ({
         <div className="todo">
             <h3>
                 <EditableSpan title={title} changeItemTitle={changeTodolistTitleHandler}/>
-                <Button onClickHandler={() => deleteTodolist(todolistId)}>x</Button>
+                <IconButton
+                    color={"primary"}
+                    onClick={() => deleteTodolist(todolistId)}>
+                    <DeleteOutlineIcon fontSize="medium"/>
+                </IconButton>
             </h3>
             <CreateItemForm itemTitleLength={15} createItem={createTaskHandler}/>
             {tasksList}
+            <Box sx={BoxSx}>
+                <Button
+                    color={"success"}
+                    variant={filter === "all" ? "contained" : "outlined"}
+                    size={"small"}
+                    onClick={() => changeTodolistFilter("all", todolistId)}
+                >Все</Button>
+                <Button
+                    color={"success"}
+                    variant={filter === "active" ? "contained" : "outlined"}
+                    size={"small"}
+                    onClick={() => changeTodolistFilter("active", todolistId)}
+                >не выполнено</Button>
+                <Button
+                    size={"small"}
+                    color={"success"}
+                    variant={filter === "completed" ? "contained" : "outlined"}
+                    onClick={() => changeTodolistFilter("completed", todolistId)}
+                >сделано</Button>
+            </Box>
             <div>
-                <Button
-                    className={filter === "all" ? "btnFilterActive" : undefined}
-                    onClickHandler={() => changeTodolistFilter("all", todolistId)}
-                    text={"Все"}/>
-                <Button
-                    className={filter === "active" ? "btnFilterActive" : undefined}
-                    onClickHandler={() => changeTodolistFilter("active", todolistId)}
-                    text={"не выполнено"}/>
-                <Button
-                    className={filter === "completed" ? "btnFilterActive" : undefined}
-                    onClickHandler={() => changeTodolistFilter("completed", todolistId)}
-                    text={"сделано"}/>
-            </div>
-            <div>
-                <button onClick={() => {
+                <Button onClick={() => {
                     deleteAllTask(todolistId)
                 }}>Delete all tasks
-                </button>
+                </Button>
             </div>
         </div>
     )

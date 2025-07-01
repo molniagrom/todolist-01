@@ -1,6 +1,7 @@
 .app {
-    padding: 30px;
     display: flex;
+    flex-direction: column;
+    width: 100vw;
 }
 
 .app > div {
@@ -8,7 +9,8 @@
 }
 
 .todo {
-    background-color: #29a6ff;
+    max-width: 300px;
+    background-color: rgba(79, 187, 255, 0.58);
     border-radius: 10px;
     border: 2px solid grey;
     padding: 10px;
