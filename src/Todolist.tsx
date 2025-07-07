@@ -4,6 +4,7 @@ import "./App.css"
 import CreateItemForm from "./components/CreateItemForm.tsx";
 import {EditableSpan} from "./components/EditableSpan.tsx";
 import {Box, Button, IconButton} from "@mui/material";
+import {Theme} from '@mui/material/styles';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import Checkbox from '@mui/material/Checkbox';
 import List from '@mui/material/List';
@@ -15,6 +16,7 @@ type TodolistPropsType = {
     todolistId: string
     title: string
     filter: FilterValues
+    myTheme: Theme;
     tasks: Array<Task>
     deleteTodolist: (todolistId: string) => void
     deleteTask: (id: Task["id"], todolistId: string) => void
@@ -39,6 +41,7 @@ export const Todolist = ({
                              deleteTask,
                              todolistId,
                              filter,
+                             myTheme,
                              changeTodolistTitle,
                              changeTaskTitle,
                              deleteTodolist,
@@ -68,10 +71,9 @@ export const Todolist = ({
                             <EditableSpan
                                 title={task.title}
                                 changeItemTitle={changeTaskStatusHandler}
-                                // classes={task.isDone ? "task-done" : "task"}
                             />
                             <IconButton
-                                color={"primary"}
+                                sx={{backgroundColor: myTheme.palette.secondary.dark}}
                                 onClick={() => deleteTask(task.id, todolistId)}>
                                 <DeleteOutlineIcon fontSize="small"/>
                             </IconButton>
@@ -90,11 +92,11 @@ export const Todolist = ({
     }
 
     return (
-        <div className="todo">
+        <Box sx={{backgroundColor: myTheme.palette.primary.light}} className="todo">
             <h3>
                 <EditableSpan title={title} changeItemTitle={changeTodolistTitleHandler}/>
                 <IconButton
-                    color={"primary"}
+                    sx={{backgroundColor: myTheme.palette.secondary.dark}}
                     onClick={() => deleteTodolist(todolistId)}>
                     <DeleteOutlineIcon fontSize="medium"/>
                 </IconButton>
@@ -103,20 +105,20 @@ export const Todolist = ({
             {tasksList}
             <Box sx={BoxSx}>
                 <Button
-                    color={"success"}
+                    sx={{backgroundColor: myTheme.palette.secondary.dark}}
                     variant={filter === "all" ? "contained" : "outlined"}
                     size={"small"}
                     onClick={() => changeTodolistFilter("all", todolistId)}
                 >Все</Button>
                 <Button
-                    color={"success"}
+                    sx={{backgroundColor: myTheme.palette.secondary.dark}}
                     variant={filter === "active" ? "contained" : "outlined"}
                     size={"small"}
                     onClick={() => changeTodolistFilter("active", todolistId)}
                 >в работе</Button>
                 <Button
                     size={"small"}
-                    color={"success"}
+                    sx={{backgroundColor: myTheme.palette.secondary.dark}}
                     variant={filter === "completed" ? "contained" : "outlined"}
                     onClick={() => changeTodolistFilter("completed", todolistId)}
                 >сделано</Button>
@@ -127,7 +129,7 @@ export const Todolist = ({
                 }}>Delete all tasks
                 </Button>
             </div>
-        </div>
+        </Box>
     )
 }
 

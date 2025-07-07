@@ -18,7 +18,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 import Grid from '@mui/material/Grid'
 import Paper from '@mui/material/Paper'
 import {NavButton} from "./components/NavButton.ts";
-import {orange, lightBlue} from "@mui/material/colors";
+import {green, lightBlue} from "@mui/material/colors";
 
 
 export type FilterValues = "all" | "active" | "completed";
@@ -42,6 +42,8 @@ function App() {
         {title: " What to learn", filter: "all", id: todolistId_1,},
         {title: " What to buy", filter: "all", id: todolistId_2,},
     ])
+    const [isLight, setIsLight] = useState<boolean>(true)
+
 
     const [tasks, setTasks] = useState<TasksState>({
             [todolistId_1]: [
@@ -135,6 +137,19 @@ function App() {
         })
     }
 
+    const myTheme = createTheme({
+        palette: {
+            primary: {
+                main: lightBlue[800],
+                light: lightBlue[300],
+                dark: lightBlue[900],
+                contrastText: '#fff',
+            },
+            secondary: green,
+            mode: isLight ? 'light' : 'dark'
+        },
+    })
+
     const todolistComponents = todolists.map(t => {
 
         let filteredTasks = tasks[t.id]
@@ -150,6 +165,7 @@ function App() {
             <Grid key={t.id}>
                 <Paper elevation={8}>
                     <Todolist
+                        myTheme={myTheme}
                         todolistId={t.id}
                         changeTodolistTitle={changeTodolistTitle}
                         filter={t.filter}
@@ -168,21 +184,6 @@ function App() {
         )
     })
 
-    const [isLight, setIsLight] = useState<boolean>(true)
-
-const myTheme = createTheme({
-    // palette: {
-    //     primary: green,
-    //     secondary: amber,
-    //     mode: 'dark'
-    // },
-
-    palette: {
-        primary: lightBlue,
-        secondary: orange,
-        mode: isLight ? 'light' : 'dark'
-    },
-})
 
 
     return (
