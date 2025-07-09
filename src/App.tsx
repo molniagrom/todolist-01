@@ -154,6 +154,7 @@ function App() {
     const createTodolist = (todolistTitle: string) => {
         const action = createTodolistAC(todolistTitle)
         dispatchToTodolists(action)
+        dispatchToTasks(action)
     }
 
     const myTheme = createTheme({
