@@ -25,6 +25,7 @@ import {
     deleteTodolistAC,
     todolistsReducer
 } from "./model/todolists-reducer.ts";
+import {createTaskAC, tasksReducer} from "./model/tasks-reducer.ts";
 
 
 export type FilterValues = "all" | "active" | "completed";
@@ -55,33 +56,40 @@ function App() {
         {title: " What to buy", filter: "all", id: todolistId_2,},
     ])
 
-    const [tasks, setTasks] = useState<TasksState>({
-            [todolistId_1]: [
-                {id: v1(), title: "HTML", isDone: true},
-                {id: v1(), title: "CSS", isDone: true},
-                {id: v1(), title: "JS/TS", isDone: false}
-            ],
-            [todolistId_2]: [
-                {id: v1(), title: "Meat", isDone: true},
-                {id: v1(), title: "Cheeps", isDone: true},
-                {id: v1(), title: "Beer", isDone: false}
-            ]
-        }
-    )
+    const [tasks, dispatchToTasks] = useReducer(tasksReducer, {
+        [todolistId_1]: [
+            {id: v1(), title: "HTML", isDone: true},
+            {id: v1(), title: "CSS", isDone: true},
+            {id: v1(), title: "JS/TS", isDone: false}
+        ],
+        [todolistId_2]: [
+            {id: v1(), title: "Meat", isDone: true},
+            {id: v1(), title: "Cheeps", isDone: true},
+            {id: v1(), title: "Beer", isDone: false}
+        ]
+    })
+
+    // const [tasks, setTasks] = useState<TasksState>({
+    //         [todolistId_1]: [
+    //             {id: v1(), title: "HTML", isDone: true},
+    //             {id: v1(), title: "CSS", isDone: true},
+    //             {id: v1(), title: "JS/TS", isDone: false}
+    //         ],
+    //         [todolistId_2]: [
+    //             {id: v1(), title: "Meat", isDone: true},
+    //             {id: v1(), title: "Cheeps", isDone: true},
+    //             {id: v1(), title: "Beer", isDone: false}
+    //         ]
+    //     }
+    // )
 
     const deleteTask = (taskId: Task["id"], todolistId: string) => {
         setTasks({...tasks, [todolistId]: tasks[todolistId].filter(t => t.id !== taskId)})
     }
 
     const createTask = (taskName: Task["title"], todolistId: string) => {
-        const nextState: TasksState = {
-            ...tasks,
-            [todolistId]: [
-                {id: v1(), title: taskName, isDone: false},
-                ...tasks[todolistId]
-            ],
-        }
-        setTasks(nextState);
+        const action = createTaskAC({title: taskName, todolistId: todolistId})
+        dispatchToTasks(action)
     }
 
     const changeTaskStatus = (
