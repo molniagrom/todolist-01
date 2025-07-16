@@ -1,6 +1,6 @@
 // import {Button} from "./Button.tsx";
-import {FilterValues, TodolistType} from "./App.tsx";
-import "./App.css"
+import {FilterValues, TodolistType} from "./app/App.tsx";
+import "./app/App.css"
 import CreateItemForm from "./components/CreateItemForm.tsx";
 import {EditableSpan} from "./components/EditableSpan.tsx";
 import {Box, Button, IconButton} from "@mui/material";

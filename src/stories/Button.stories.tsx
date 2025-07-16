@@ -1,5 +1,5 @@
 import {Button} from "../Button.tsx";
-import "../App.css";
+import "../app/App.css";
 import {ComponentProps} from "react";
 import {Meta, StoryObj} from "@storybook/react-vite";
 import {fn} from "storybook/test";

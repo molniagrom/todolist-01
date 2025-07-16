@@ -1,5 +1,6 @@
-import {FilterValues, TodolistType} from "../App.tsx";
+import {FilterValues, TodolistType} from "../app/App.tsx";
 import {v1} from "uuid";
+import {createAction} from "@reduxjs/toolkit";
 
 export type DeleteTodolistActionType = ReturnType<typeof deleteTodolistAC>
 export type CreateTodolistActionType = ReturnType<typeof createTodolistAC>
@@ -11,6 +12,29 @@ type ActionType =
     | CreateTodolistActionType
     | ChangeTodolistActionType
     | ChangeTodolistFIlterActionType
+
+export const deleteTodolistAC = createAction<{ id: string }>("todolists/deleteTodolist")
+export const changeTodolistTitleAC = createAction<{ id: string, title: string }>("todolists/changeTodolistTitle")
+export const changeTodolistFilterAC = createAction<{
+    id: string,
+    filter: FilterValues
+}>("todolists/changeTodolistFilter")
+export const createTodolistAC = createAction("todolists/changeTodolistFilter", (title: string) => {
+    return {
+        payload: {
+            id: v1(),
+            title: title
+        }
+    }
+})
+
+export const createTodolistAC2 = (title: string) => ({
+    type: "create_todolist",
+    payload: {
+        id: v1(),
+        title: title
+    }
+} as const)
 
 export const todolistsReducer = (todolists: TodolistType[], action: ActionType): TodolistType[] => {
 
@@ -47,33 +71,4 @@ export const todolistsReducer = (todolists: TodolistType[], action: ActionType):
     }
 }
 
-export const deleteTodolistAC = (id: string) => ({
-    type: "delete_todolist",
-    payload: {
-        id: id
-    }
-} as const)
 
-export const createTodolistAC = (title: string) => ({
-    type: "create_todolist",
-    payload: {
-        id: v1(),
-        title: title
-    }
-} as const)
-
-export const changeTodolistTitleAC = (payload: { id: string, title: string }) => ({
-    type: "change_todolist",
-    payload: {
-        id: payload.id,
-        title: payload.title
-    }
-} as const)
-
-export const changeTodolistFilterAC = (payload: { id: string, filter: FilterValues }) => ({
-    type: "change_todolist_filter",
-    payload: {
-        id: payload.id,
-        filter: payload.filter
-    }
-} as const)
