@@ -1,7 +1,10 @@
 import {TasksState} from "../app/App.tsx";
-import {CreateTodolistActionType, DeleteTodolistActionType} from "./todolists-reducer.ts";
+import {
+    createTodolistAC,
+    deleteTodolistAC,
+} from "./todolists-reducer.ts";
 import {Task} from "../Todolist.tsx";
-import {v1} from "uuid";
+import {createReducer, nanoid} from "@reduxjs/toolkit";
 
 export type CreateTaskActionType = ReturnType<typeof createTaskAC>
 export type DeleteTaskActionType = ReturnType<typeof deleteTaskAC>
@@ -10,27 +13,26 @@ export type ChangeTaskTitleActionType = ReturnType<typeof changeTaskTitleAC>
 export type DeleteAllTaskActionType = ReturnType<typeof deleteAllTaskAC>
 
 type ActionType =
-    DeleteTodolistActionType
-    | CreateTodolistActionType
     | CreateTaskActionType
     | DeleteTaskActionType
     | ChangeTaskStatusActionType
     | ChangeTaskTitleActionType
     | DeleteAllTaskActionType
 
-export const tasksReducer = (tasks: TasksState, action: ActionType) => {
+const initialState: TasksState = {}
+
+export const tasksReducer = createReducer(initialState, (builder) => {
+    builder
+        .addCase(createTodolistAC, (state, action) => {
+            state[action.payload.id] = []
+        })
+        .addCase(deleteTodolistAC, (state, action) => {
+            delete state[action.payload.id]
+        })
+})
+// todo: complete refactoring
+export const tasksReducer2 = (tasks: TasksState = initialState, action: ActionType) => {
     switch (action.type) {
-        case "delete_todolist": {
-            const copyTasks = {...tasks}
-            delete copyTasks[action.payload.id]
-            return copyTasks;
-        }
-
-        case "create_todolist": {
-            const {id} = action.payload;
-
-            return {...tasks, [id]: []};
-        }
 
         case "create_task": {
 
@@ -39,7 +41,7 @@ export const tasksReducer = (tasks: TasksState, action: ActionType) => {
             return {
                 ...tasks,
                 [id]: [
-                    {id: v1(), title: title, isDone: false},
+                    {id: nanoid(), title: title, isDone: false},
                     ...tasks[id]
                 ],
             }

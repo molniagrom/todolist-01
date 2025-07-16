@@ -71,8 +71,7 @@ function App() {
         newStatus: Task["isDone"],
         todolistId: string) => {
 
-        const action = changeTaskStatusAC({taskId, isDone: newStatus, todolistId})
-        dispatch(action)
+        dispatch(changeTaskStatusAC({taskId, isDone: newStatus, todolistId}))
     }
 
     const changeTaskTitle = (
@@ -88,8 +87,7 @@ function App() {
 
 
     function deleteAllTask(todolistId: string) {
-        const action = deleteAllTaskAC({todolistId})
-        dispatch(action)
+        dispatch(deleteAllTaskAC({todolistId}))
     }
 
 
