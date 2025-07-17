@@ -80,7 +80,7 @@ function App() {
         todolistId: string) => {
 
         const action = changeTaskTitleAC({
-            taskId, newTitle, todolistId
+            taskId, title: newTitle, todolistId
         })
         dispatch(action)
     }

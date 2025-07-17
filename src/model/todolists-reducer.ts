@@ -7,7 +7,7 @@ export const changeTodolistFilterAC = createAction<{
     id: string,
     filter: FilterValues
 }>("todolists/changeTodolistFilter")
-export const createTodolistAC = createAction("todolists/changeTodolistFilter", (title: string) => {
+export const createTodolistAC = createAction("todolists/createTodolist", (title: string) => {
     return {payload: {id: nanoid(), title: title}}
 })
 
