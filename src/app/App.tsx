@@ -34,6 +34,7 @@ import {useAppDispatch} from "./common/hooks/useAppDispatch.ts";
 import { selectTasks } from '../model/tasks-selectors.ts';
 import {selectTodolists} from "../model/todolistst-selectors.ts";
 
+type ThemeMode = 'dark' | 'light'
 
 export type FilterValues = "all" | "active" | "completed";
 
@@ -49,7 +50,24 @@ export type TodolistType = {
 
 function App() {
 
-    const [isLight, setIsLight] = useState<boolean>(true)
+    const [themeMode, setThemeMode] = useState<ThemeMode>('light')
+
+    const myTheme = createTheme({
+        palette: {
+            primary: {
+                main: lightBlue[800],
+                light: lightBlue[300],
+                dark: lightBlue[900],
+                contrastText: '#fff',
+            },
+            secondary: green,
+            mode: themeMode,
+        },
+    })
+
+    const changeMode = () => {
+        setThemeMode(themeMode === 'light' ? 'dark' : 'light')
+    }
 
     const todolists = useAppSelector(selectTodolists)
     const tasks = useAppSelector(selectTasks)
@@ -114,19 +132,6 @@ function App() {
         dispatch(createTodolistAC(todolistTitle))
     }
 
-    const myTheme = createTheme({
-        palette: {
-            primary: {
-                main: lightBlue[800],
-                light: lightBlue[300],
-                dark: lightBlue[900],
-                contrastText: '#fff',
-            },
-            secondary: green,
-            mode: isLight ? 'light' : 'dark'
-        },
-    })
-
     const todolistComponents = todolists.map(t => {
 
         let filteredTasks = tasks[t.id]
@@ -173,7 +178,7 @@ function App() {
                                 <MenuIcon/>
                             </IconButton>
                             <Box>
-                                <Switch onChange={() => setIsLight(!isLight)}/>
+                                <Switch onChange={changeMode}/>
                                 <NavButton background={myTheme.palette.primary.dark}>Sign in</NavButton>
                                 <NavButton background={myTheme.palette.primary.dark}>Sign out</NavButton>
                                 <NavButton background={myTheme.palette.primary.light}>FAQ</NavButton>
