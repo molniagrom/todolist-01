@@ -1,12 +1,10 @@
 import './App.css'
 import {Task, Todolist} from "../Todolist.tsx";
-import {useState} from "react";
 import CreateItemForm from "../components/CreateItemForm.tsx";
 import {
     AppBar,
     Box,
     Container,
-    createTheme,
     CssBaseline,
     IconButton,
     Switch,
@@ -17,7 +15,6 @@ import MenuIcon from '@mui/icons-material/Menu'
 import Grid from '@mui/material/Grid'
 import Paper from '@mui/material/Paper'
 import {NavButton} from "../components/NavButton.ts";
-import {green, lightBlue} from "@mui/material/colors";
 import {
     changeTodolistFilterAC, changeTodolistTitleAC,
     createTodolistAC,
@@ -33,8 +30,10 @@ import {useAppSelector} from "./common/hooks/useAppSelector.ts";
 import {useAppDispatch} from "./common/hooks/useAppDispatch.ts";
 import { selectTasks } from '../model/tasks-selectors.ts';
 import {selectTodolists} from "../model/todolistst-selectors.ts";
-
-type ThemeMode = 'dark' | 'light'
+import {selectThemeMode} from "./app-selectors.ts";
+import {useSelector} from "react-redux";
+import {changeThemeModeAC} from "./app-reducer.ts";
+import {getTheme} from "../model/theme/theme.ts";
 
 export type FilterValues = "all" | "active" | "completed";
 
@@ -50,29 +49,21 @@ export type TodolistType = {
 
 function App() {
 
-    const [themeMode, setThemeMode] = useState<ThemeMode>('light')
-
-    const myTheme = createTheme({
-        palette: {
-            primary: {
-                main: lightBlue[800],
-                light: lightBlue[300],
-                dark: lightBlue[900],
-                contrastText: '#fff',
-            },
-            secondary: green,
-            mode: themeMode,
-        },
-    })
-
-    const changeMode = () => {
-        setThemeMode(themeMode === 'light' ? 'dark' : 'light')
-    }
-
+    // const [themeMode, setThemeMode] = useState<ThemeMode>('light')
+    const themeMode = useSelector(selectThemeMode)
     const todolists = useAppSelector(selectTodolists)
     const tasks = useAppSelector(selectTasks)
 
     const dispatch = useAppDispatch();
+
+    const myTheme = getTheme(themeMode)
+
+    const changeMode = () => {
+        dispatch(changeThemeModeAC(
+            {themeMode: themeMode === 'light' ? 'dark' : 'light'}
+        ))
+    }
+
 
     const deleteTask = (taskId: Task["id"], todolistId: string) => {
         const action = deleteTaskAC({taskId, todolistId})

@@ -47,10 +47,13 @@ importers:
         version: 9.0.10(storybook@9.0.10(@testing-library/dom@10.4.0))
       '@storybook/addon-vitest':
         specifier: 9.0.10
-        version: 9.0.10(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(storybook@9.0.10(@testing-library/dom@10.4.0))(vitest@2.1.8)
+        version: 9.0.10(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(storybook@9.0.10(@testing-library/dom@10.4.0))(vitest@2.1.8(@types/node@24.1.0))
       '@storybook/react-vite':
         specifier: 9.0.10
-        version: 9.0.10(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(rollup@4.41.0)(storybook@9.0.10(@testing-library/dom@10.4.0))(typescript@5.7.2)(vite@6.0.6)
+        version: 9.0.10(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(rollup@4.41.0)(storybook@9.0.10(@testing-library/dom@10.4.0))(typescript@5.7.2)(vite@6.0.6(@types/node@24.1.0))
+      '@types/node':
+        specifier: ^24.1.0
+        version: 24.1.0
       '@types/react':
         specifier: 19.0.2
         version: 19.0.2
@@ -59,7 +62,7 @@ importers:
         version: 19.0.2(@types/react@19.0.2)
       '@vitejs/plugin-react-swc':
         specifier: 3.7.2
-        version: 3.7.2(vite@6.0.6)
+        version: 3.7.2(vite@6.0.6(@types/node@24.1.0))
       globals:
         specifier: 15.14.0
         version: 15.14.0
@@ -71,10 +74,10 @@ importers:
         version: 5.7.2
       vite:
         specifier: 6.0.6
-        version: 6.0.6
+        version: 6.0.6(@types/node@24.1.0)
       vitest:
         specifier: 2.1.8
-        version: 2.1.8
+        version: 2.1.8(@types/node@24.1.0)
 
 packages:
 
@@ -956,6 +959,9 @@ packages:
   '@types/mdx@2.0.13':
     resolution: {integrity: sha512-+OWZQfAYyio6YkJb3HLxDrvnx6SWWDbC0zVPfBRzUk0/nqoDyf6dNxQi3eArPe8rJ473nobTMQ/8Zk+LxJ+Yuw==}
 
+  '@types/node@24.1.0':
+    resolution: {integrity: sha512-ut5FthK5moxFKH2T1CUOC6ctR67rQRvvHdFLCD2Ql6KXmMuCrjsSsRI9UsLCm9M18BMwClv4pn327UvB7eeO1w==}
+
   '@types/parse-json@4.0.2':
     resolution: {integrity: sha512-dISoDXWWQwUquiKsyZ4Ng+HX2KsPL7LyHKHQwgGFEA3IaKac4Obd+h2a/a6waisAoepJlBcx9paWqjA8/HVjCw==}
 
@@ -1716,6 +1722,9 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
+  undici-types@7.8.0:
+    resolution: {integrity: sha512-9UJ2xGDvQ43tYyVMpuHlsgApydB8ZKfVYTsLDhXkFL/6gfkp+U8xTGdh8pMJv1SpZna0zxG1DwsKZsreLbXBxw==}
+
   universalify@2.0.1:
     resolution: {integrity: sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==}
     engines: {node: '>= 10.0.0'}
@@ -2237,12 +2246,12 @@ snapshots:
       wrap-ansi: 8.1.0
       wrap-ansi-cjs: wrap-ansi@7.0.0
 
-  '@joshwooding/vite-plugin-react-docgen-typescript@0.6.0(typescript@5.7.2)(vite@6.0.6)':
+  '@joshwooding/vite-plugin-react-docgen-typescript@0.6.0(typescript@5.7.2)(vite@6.0.6(@types/node@24.1.0))':
     dependencies:
       glob: 10.4.5
       magic-string: 0.30.17
       react-docgen-typescript: 2.4.0(typescript@5.7.2)
-      vite: 6.0.6
+      vite: 6.0.6(@types/node@24.1.0)
     optionalDependencies:
       typescript: 5.7.2
 
@@ -2470,7 +2479,7 @@ snapshots:
     dependencies:
       storybook: 9.0.10(@testing-library/dom@10.4.0)
 
-  '@storybook/addon-vitest@9.0.10(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(storybook@9.0.10(@testing-library/dom@10.4.0))(vitest@2.1.8)':
+  '@storybook/addon-vitest@9.0.10(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(storybook@9.0.10(@testing-library/dom@10.4.0))(vitest@2.1.8(@types/node@24.1.0))':
     dependencies:
       '@storybook/global': 5.0.0
       '@storybook/icons': 1.4.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -2478,17 +2487,17 @@ snapshots:
       storybook: 9.0.10(@testing-library/dom@10.4.0)
       ts-dedent: 2.2.0
     optionalDependencies:
-      vitest: 2.1.8
+      vitest: 2.1.8(@types/node@24.1.0)
     transitivePeerDependencies:
       - react
       - react-dom
 
-  '@storybook/builder-vite@9.0.10(storybook@9.0.10(@testing-library/dom@10.4.0))(vite@6.0.6)':
+  '@storybook/builder-vite@9.0.10(storybook@9.0.10(@testing-library/dom@10.4.0))(vite@6.0.6(@types/node@24.1.0))':
     dependencies:
       '@storybook/csf-plugin': 9.0.10(storybook@9.0.10(@testing-library/dom@10.4.0))
       storybook: 9.0.10(@testing-library/dom@10.4.0)
       ts-dedent: 2.2.0
-      vite: 6.0.6
+      vite: 6.0.6(@types/node@24.1.0)
 
   '@storybook/csf-plugin@9.0.10(storybook@9.0.10(@testing-library/dom@10.4.0))':
     dependencies:
@@ -2508,11 +2517,11 @@ snapshots:
       react-dom: 19.0.0(react@19.0.0)
       storybook: 9.0.10(@testing-library/dom@10.4.0)
 
-  '@storybook/react-vite@9.0.10(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(rollup@4.41.0)(storybook@9.0.10(@testing-library/dom@10.4.0))(typescript@5.7.2)(vite@6.0.6)':
+  '@storybook/react-vite@9.0.10(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(rollup@4.41.0)(storybook@9.0.10(@testing-library/dom@10.4.0))(typescript@5.7.2)(vite@6.0.6(@types/node@24.1.0))':
     dependencies:
-      '@joshwooding/vite-plugin-react-docgen-typescript': 0.6.0(typescript@5.7.2)(vite@6.0.6)
+      '@joshwooding/vite-plugin-react-docgen-typescript': 0.6.0(typescript@5.7.2)(vite@6.0.6(@types/node@24.1.0))
       '@rollup/pluginutils': 5.1.4(rollup@4.41.0)
-      '@storybook/builder-vite': 9.0.10(storybook@9.0.10(@testing-library/dom@10.4.0))(vite@6.0.6)
+      '@storybook/builder-vite': 9.0.10(storybook@9.0.10(@testing-library/dom@10.4.0))(vite@6.0.6(@types/node@24.1.0))
       '@storybook/react': 9.0.10(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(storybook@9.0.10(@testing-library/dom@10.4.0))(typescript@5.7.2)
       find-up: 5.0.0
       magic-string: 0.30.17
@@ -2522,7 +2531,7 @@ snapshots:
       resolve: 1.22.10
       storybook: 9.0.10(@testing-library/dom@10.4.0)
       tsconfig-paths: 4.2.0
-      vite: 6.0.6
+      vite: 6.0.6(@types/node@24.1.0)
     transitivePeerDependencies:
       - rollup
       - supports-color
@@ -2644,6 +2653,10 @@ snapshots:
 
   '@types/mdx@2.0.13': {}
 
+  '@types/node@24.1.0':
+    dependencies:
+      undici-types: 7.8.0
+
   '@types/parse-json@4.0.2': {}
 
   '@types/prop-types@15.7.15': {}
@@ -2664,10 +2677,10 @@ snapshots:
 
   '@types/use-sync-external-store@0.0.6': {}
 
-  '@vitejs/plugin-react-swc@3.7.2(vite@6.0.6)':
+  '@vitejs/plugin-react-swc@3.7.2(vite@6.0.6(@types/node@24.1.0))':
     dependencies:
       '@swc/core': 1.11.24
-      vite: 6.0.6
+      vite: 6.0.6(@types/node@24.1.0)
     transitivePeerDependencies:
       - '@swc/helpers'
 
@@ -2685,13 +2698,13 @@ snapshots:
       chai: 5.2.0
       tinyrainbow: 2.0.0
 
-  '@vitest/mocker@2.1.8(vite@5.4.19)':
+  '@vitest/mocker@2.1.8(vite@5.4.19(@types/node@24.1.0))':
     dependencies:
       '@vitest/spy': 2.1.8
       estree-walker: 3.0.3
       magic-string: 0.30.17
     optionalDependencies:
-      vite: 5.4.19
+      vite: 5.4.19(@types/node@24.1.0)
 
   '@vitest/pretty-format@2.1.8':
     dependencies:
@@ -3384,6 +3397,8 @@ snapshots:
 
   typescript@5.7.2: {}
 
+  undici-types@7.8.0: {}
+
   universalify@2.0.1: {}
 
   unplugin@1.16.1:
@@ -3401,13 +3416,13 @@ snapshots:
     dependencies:
       react: 19.0.0
 
-  vite-node@2.1.8:
+  vite-node@2.1.8(@types/node@24.1.0):
     dependencies:
       cac: 6.7.14
       debug: 4.4.1
       es-module-lexer: 1.7.0
       pathe: 1.1.2
-      vite: 5.4.19
+      vite: 5.4.19(@types/node@24.1.0)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -3419,26 +3434,28 @@ snapshots:
       - supports-color
       - terser
 
-  vite@5.4.19:
+  vite@5.4.19(@types/node@24.1.0):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.5.3
       rollup: 4.41.0
     optionalDependencies:
+      '@types/node': 24.1.0
       fsevents: 2.3.3
 
-  vite@6.0.6:
+  vite@6.0.6(@types/node@24.1.0):
     dependencies:
       esbuild: 0.24.2
       postcss: 8.5.3
       rollup: 4.41.0
     optionalDependencies:
+      '@types/node': 24.1.0
       fsevents: 2.3.3
 
-  vitest@2.1.8:
+  vitest@2.1.8(@types/node@24.1.0):
     dependencies:
       '@vitest/expect': 2.1.8
-      '@vitest/mocker': 2.1.8(vite@5.4.19)
+      '@vitest/mocker': 2.1.8(vite@5.4.19(@types/node@24.1.0))
       '@vitest/pretty-format': 2.1.9
       '@vitest/runner': 2.1.8
       '@vitest/snapshot': 2.1.8
@@ -3454,9 +3471,11 @@ snapshots:
       tinyexec: 0.3.2
       tinypool: 1.0.2
       tinyrainbow: 1.2.0
-      vite: 5.4.19
-      vite-node: 2.1.8
+      vite: 5.4.19(@types/node@24.1.0)
+      vite-node: 2.1.8(@types/node@24.1.0)
       why-is-node-running: 2.3.0
+    optionalDependencies:
+      '@types/node': 24.1.0
     transitivePeerDependencies:
       - less
       - lightningcss
