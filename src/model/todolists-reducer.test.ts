@@ -4,7 +4,6 @@ import {
   changeTodolistFilterAC,
   changeTodolistTitleAC,
   createTodolistAC,
-  DeleteTodolistActionType,
   todolistsReducer
 } from './todolists-reducer'
 import {nanoid} from "@reduxjs/toolkit";
@@ -26,7 +25,7 @@ beforeEach(() => {
 test('correct todolist should be deleted', () => {
 
   // 2. Действие
-  const action: DeleteTodolistActionType = {
+  const action = {
     type: 'delete_todolist',
     payload: {
       id: todolistId1,

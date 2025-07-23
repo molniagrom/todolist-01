@@ -1,4 +1,3 @@
-// import {Button} from "./Button.tsx";
 import {FilterValues, TodolistType} from "./app/App.tsx";
 import "./app/App.css"
 import CreateItemForm from "./components/CreateItemForm.tsx";
@@ -10,22 +9,25 @@ import Checkbox from '@mui/material/Checkbox';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import {BoxSx, getListItemSx} from "./components/Todolist.styles.ts";
+import {useAppSelector} from "@/app/common/hooks/useAppSelector.ts";
+import {selectTasks} from "@/model/tasks-selectors.ts";
+import {useAppDispatch} from "@/app/common/hooks/useAppDispatch.ts";
+import {changeTodolistTitleAC} from "@/model/todolists-reducer.ts";
+import {changeTaskTitleAC} from "@/model/tasks-reducer.ts";
 
 
 type TodolistPropsType = {
     todolistId: string
     title: string
+    todolist: TodolistType,
     filter: FilterValues
     myTheme: Theme;
-    tasks: Array<Task>
     deleteTodolist: (todolistId: string) => void
     deleteTask: (id: Task["id"], todolistId: string) => void
     changeTaskStatus: (id: Task["id"], newStatus: Task["isDone"], todolistId: string) => void
     createTask: (title: Task["title"], todolistId: string) => void
     changeTodolistFilter: (filter: FilterValues, todolistId: string) => void
     deleteAllTask: (todolistId: string) => void
-    changeTaskTitle: (taskId: Task["id"], newTitle: string, todolistId: string) => void
-    changeTodolistTitle: (newTitle: TodolistType["title"], todolistId: string) => void
 }
 
 export type Task = {
@@ -35,29 +37,44 @@ export type Task = {
 }
 
 export const Todolist = ({
-                             title,
                              deleteAllTask,
-                             tasks,
                              deleteTask,
                              todolistId,
-                             filter,
+                             todolist: {id, filter, title},
                              myTheme,
-                             changeTodolistTitle,
-                             changeTaskTitle,
                              deleteTodolist,
                              changeTodolistFilter,
                              changeTaskStatus,
                              createTask
                          }: TodolistPropsType) => {
 
-    const tasksList = tasks.length === 0
+    const dispatch = useAppDispatch();
+
+    const tasks = useAppSelector(selectTasks)
+
+    let filteredTasks = tasks[id]
+    if (filter === "active") {
+        filteredTasks = filteredTasks.filter(t => !t.isDone)
+    }
+
+    if (filter === "completed") {
+        filteredTasks = filteredTasks.filter(t => t.isDone)
+    }
+
+    console.log(todolistId)
+    console.log(id)
+
+    const tasksList = filteredTasks.length === 0
         ? <span>Your tasksList is empty</span>
         : <List>
             {
-                tasks.map((task: Task) => {
+                filteredTasks.map((task: Task) => {
 
-                    const changeTaskStatusHandler = (newTitle: string) => {
-                        changeTaskTitle(task.id, newTitle, todolistId)
+
+                    const changeTaskTitleHandler = (newTitle: string) => {
+                        dispatch(changeTaskTitleAC({
+                            taskId: task.id, title: newTitle, todolistId
+                        }))
                     }
 
                     return <ListItem disablePadding sx={getListItemSx(task.isDone)} key={task.id}>
@@ -70,7 +87,7 @@ export const Todolist = ({
 
                             <EditableSpan
                                 title={task.title}
-                                changeItemTitle={changeTaskStatusHandler}
+                                changeItemTitle={changeTaskTitleHandler}
                             />
                             <IconButton
                                 sx={{backgroundColor: myTheme.palette.secondary.dark}}
@@ -88,7 +105,9 @@ export const Todolist = ({
     }
 
     const changeTodolistTitleHandler = (newTitle: string) => {
-        changeTodolistTitle(newTitle, todolistId)
+        dispatch(changeTodolistTitleAC({
+            id: todolistId, title: newTitle
+        }))
     }
 
     return (
