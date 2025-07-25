@@ -1,5 +1,5 @@
 import './App.css'
-import {Task} from "../Todolist.tsx";
+import {Task} from "../TodolistItem.tsx";
 import {CssBaseline, ThemeProvider} from '@mui/material';
 import {selectThemeMode} from "./app-selectors.ts";
 import {useSelector} from "react-redux";
