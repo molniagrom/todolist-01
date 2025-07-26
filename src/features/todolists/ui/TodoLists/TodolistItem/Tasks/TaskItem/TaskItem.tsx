@@ -1,15 +1,16 @@
 import ListItem from "@mui/material/ListItem";
-import {BoxSx, getListItemSx} from "@/components/Todolist.styles.ts";
 import {Box, IconButton} from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
-import {EditableSpan} from "@/components/EditableSpan.tsx";
+import {EditableSpan} from "@/common/components/EditableSpan/EditableSpan.tsx";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import {changeTaskStatusAC, changeTaskTitleAC, deleteTaskAC} from "@/model/tasks-reducer.ts";
-import {useAppDispatch} from "@/app/common/hooks/useAppDispatch.ts";
-import {getTheme} from "@/model/theme/theme.ts";
-import {useAppSelector} from "@/app/common/hooks/useAppSelector.ts";
+import {Task} from "@/features/todolists/ui/TodoLists/TodolistItem/TodolistItem.tsx";
+import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
+import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
+import { getTheme } from "../../../../../model/theme/theme.ts";
 import {selectThemeMode} from "@/app/app-selectors.ts";
-import {Task} from "@/TodolistItem.tsx";
+import {changeTaskStatusAC, changeTaskTitleAC, deleteTaskAC} from "@/features/todolists/model/tasks-reducer.ts";
+import { getListItemSx } from "./TaskItem.styles.ts";
+import {BoxSx} from "@/common/styles/Container.styles.ts";
 
 type Props = {
     task: Task

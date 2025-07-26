@@ -1,14 +1,14 @@
 import {Box, Button} from "@mui/material";
-import {BoxSx} from "@/components/Todolist.styles.ts";
-import {FilterValues, TodolistType} from "@/app/App.tsx";
-import {changeTodolistFilterAC} from "@/model/todolists-reducer.ts";
-import {useAppDispatch} from "@/app/common/hooks/useAppDispatch.ts";
-import {getTheme} from "@/model/theme/theme.ts";
-import {useAppSelector} from "@/app/common/hooks/useAppSelector.ts";
+import {FilterValues, Todolist} from "@/app/App.tsx";
 import {selectThemeMode} from "@/app/app-selectors.ts";
+import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
+import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
+import {getTheme} from "@/features/todolists/model/theme/theme.ts";
+import {changeTodolistFilterAC} from "@/features/todolists/model/todolists-reducer.ts";
+import {BoxSx} from "@/common/styles/Container.styles.ts";
 
 type Props ={
-    todolist: TodolistType,
+    todolist: Todolist,
 }
 
 export const FilterButtons = ({todolist}: Props) => {

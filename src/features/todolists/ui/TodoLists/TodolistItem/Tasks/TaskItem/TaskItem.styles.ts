@@ -1,11 +1,4 @@
-import { SxProps } from '@mui/material'
-
-export const BoxSx: SxProps = {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
-}
+import {SxProps} from "@mui/material";
 
 export const getListItemSx = (isDone: boolean): SxProps => ({
     fontWeight: isDone ? "normal" : "bold",

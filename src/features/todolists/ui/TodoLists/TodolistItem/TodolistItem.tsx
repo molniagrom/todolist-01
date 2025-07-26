@@ -1,25 +1,19 @@
-import {TodolistType} from "./app/App.tsx";
-import "./app/App.css"
-import CreateItemForm from "./components/CreateItemForm.tsx";
+import {Todolist} from "@/app/App.tsx";
+import "../../../../../app/App.module.css"
+import CreateItemForm from "@/common/components/CreateItemForm/CreateItemForm.tsx";
 import {Box, Button} from "@mui/material";
-import {useAppSelector} from "@/app/common/hooks/useAppSelector.ts";
-import {useAppDispatch} from "@/app/common/hooks/useAppDispatch.ts";
-import {createTaskAC, deleteAllTaskAC} from "@/model/tasks-reducer.ts";
-import {getTheme} from "@/model/theme/theme.ts";
 import {selectThemeMode} from "@/app/app-selectors.ts";
-import {TodolistTitle} from "@/TodolistTitle.tsx";
-import {Tasks} from "@/Tasks.tsx";
-import FilterButtons from "@/FilterButtons.tsx";
-
+import {TodolistTitle} from "./TodolistTitle/TodolistTitle.tsx";
+import {Tasks} from "./Tasks/Tasks.tsx";
+import FilterButtons from "./FilterButtons/FilterButtons.tsx";
+import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
+import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
+import {getTheme} from "@/features/todolists/model/theme/theme.ts";
+import {createTaskAC, deleteAllTaskAC} from "../../../model/tasks-reducer.ts";
+import s from "./TodolistItem.module.css"
 
 type TodolistPropsType = {
-    todolist: TodolistType,
-}
-
-export type Task = {
-    title: string
-    isDone: boolean
-    id: string
+    todolist: Todolist,
 }
 
 export const TodolistItem = ({todolist}: TodolistPropsType) => {
@@ -38,7 +32,7 @@ export const TodolistItem = ({todolist}: TodolistPropsType) => {
     }
 
     return (
-        <Box sx={{backgroundColor: myTheme.palette.primary.light}} className="todo">
+        <Box sx={{backgroundColor: myTheme.palette.primary.light}} className={s.todo}>
             <TodolistTitle todolist={todolist}/>
             <CreateItemForm itemTitleLength={15} createItem={createTaskHandler}/>
             <Tasks todolist={todolist}/>

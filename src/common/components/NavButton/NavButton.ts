@@ -8,8 +8,6 @@ type Props = {
 export const NavButton = styled(Button)<Props> (({background, theme}) => ({
     minWidth: '110px',
     fontWeight: 'bold',
-    // borderRadius: '2px',
-    // textTransform: 'capitalize',
     margin: '0 10px',
     padding: '8px 24px',
     color: theme.palette.primary.contrastText,

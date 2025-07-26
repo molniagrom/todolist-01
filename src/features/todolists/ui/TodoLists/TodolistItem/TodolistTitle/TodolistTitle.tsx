@@ -1,15 +1,15 @@
-import {EditableSpan} from "@/components/EditableSpan.tsx";
+import {EditableSpan} from "@/common/components/EditableSpan/EditableSpan.tsx";
 import {IconButton} from "@mui/material";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import {changeTodolistTitleAC, deleteTodolistAC} from "@/model/todolists-reducer.ts";
-import {useAppDispatch} from "@/app/common/hooks/useAppDispatch.ts";
-import {getTheme} from "@/model/theme/theme.ts";
-import {useAppSelector} from "@/app/common/hooks/useAppSelector.ts";
 import {selectThemeMode} from "@/app/app-selectors.ts";
-import {TodolistType} from "@/app/App.tsx";
+import {Todolist} from "@/app/App.tsx";
+import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
+import { useAppSelector } from "@/common/hooks/useAppSelector.ts";
+import { getTheme } from "../../../../model/theme/theme.ts";
+import {changeTodolistTitleAC, deleteTodolistAC} from "@/features/todolists/model/todolists-reducer.ts";
 
 type Props = {
-    todolist: TodolistType,
+    todolist: Todolist,
 }
 
 export const TodolistTitle = (
