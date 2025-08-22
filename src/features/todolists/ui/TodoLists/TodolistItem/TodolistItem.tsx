@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@/common/hooks"
 import type { DomainTodolist } from "@/features/todolists/model/todolists-slice"
 import { FilterButtons } from "./FilterButtons/FilterButtons"
-import { changeTaskStatusTC, createTaskTC, selectTasks } from "@/features/todolists/model/tasks-slice"
+import { createTaskTC, selectTasks, updateTaskTC } from "@/features/todolists/model/tasks-slice"
 import { Tasks } from "./Tasks/Tasks"
 import { TodolistTitle } from "./TodolistTitle/TodolistTitle"
 import { CreateItemForm } from "@/common/components/CreateItemForm/CreateItemForm"
@@ -24,7 +24,7 @@ export const TodolistItem = ({ todolist }: Props) => {
       return task.status === TaskStatus.New
     })
     newTasks.forEach((task) => {
-      dispatch(changeTaskStatusTC({ ...task, status: TaskStatus.Completed }))
+      dispatch(updateTaskTC({ todolistId: todolist.id, taskId: task.id, domainModel: {status: TaskStatus.Completed} }))
     })
   }
 
