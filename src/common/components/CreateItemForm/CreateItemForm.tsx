@@ -1,61 +1,52 @@
-import {ChangeEvent, KeyboardEvent, useState} from 'react';
-import AddBoxIcon from '@mui/icons-material/AddBox';
-import {IconButton, TextField} from "@mui/material";
+import { type ChangeEvent, type KeyboardEvent, useState } from "react"
+import TextField from "@mui/material/TextField"
+import AddBoxIcon from "@mui/icons-material/AddBox"
+import IconButton from "@mui/material/IconButton"
 
 type Props = {
-    createItem: (itemTitle: string) => void;
-    itemTitleLength: number;
+  onCreateItem: (title: string) => void
 }
 
-export const CreateItemForm = ({createItem, itemTitleLength }: Props) => {
-    const [itemTitle, setItemTitle] = useState("")
-    const [error, setError] = useState(false)
-    const isAddBtrDisableCondition = itemTitle === "" || itemTitle.length > itemTitleLength
+export const CreateItemForm = ({ onCreateItem }: Props) => {
+  const [title, setTitle] = useState("")
+  const [error, setError] = useState<string | null>(null)
 
-    const createTaskHandler = () => {
-        const trimmedTitle = itemTitle.trim()
-        if (trimmedTitle) {
-            createItem(trimmedTitle)
-        } else {
-            setError(true)
-        }
-        setItemTitle("")
+  const createItemHandler = () => {
+    const trimmedTitle = title.trim()
+    if (trimmedTitle !== "") {
+      onCreateItem(trimmedTitle)
+      setTitle("")
+    } else {
+      setError("Title is required")
     }
+  }
 
-    const onKeyDownCreateTaskHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter" && !isAddBtrDisableCondition) {
-            createTaskHandler()
-        }
+  const changeTitleHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.currentTarget.value)
+    setError(null)
+  }
+
+  const createItemOnEnterHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      createItemHandler()
     }
+  }
 
-
-    const createItemTitle = (e: ChangeEvent<HTMLInputElement>) => {
-        error && setError(false)
-        setItemTitle((e.currentTarget.value))
-    }
-
-    return (
-        <div>
-            <TextField
-                size="small"
-                variant={"outlined"}
-                onKeyDown={onKeyDownCreateTaskHandler}
-                onChange={createItemTitle}
-                helperText={error && "Title must be valid"}
-                error={error}
-                value={itemTitle} placeholder={`max ${itemTitleLength} symbol`}/>
-
-            <IconButton
-                disabled={isAddBtrDisableCondition}
-                color={"primary"}
-                onClick={createTaskHandler}>
-                <AddBoxIcon fontSize="medium"/>
-            </IconButton>
-
-            {itemTitle && itemTitle.length <= itemTitleLength && <p>max {itemTitleLength} symbol</p>}
-            {itemTitle && itemTitle.length > itemTitleLength && <p style={{color: "red"}}>"title is too long"</p>}
-        </div>
-    );
-};
-
-export default CreateItemForm;
+  return (
+    <div>
+      <TextField
+        label={"Enter a title"}
+        variant={"outlined"}
+        value={title}
+        size={"small"}
+        error={!!error}
+        helperText={error}
+        onChange={changeTitleHandler}
+        onKeyDown={createItemOnEnterHandler}
+      />
+      <IconButton onClick={createItemHandler} color={"primary"}>
+        <AddBoxIcon />
+      </IconButton>
+    </div>
+  )
+}

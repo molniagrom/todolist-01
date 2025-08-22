@@ -1,44 +1,39 @@
-import {EditableSpan} from "@/common/components/EditableSpan/EditableSpan.tsx";
-import {IconButton} from "@mui/material";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import {selectThemeMode} from "@/app/app-selectors.ts";
-import {Todolist} from "@/app/App.tsx";
-import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
-import { useAppSelector } from "@/common/hooks/useAppSelector.ts";
-import { getTheme } from "../../../../model/theme/theme.ts";
-import {changeTodolistTitleAC, deleteTodolistAC} from "@/features/todolists/model/todolists-reducer.ts";
+import { EditableSpan } from "@/common/components"
+import { useAppDispatch } from "@/common/hooks"
+import {
+  changeTodolistTitleTC,
+  deleteTodolistTC,
+  type DomainTodolist,
+} from "@/features/todolists/model/todolists-slice"
+import DeleteIcon from "@mui/icons-material/Delete"
+import IconButton from "@mui/material/IconButton"
+import styles from "./TodolistTitle.module.css"
 
 type Props = {
-    todolist: Todolist,
+  todolist: DomainTodolist
 }
 
-export const TodolistTitle = (
-    {todolist: {title, id}}: Props) => {
+export const TodolistTitle = ({ todolist }: Props) => {
+  const { id, title } = todolist
 
-    const dispatch = useAppDispatch();
-    const themeMode = useAppSelector(selectThemeMode)
-    const myTheme = getTheme(themeMode)
+  const dispatch = useAppDispatch()
 
+  const deleteTodolist = () => {
+    dispatch(deleteTodolistTC(id))
+  }
 
-    const deleteTodolistHandler = () => {
-        dispatch(deleteTodolistAC({id}))
-    }
+  const changeTodolistTitle = (title: string) => {
+    dispatch(changeTodolistTitleTC({ id, title }))
+  }
 
-    const changeTodolistTitleHandler = (newTitle: string) => {
-        dispatch(changeTodolistTitleAC({
-            id: id, title: newTitle
-        }))
-    }
-
-    return (
-        <h3>
-            <EditableSpan title={title} changeItemTitle={changeTodolistTitleHandler}/>
-            <IconButton
-                sx={{backgroundColor: myTheme.palette.secondary.dark}}
-                onClick={deleteTodolistHandler}>
-                <DeleteOutlineIcon fontSize="medium"/>
-            </IconButton>
-        </h3>
-    );
-};
-
+  return (
+    <div className={styles.container}>
+      <h3>
+        <EditableSpan value={title} onChange={changeTodolistTitle} />
+      </h3>
+      <IconButton onClick={deleteTodolist}>
+        <DeleteIcon />
+      </IconButton>
+    </div>
+  )
+}

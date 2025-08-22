@@ -1,40 +1,44 @@
-import {AppBar, Box, IconButton, Switch, Toolbar} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import {NavButton} from "@/common/components/NavButton/NavButton.ts";
-import {changeThemeModeAC} from "@/app/app-reducer.ts";
-import {selectThemeMode} from "@/app/app-selectors.ts";
-import { useAppDispatch } from "../../hooks/useAppDispatch.ts";
-import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
-import {getTheme} from "@/features/todolists/model/theme/theme.ts";
-
+import { changeThemeModeAC, selectStatus, selectThemeMode } from "@/app/app-slice.ts"
+import { useAppDispatch, useAppSelector } from "@/common/hooks"
+import { containerSx } from "@/common/styles"
+import { getTheme } from "@/common/theme"
+import { NavButton } from "@/common/components/NavButton/NavButton"
+import MenuIcon from "@mui/icons-material/Menu"
+import AppBar from "@mui/material/AppBar"
+import Container from "@mui/material/Container"
+import IconButton from "@mui/material/IconButton"
+import Switch from "@mui/material/Switch"
+import Toolbar from "@mui/material/Toolbar"
+import { LinearProgress } from "@mui/material"
 
 export const Header = () => {
-    const dispatch = useAppDispatch();
-    const themeMode = useAppSelector(selectThemeMode)
+  const themeMode = useAppSelector(selectThemeMode)
+  const status = useAppSelector(selectStatus)
 
-    const changeMode = () => {
-        dispatch(changeThemeModeAC(
-            {themeMode: themeMode === 'light' ? 'dark' : 'light'}
-        ))
-    }
+  const dispatch = useAppDispatch()
 
-    const myTheme = getTheme(themeMode)
+  const theme = getTheme(themeMode)
 
-    return (
-        <AppBar position="static">
-            <Toolbar>
-                <Box sx={{display: "flex", width: "100%", justifyContent: "space-between"}}>
-                    <IconButton color="inherit">
-                        <MenuIcon/>
-                    </IconButton>
-                    <Box>
-                        <Switch onChange={changeMode}/>
-                        <NavButton background={myTheme.palette.primary.dark}>Sign in</NavButton>
-                        <NavButton background={myTheme.palette.primary.dark}>Sign out</NavButton>
-                        <NavButton background={myTheme.palette.primary.light}>FAQ</NavButton>
-                    </Box>
-                </Box>
-            </Toolbar>
-        </AppBar>
-    )
+  const changeMode = () => {
+    dispatch(changeThemeModeAC({ themeMode: themeMode === "light" ? "dark" : "light" }))
+  }
+
+  return (
+    <AppBar position="static" sx={{ mb: "30px" }}>
+      <Toolbar>
+        <Container maxWidth={"lg"} sx={containerSx}>
+          <IconButton color="inherit">
+            <MenuIcon />
+          </IconButton>
+          <div>
+            <NavButton>Sign in</NavButton>
+            <NavButton>Sign up</NavButton>
+            <NavButton background={theme.palette.primary.dark}>Faq</NavButton>
+            <Switch color={"default"} onChange={changeMode} />
+          </div>
+        </Container>
+      </Toolbar>
+      {status === "loading" && <LinearProgress />}
+    </AppBar>
+  )
 }

@@ -1,52 +1,40 @@
-import {Todolist} from "@/app/App.tsx";
-import "../../../../../app/App.module.css"
-import CreateItemForm from "@/common/components/CreateItemForm/CreateItemForm.tsx";
-import {Box, Button} from "@mui/material";
-import {selectThemeMode} from "@/app/app-selectors.ts";
-import {TodolistTitle} from "./TodolistTitle/TodolistTitle.tsx";
-import {Tasks} from "./Tasks/Tasks.tsx";
-import FilterButtons from "./FilterButtons/FilterButtons.tsx";
-import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
-import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
-import {getTheme} from "@/features/todolists/model/theme/theme.ts";
-import {createTaskAC, deleteAllTaskAC} from "../../../model/tasks-reducer.ts";
-import s from "./TodolistItem.module.css"
+import { useAppDispatch, useAppSelector } from "@/common/hooks"
+import type { DomainTodolist } from "@/features/todolists/model/todolists-slice"
+import { FilterButtons } from "./FilterButtons/FilterButtons"
+import { changeTaskStatusTC, createTaskTC, selectTasks } from "@/features/todolists/model/tasks-slice"
+import { Tasks } from "./Tasks/Tasks"
+import { TodolistTitle } from "./TodolistTitle/TodolistTitle"
+import { CreateItemForm } from "@/common/components/CreateItemForm/CreateItemForm"
+import { TaskStatus } from "@/common/enums"
 
-type TodolistPropsType = {
-    todolist: Todolist,
+type Props = {
+  todolist: DomainTodolist
 }
 
-export const TodolistItem = ({todolist}: TodolistPropsType) => {
-    const themeMode = useAppSelector(selectThemeMode)
-    const dispatch = useAppDispatch();
+export const TodolistItem = ({ todolist }: Props) => {
+  const dispatch = useAppDispatch()
+  const tasks = useAppSelector(selectTasks)
 
+  const createTask = (title: string) => {
+    dispatch(createTaskTC({ todolistId: todolist.id, title }))
+  }
 
-    const myTheme = getTheme(themeMode)
+  const allTaskCompletedHandler = () => {
+    const newTasks = tasks[todolist.id].filter((task) => {
+      return task.status === TaskStatus.New
+    })
+    newTasks.forEach((task) => {
+      dispatch(changeTaskStatusTC({ ...task, status: TaskStatus.Completed }))
+    })
+  }
 
-    const createTaskHandler = (taskTitle: string) => {
-        dispatch(createTaskAC({title: taskTitle, todolistId: todolist.id}))
-    }
-
-    const deleteAllTask = () => {
-        dispatch(deleteAllTaskAC({todolistId: todolist.id}))
-    }
-
-    return (
-        <Box sx={{backgroundColor: myTheme.palette.primary.light}} className={s.todo}>
-            <TodolistTitle todolist={todolist}/>
-            <CreateItemForm itemTitleLength={15} createItem={createTaskHandler}/>
-            <Tasks todolist={todolist}/>
-            <FilterButtons todolist={todolist}/>
-            <div>
-                <Button onClick={deleteAllTask}>Delete all tasks</Button>
-            </div>
-        </Box>
-    )
+  return (
+    <div>
+      <TodolistTitle todolist={todolist} />
+      <CreateItemForm onCreateItem={createTask} />
+      <Tasks todolist={todolist} />
+      <FilterButtons todolist={todolist} />
+      <button onClick={allTaskCompletedHandler}>all task completed</button>
+    </div>
+  )
 }
-
-
-
-
-
-
-

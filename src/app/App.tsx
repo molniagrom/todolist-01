@@ -1,27 +1,24 @@
-import s from './App.module.css'
-import {CssBaseline, ThemeProvider} from '@mui/material';
-import {selectThemeMode} from "./app-selectors.ts";
-import {useSelector} from "react-redux";
-import {Header} from "@/common/components/Header/Header.tsx";
-import {Main} from "@/app/Main.tsx";
-import { getTheme } from '@/features/todolists/model/theme/theme.ts';
+import "./App.css"
+import { selectThemeMode } from "@/app/app-slice"
+import { Main } from "@/app/Main"
+import { Header } from "@/common/components/Header/Header"
+import { useAppSelector } from "@/common/hooks"
+import { getTheme } from "@/common/theme"
+import CssBaseline from "@mui/material/CssBaseline"
+import { ThemeProvider } from "@mui/material/styles"
 
+export const App = () => {
+  const themeMode = useAppSelector(selectThemeMode)
 
-function App() {
+  const theme = getTheme(themeMode)
 
-    const themeMode = useSelector(selectThemeMode)
-    const myTheme = getTheme(themeMode)
-
-    return (
-        <div className={s.app}>
-            <ThemeProvider theme={myTheme}>
-                <CssBaseline/>
-                <Header/>
-                <Main/>
-            </ThemeProvider>
-        </div>
-    )
+  return (
+    <ThemeProvider theme={theme}>
+      <div className={"app"}>
+        <CssBaseline />
+        <Header />
+        <Main />
+      </div>
+    </ThemeProvider>
+  )
 }
-
-export default App
-
