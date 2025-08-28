@@ -1,11 +1,10 @@
-import { useAppDispatch, useAppSelector } from "@/common/hooks"
+import { useAppDispatch } from "@/common/hooks"
+import { createTaskTC } from "@/features/todolists/model/tasks-slice"
 import type { DomainTodolist } from "@/features/todolists/model/todolists-slice"
 import { FilterButtons } from "./FilterButtons/FilterButtons"
-import { createTaskTC, selectTasks, updateTaskTC } from "@/features/todolists/model/tasks-slice"
 import { Tasks } from "./Tasks/Tasks"
 import { TodolistTitle } from "./TodolistTitle/TodolistTitle"
 import { CreateItemForm } from "@/common/components/CreateItemForm/CreateItemForm"
-import { TaskStatus } from "@/common/enums"
 
 type Props = {
   todolist: DomainTodolist
@@ -13,28 +12,17 @@ type Props = {
 
 export const TodolistItem = ({ todolist }: Props) => {
   const dispatch = useAppDispatch()
-  const tasks = useAppSelector(selectTasks)
 
   const createTask = (title: string) => {
     dispatch(createTaskTC({ todolistId: todolist.id, title }))
   }
 
-  const allTaskCompletedHandler = () => {
-    const newTasks = tasks[todolist.id].filter((task) => {
-      return task.status === TaskStatus.New
-    })
-    newTasks.forEach((task) => {
-      dispatch(updateTaskTC({ todolistId: todolist.id, taskId: task.id, domainModel: {status: TaskStatus.Completed} }))
-    })
-  }
-
   return (
     <div>
       <TodolistTitle todolist={todolist} />
-      <CreateItemForm onCreateItem={createTask} />
+      <CreateItemForm onCreateItem={createTask} disables={todolist.entityStatus === "loading"}/>
       <Tasks todolist={todolist} />
       <FilterButtons todolist={todolist} />
-      <button onClick={allTaskCompletedHandler}>all task completed</button>
     </div>
   )
 }
