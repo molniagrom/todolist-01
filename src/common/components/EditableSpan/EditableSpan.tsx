@@ -7,11 +7,12 @@ type Props = {
   disabled?: boolean
 }
 
-export const EditableSpan = ({ value, disabled, onChange }: Props) => {
+export const EditableSpan = ({ value, onChange, disabled }: Props) => {
   const [title, setTitle] = useState(value)
   const [isEditMode, setIsEditMode] = useState(false)
 
   const turnOnEditMode = () => {
+    if (disabled) return
     setIsEditMode(true)
   }
 
@@ -34,10 +35,9 @@ export const EditableSpan = ({ value, disabled, onChange }: Props) => {
           onChange={changeTitle}
           onBlur={turnOffEditMode}
           autoFocus
-          disabled={disabled}
         />
       ) : (
-        <span onDoubleClick={!disabled ? turnOnEditMode : undefined}>{value}</span>
+        <span onDoubleClick={turnOnEditMode}>{value}</span>
       )}
     </>
   )
