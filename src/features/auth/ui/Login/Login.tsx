@@ -12,12 +12,8 @@ import TextField from "@mui/material/TextField"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import s from "./Login.module.css"
 import * as z from "zod"
-
-export const loginScheme = z.object({
-  password: z.string().min(3, "Min value for password 3 symbol"),
-  email: z.email("incorrect password"),
-  rememberMe: z.boolean().optional(),
-})
+import { zodResolver } from "@hookform/resolvers/zod"
+import { loginScheme } from "@/features/auth/libs/schemas/loginScheme.ts"
 
 type LoginInputs = z.infer<typeof loginScheme>
 
@@ -25,7 +21,8 @@ export const Login = () => {
   const themeMode = useAppSelector(selectThemeMode)
 
   const { register, control, handleSubmit, reset, formState: { errors } } = useForm<LoginInputs>({
-    defaultValues: { email: "", password: "", rememberMe: false }
+    defaultValues: { email: "", password: "", rememberMe: false },
+    resolver: zodResolver(loginScheme)
   })
 
   const theme = getTheme(themeMode)
@@ -62,10 +59,7 @@ export const Login = () => {
               label="Email"
               error={!!errors.email}
               margin="normal"
-              {...register("email", {
-                required: { value: true, message: "inputs is required" },
-                pattern: { value: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/, message: "Email is not valid" }
-              })} />
+              {...register("email")} />
 
             {errors.email && <span className={s.errorMessage}>{errors.email.message}</span>}
 
@@ -74,12 +68,7 @@ export const Login = () => {
               type="password"
               label="Password"
               margin="normal"
-              {...register("password", {
-                minLength: {
-                  value: 8,
-                  message: "Minimum password length is 8 characters"
-                }
-              })} />
+              {...register("password")} />
 
             {errors.password && <span className={s.errorMessage}>{errors.password.message}</span>}
 

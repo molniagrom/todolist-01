@@ -17,6 +17,7 @@ export const todolistsSlice = createAppSlice({
         try {
           dispatch(setAppStatusAC({ status: "loading" }))
           const res = await todolistsApi.getTodolists()
+          // todo: zod-validation
           dispatch(setAppStatusAC({ status: "succeeded" }))
           return { todolists: res.data }
         } catch (error) {
@@ -26,7 +27,11 @@ export const todolistsSlice = createAppSlice({
       },
       {
         fulfilled: (_state, action) => {
-          action.payload?.todolists.map((tl) => ({ ...tl, filter: "all", entityStatus: "idle" }))
+          return action.payload.todolists.map((tl) => ({
+            ...tl,
+            filter: "all",
+            entityStatus: "idle",
+          }))
 
           // action.payload?.todolists.forEach((tl) => {
           //   state.push({ ...tl, filter: "all", entityStatus: "idle" })
