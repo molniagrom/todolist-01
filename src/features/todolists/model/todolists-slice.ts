@@ -3,7 +3,8 @@ import { ResultCode } from "@/common/enums"
 import type { RequestStatus } from "@/common/types"
 import { createAppSlice, handleServerAppError, handleServerNetworkError } from "@/common/utils"
 import { todolistsApi } from "@/features/todolists/api/todolistsApi"
-import type { Todolist } from "@/features/todolists/api/todolistsApi.types"
+import z from "zod"
+import { todolist } from "@/features/todolists/api/todolistsApi.types.ts"
 
 export const todolistsSlice = createAppSlice({
   name: "todolists",
@@ -17,7 +18,7 @@ export const todolistsSlice = createAppSlice({
         try {
           dispatch(setAppStatusAC({ status: "loading" }))
           const res = await todolistsApi.getTodolists()
-          // todo: zod-validation
+          todolist.array().parse(res.data)
           dispatch(setAppStatusAC({ status: "succeeded" }))
           return { todolists: res.data }
         } catch (error) {
@@ -143,7 +144,7 @@ export const {
 } = todolistsSlice.actions
 export const todolistsReducer = todolistsSlice.reducer
 
-export type DomainTodolist = Todolist & {
+export type DomainTodolist = z.infer<typeof todolist> & {
   filter: FilterValues
   entityStatus: RequestStatus
 }
