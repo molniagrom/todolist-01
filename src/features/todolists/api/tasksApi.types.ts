@@ -14,6 +14,10 @@ export const domainTaskSchema = z.object({
   addedDate: z.iso.datetime({ local: true }),
 })
 
+export const deleteTasks = z.object({
+  resultCode: z.literal(0),
+})
+
 export type DomainTask = z.infer<typeof domainTaskSchema>
 
 export type GetTasksResponse = {
