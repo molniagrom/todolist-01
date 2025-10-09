@@ -3,14 +3,14 @@ import { ResultCode } from "@/common/enums"
 import type { RequestStatus } from "@/common/types"
 import { createAppSlice, handleServerAppError, handleServerNetworkError } from "@/common/utils"
 import { todolistsApi } from "@/features/todolists/api/todolistsApi"
-import z from "zod"
-import { deleteTodolist, todolist, zodPayload } from "@/features/todolists/api/todolistsApi.types.ts"
+import { type Todolist, todolistSchema } from "@/features/todolists/api/todolistsApi.types"
+import { clearDataAC } from "@/common/actions"
 
 export const todolistsSlice = createAppSlice({
   name: "todolists",
   initialState: [] as DomainTodolist[],
   selectors: {
-    selectTodolists: (state) => state
+    selectTodolists: (state) => state,
   },
   reducers: (create) => ({
     fetchTodolistsTC: create.asyncThunk(
@@ -18,9 +18,9 @@ export const todolistsSlice = createAppSlice({
         try {
           dispatch(setAppStatusAC({ status: "loading" }))
           const res = await todolistsApi.getTodolists()
-          todolist.array().parse(res.data) // zod
+          const todolists = todolistSchema.array().parse(res.data)
           dispatch(setAppStatusAC({ status: "succeeded" }))
-          return { todolists: res.data }
+          return { todolists }
         } catch (error) {
           handleServerNetworkError(dispatch, error)
           return rejectWithValue(null)
@@ -28,24 +28,15 @@ export const todolistsSlice = createAppSlice({
       },
       {
         fulfilled: (_state, action) => {
-          return action.payload.todolists.map((tl) => ({
-            ...tl,
-            filter: "all",
-            entityStatus: "idle",
-          }))
-
-          // action.payload?.todolists.forEach((tl) => {
-          //   state.push({ ...tl, filter: "all", entityStatus: "idle" })
-          // })
-        }
-      }
+          return action.payload.todolists.map((todolist) => ({ ...todolist, filter: "all", entityStatus: "idle" }))
+        },
+      },
     ),
     createTodolistTC: create.asyncThunk(
       async (title: string, { dispatch, rejectWithValue }) => {
         try {
           dispatch(setAppStatusAC({ status: "loading" }))
           const res = await todolistsApi.createTodolist(title)
-          todolist.parse(res.data.data.item)
           if (res.data.resultCode === ResultCode.Success) {
             dispatch(setAppStatusAC({ status: "succeeded" }))
             return { todolist: res.data.data.item }
@@ -61,8 +52,8 @@ export const todolistsSlice = createAppSlice({
       {
         fulfilled: (state, action) => {
           state.unshift({ ...action.payload.todolist, filter: "all", entityStatus: "idle" })
-        }
-      }
+        },
+      },
     ),
     deleteTodolistTC: create.asyncThunk(
       async (id: string, { dispatch, rejectWithValue }) => {
@@ -70,7 +61,6 @@ export const todolistsSlice = createAppSlice({
           dispatch(setAppStatusAC({ status: "loading" }))
           dispatch(changeTodolistStatusAC({ id, entityStatus: "loading" }))
           const res = await todolistsApi.deleteTodolist(id)
-          deleteTodolist.parse(res.data)
           if (res.data.resultCode === ResultCode.Success) {
             dispatch(setAppStatusAC({ status: "succeeded" }))
             return { id }
@@ -91,14 +81,13 @@ export const todolistsSlice = createAppSlice({
           if (index !== -1) {
             state.splice(index, 1)
           }
-        }
-      }
+        },
+      },
     ),
     changeTodolistTitleTC: create.asyncThunk(
       async (payload: { id: string; title: string }, { dispatch, rejectWithValue }) => {
         try {
           dispatch(setAppStatusAC({ status: "loading" }))
-          zodPayload.parse(payload)
           const res = await todolistsApi.changeTodolistTitle(payload)
           if (res.data.resultCode === ResultCode.Success) {
             dispatch(setAppStatusAC({ status: "succeeded" }))
@@ -118,8 +107,8 @@ export const todolistsSlice = createAppSlice({
           if (index !== -1) {
             state[index].title = action.payload.title
           }
-        }
-      }
+        },
+      },
     ),
     changeTodolistFilterAC: create.reducer<{ id: string; filter: FilterValues }>((state, action) => {
       const todolist = state.find((todolist) => todolist.id === action.payload.id)
@@ -132,8 +121,13 @@ export const todolistsSlice = createAppSlice({
       if (todolist) {
         todolist.entityStatus = action.payload.entityStatus
       }
+    }),
+  }),
+  extraReducers: (builder) => {
+    builder.addCase(clearDataAC, () => {
+      return []
     })
-  })
+  },
 })
 
 export const { selectTodolists } = todolistsSlice.selectors
@@ -143,11 +137,11 @@ export const {
   deleteTodolistTC,
   changeTodolistTitleTC,
   changeTodolistFilterAC,
-  changeTodolistStatusAC
+  changeTodolistStatusAC,
 } = todolistsSlice.actions
 export const todolistsReducer = todolistsSlice.reducer
 
-export type DomainTodolist = z.infer<typeof todolist> & {
+export type DomainTodolist = Todolist & {
   filter: FilterValues
   entityStatus: RequestStatus
 }

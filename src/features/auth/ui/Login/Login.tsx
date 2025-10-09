@@ -1,97 +1,96 @@
 import { selectThemeMode } from "@/app/app-slice"
-import { useAppSelector } from "@/common/hooks"
+import { useAppDispatch, useAppSelector } from "@/common/hooks"
 import { getTheme } from "@/common/theme"
+import { type LoginInputs, loginSchema } from "@/features/auth/lib/schemas"
+import { zodResolver } from "@hookform/resolvers/zod"
 import Button from "@mui/material/Button"
 import Checkbox from "@mui/material/Checkbox"
 import FormControl from "@mui/material/FormControl"
 import FormControlLabel from "@mui/material/FormControlLabel"
 import FormGroup from "@mui/material/FormGroup"
 import FormLabel from "@mui/material/FormLabel"
-import Grid from "@mui/material/Grid2"
+import Grid from "@mui/material/Grid"
 import TextField from "@mui/material/TextField"
-import { Controller, SubmitHandler, useForm } from "react-hook-form"
-import s from "./Login.module.css"
-import * as z from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { loginScheme } from "@/features/auth/libs/schemas/loginScheme.ts"
-
-type LoginInputs = z.infer<typeof loginScheme>
+import { Controller, type SubmitHandler, useForm } from "react-hook-form"
+import styles from "./Login.module.css"
+import { loginTC } from "@/features/auth/model/authSlice.ts"
 
 export const Login = () => {
   const themeMode = useAppSelector(selectThemeMode)
-
-  const { register, control, handleSubmit, reset, formState: { errors } } = useForm<LoginInputs>({
-    defaultValues: { email: "", password: "", rememberMe: false },
-    resolver: zodResolver(loginScheme)
-  })
+  const dispatch = useAppDispatch()
 
   const theme = getTheme(themeMode)
-  const onSubmit: SubmitHandler<LoginInputs> = data => {
-    console.log(data)
-    reset()
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm<LoginInputs>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: { email: "", password: "", rememberMe: false },
+  })
+
+  const onSubmit: SubmitHandler<LoginInputs> = (data) => {
+    dispatch(loginTC(data))
+      .unwrap()
+      .then(() => {
+      reset()
+    })
   }
+
   return (
     <Grid container justifyContent={"center"}>
-      <FormControl>
-        <FormLabel>
-          <p>
-            To login get registered
-            <a
-              style={{ color: theme.palette.primary.main, marginLeft: "5px" }}
-              href="https://social-network.samuraijs.com"
-              target="_blank"
-              rel="noreferrer"
-            >
-              here
-            </a>
-          </p>
-          <p>or use common test account credentials:</p>
-          <p>
-            <b>Email:</b> free@samuraijs.com
-          </p>
-          <p>
-            <b>Password:</b> free
-          </p>
-        </FormLabel>
-        <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FormControl>
+          <FormLabel>
+            <p>
+              To login get registered
+              <a
+                style={{ color: theme.palette.primary.main, marginLeft: "5px" }}
+                href="https://social-network.samuraijs.com"
+                target="_blank"
+                rel="noreferrer"
+              >
+                here
+              </a>
+            </p>
+            <p>or use common test account credentials:</p>
+            <p>
+              <b>Email:</b> free@samuraijs.com
+            </p>
+            <p>
+              <b>Password:</b> free
+            </p>
+          </FormLabel>
           <FormGroup>
+            <TextField label="Email" margin="normal" error={!!errors.email} {...register("email")} />
+            {errors.email && <span className={styles.errorMessage}>{errors.email.message}</span>}
             <TextField
-              label="Email"
-              error={!!errors.email}
-              margin="normal"
-              {...register("email")} />
-
-            {errors.email && <span className={s.errorMessage}>{errors.email.message}</span>}
-
-            <TextField
-              error={!!errors.password}
               type="password"
               label="Password"
               margin="normal"
-              {...register("password")} />
-
-            {errors.password && <span className={s.errorMessage}>{errors.password.message}</span>}
-
+              error={!!errors.email}
+              {...register("password")}
+            />
+            {errors.password && <span className={styles.errorMessage}>{errors.password.message}</span>}
             <FormControlLabel
-              label="Remember me"
+              label={"Remember me"}
               control={
                 <Controller
                   name={"rememberMe"}
                   control={control}
-                  render={({ field }) => (
-                    <Checkbox
-                      onChange={(e) => field.onChange(e.target.checked)}
-                      checked={field.value} />
-                  )} />
-              } />
-
+                  render={({ field: { value, ...field } }) => <Checkbox {...field} checked={value} />}
+                />
+              }
+            />
             <Button type="submit" variant="contained" color="primary">
               Login
             </Button>
           </FormGroup>
-        </form>
-
-      </FormControl>
+        </FormControl>
+      </form>
     </Grid>
   )
 }

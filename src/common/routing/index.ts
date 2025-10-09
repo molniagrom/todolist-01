@@ -1,1 +1,2 @@
-export {Routing, Path} from "./Routing.tsx"
+export * from "./Routing"
+export { Faq } from "@/common/components/Faq/Faq.tsx"
