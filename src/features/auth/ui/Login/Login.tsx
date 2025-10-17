@@ -1,4 +1,4 @@
-import { selectThemeMode } from "@/app/app-slice"
+import { selectThemeMode, setIsLoggedIn } from "@/app/app-slice"
 import { useAppDispatch, useAppSelector } from "@/common/hooks"
 import { getTheme } from "@/common/theme"
 import { type LoginInputs, loginSchema } from "@/features/auth/lib/schemas"
@@ -13,19 +13,24 @@ import Grid from "@mui/material/Grid"
 import TextField from "@mui/material/TextField"
 import { Controller, type SubmitHandler, useForm } from "react-hook-form"
 import styles from "./Login.module.css"
-import { loginTC } from "@/features/auth/model/authSlice.ts"
+import { useLoginMutation } from "../../api/authApi"
+import { ResultCode } from "@/common/enums"
+import { AUTH_TOKEN } from "@/common/constants"
 
 export const Login = () => {
   const themeMode = useAppSelector(selectThemeMode)
   const dispatch = useAppDispatch()
+  const [login] = useLoginMutation()
+
+  // const dispatch = useAppDispatch()
 
   const theme = getTheme(themeMode)
 
   const {
     register,
     handleSubmit,
-    control,
     reset,
+    control,
     formState: { errors },
   } = useForm<LoginInputs>({
     resolver: zodResolver(loginSchema),
@@ -33,11 +38,16 @@ export const Login = () => {
   })
 
   const onSubmit: SubmitHandler<LoginInputs> = (data) => {
-    dispatch(loginTC(data))
+    //todo: Ask the cursor what's going on here and make sense of each line
+    login(data)
       .unwrap()
-      .then(() => {
-      reset()
-    })
+      .then((res) => {
+        if (res.resultCode === ResultCode.Success) {
+          localStorage.setItem(AUTH_TOKEN, res.data.token)
+          dispatch(setIsLoggedIn({ isLoggedIn: true }))
+          reset()
+        }
+      })
   }
 
   return (

@@ -1,4 +1,10 @@
-import { changeThemeModeAC, selectAppStatus, selectThemeMode } from "@/app/app-slice.ts"
+import {
+  changeThemeModeAC,
+  selectAppStatus,
+  selectIsLoggedIn,
+  selectThemeMode,
+  setIsLoggedIn,
+} from "@/app/app-slice.ts"
 import { useAppDispatch, useAppSelector } from "@/common/hooks"
 import { containerSx } from "@/common/styles"
 import { getTheme } from "@/common/theme"
@@ -10,16 +16,18 @@ import IconButton from "@mui/material/IconButton"
 import Switch from "@mui/material/Switch"
 import Toolbar from "@mui/material/Toolbar"
 import LinearProgress from "@mui/material/LinearProgress"
-import { logoutTC, selectIsLoggedIn } from "@/features/auth/model/authSlice.ts"
-import { NavLink } from "react-router"
-import { Path } from "@/common/routing"
+import { useLogoutMutation } from "@/features/auth/api/authApi.ts"
+import { ResultCode } from "@/common/enums"
+import { AUTH_TOKEN } from "@/common/constants"
 
 export const Header = () => {
+  const isLoggedIn = useAppSelector(selectIsLoggedIn)
   const themeMode = useAppSelector(selectThemeMode)
   const status = useAppSelector(selectAppStatus)
-  const IsLoggedIn = useAppSelector(selectIsLoggedIn)
 
   const dispatch = useAppDispatch()
+
+  const [logoutMutation] = useLogoutMutation()
 
   const theme = getTheme(themeMode)
 
@@ -27,8 +35,16 @@ export const Header = () => {
     dispatch(changeThemeModeAC({ themeMode: themeMode === "light" ? "dark" : "light" }))
   }
 
-  const logoutHandler = () => {
-    dispatch(logoutTC())
+
+  const logout = () => {
+    logoutMutation()
+      .unwrap()
+      .then((res) => {
+        if (res.resultCode === ResultCode.Success) {
+          localStorage.removeItem(AUTH_TOKEN)
+          dispatch(setIsLoggedIn({ isLoggedIn: false }))
+        }
+      })
   }
 
   return (
@@ -39,18 +55,8 @@ export const Header = () => {
             <MenuIcon />
           </IconButton>
           <div>
-            {IsLoggedIn && <NavButton onClick={logoutHandler}>Logout</NavButton>}
-
-            <NavButton background={theme.palette.primary.main}>
-              <NavLink style={{ color: "#fff", textDecoration: "none" }} to={Path.Faq}>
-                Faq
-              </NavLink>
-            </NavButton>
-            <NavButton background={theme.palette.primary.main}>
-              <NavLink style={{ color: "#fff", textDecoration: "none" }} to={Path.Main}>
-                Main
-              </NavLink>
-            </NavButton>
+            {isLoggedIn && <NavButton onClick={logout}>Sign out</NavButton>}
+            <NavButton background={theme.palette.primary.dark}>Faq</NavButton>
             <Switch color={"default"} onChange={changeMode} />
           </div>
         </Container>
