@@ -1,0 +1,27 @@
+.common {
+    display: flex;
+    justify-content: space-between;
+  }
+   
+  .container {
+    width: 305px;
+    padding: 10px 20px;
+  }
+   
+  .title {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+  }
+   
+  .createItemForm {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+   
+  .tasks {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+  }
