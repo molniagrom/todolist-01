@@ -1,27 +1,30 @@
 import s from "./сaptcha.module.css";
+import { UseFormRegister } from "react-hook-form";
+import { LoginInputs } from "@/features/auth/lib/schemas";
+import { Button } from "@mui/material";
 
 type CaptchaProps = {
   captchaUrl: string | null;
-  value: string;
-  onChange: (value: string) => void;
+  register: UseFormRegister<LoginInputs>;
   error?: string;
   onRefresh?: () => void;
 };
 
-export const Captcha = ({ captchaUrl, value, onChange, error, onRefresh }: CaptchaProps) => {
+export const Captcha = ({ captchaUrl, register, error, onRefresh }: CaptchaProps) => {
   return (
     <div className={s.captchaContainer}>
+      <p>Please enter the text from the image below to prove you are not a robot.</p>
       {captchaUrl && (
         <div>
           <img src={captchaUrl} alt="captcha" className={s.captchaImage} />
-          {onRefresh && <button onClick={onRefresh} className={s.refreshButton}>Refresh Captcha</button>}
+          <br />
+          {onRefresh && <Button onClick={onRefresh} variant="outlined" className={s.refreshButton}>Refresh Captcha</Button>}
         </div>
       )}
       <input
         type="text"
         placeholder="Enter captcha"
-        value={value}
-        onChange={(e) => onChange(e.currentTarget.value)}
+        {...register("captcha")}
         className={s.captchaInput}
       />
       {error && <p className={s.errorMessage}>{error}</p>}
