@@ -22,9 +22,9 @@ import { useGetCaptchaQuery } from "@/features/captcha/captchaApi"
 
 export const Login = () => {
   const themeMode = useAppSelector(selectThemeMode)
-  const [showCaptcha, setShowCaptcha] = useState(true)
+  const [showCaptcha, setShowCaptcha] = useState(false)
   const [captchaValue, setCaptchaValue] = useState("")
-  const { data: captchaData } = useGetCaptchaQuery(undefined, { skip: !showCaptcha })
+  const { data: captchaData, refetch } = useGetCaptchaQuery(undefined, { skip: !showCaptcha })
   
   const [login] = useLoginMutation()
 
@@ -50,7 +50,14 @@ export const Login = () => {
         localStorage.setItem(AUTH_TOKEN, res.data.data.token)
         reset()
       }
+      if (res.data?.resultCode === ResultCode.CaptchaError) {
+        setShowCaptcha(true)
+      }
     })
+  }
+
+  const onRefresh = () => {
+    refetch()
   }
 
   return (
@@ -108,6 +115,7 @@ export const Login = () => {
             captchaUrl={captchaData?.url || null}
             value={captchaValue}
             onChange={setCaptchaValue}
+            onRefresh={onRefresh}
           />
         )}
       </form>

@@ -14,6 +14,7 @@ export const Captcha = ({ captchaUrl, value, onChange, error, onRefresh }: Captc
       {captchaUrl && (
         <div>
           <img src={captchaUrl} alt="captcha" className={s.captchaImage} />
+          <br/>
           {onRefresh && <button onClick={onRefresh} className={s.refreshButton}>Refresh Captcha</button>}
         </div>
       )}
