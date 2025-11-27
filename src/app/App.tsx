@@ -11,10 +11,11 @@ import CssBaseline from "@mui/material/CssBaseline"
 import { ThemeProvider } from "@mui/material/styles"
 import { useEffect, useState } from "react"
 import styles from "./App.module.css"
+import { useGetCaptchaQuery } from "@/features/captcha/captchaApi"
 
 export const App = () => {
   const themeMode = useAppSelector(selectThemeMode)
-  
+
   const [isInitialized, setIsInitialized] = useState(false)
 
   const { data, isLoading } = useMeQuery()

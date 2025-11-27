@@ -16,10 +16,16 @@ import Grid from "@mui/material/Grid"
 import TextField from "@mui/material/TextField"
 import { Controller, type SubmitHandler, useForm } from "react-hook-form"
 import styles from "./Login.module.css"
+import { useState } from "react"
+import { Captcha } from "@/features/captcha/Captcha"
+import { useGetCaptchaQuery } from "@/features/captcha/captchaApi"
 
 export const Login = () => {
   const themeMode = useAppSelector(selectThemeMode)
-
+  const [showCaptcha, setShowCaptcha] = useState(true)
+  const [captchaValue, setCaptchaValue] = useState("")
+  const { data: captchaData } = useGetCaptchaQuery(undefined, { skip: !showCaptcha })
+  
   const [login] = useLoginMutation()
 
   const dispatch = useAppDispatch()
@@ -97,6 +103,13 @@ export const Login = () => {
             </Button>
           </FormGroup>
         </FormControl>
+        {showCaptcha && (
+          <Captcha
+            captchaUrl={captchaData?.url || null}
+            value={captchaValue}
+            onChange={setCaptchaValue}
+          />
+        )}
       </form>
     </Grid>
   )
