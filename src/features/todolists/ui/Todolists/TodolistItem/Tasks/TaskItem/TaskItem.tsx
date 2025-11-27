@@ -2,8 +2,8 @@ import { EditableSpan } from "@/common/components/EditableSpan/EditableSpan"
 import { TaskStatus } from "@/common/enums"
 import { useRemoveTaskMutation, useUpdateTaskMutation } from "@/features/todolists/api/tasksApi"
 import type { DomainTask } from "@/features/todolists/api/tasksApi.types"
+import type { DomainTodolist } from "@/features/todolists/lib/types"
 import { createTaskModel } from "@/features/todolists/lib/utils"
-import type { DomainTodolist } from "@/features/todolists/model/todolists-slice"
 import DeleteIcon from "@mui/icons-material/Delete"
 import Checkbox from "@mui/material/Checkbox"
 import IconButton from "@mui/material/IconButton"
@@ -36,15 +36,14 @@ export const TaskItem = ({ task, todolist }: Props) => {
   }
 
   const isTaskCompleted = task.status === TaskStatus.Completed
-  const disabled = todolist.entityStatus === "loading"
 
   return (
     <ListItem sx={getListItemSx(isTaskCompleted)}>
       <div>
-        <Checkbox checked={isTaskCompleted} onChange={changeTaskStatus} disabled={disabled} />
-        <EditableSpan value={task.title} onChange={changeTaskTitle} disabled={disabled} />
+        <Checkbox checked={isTaskCompleted} onChange={changeTaskStatus} />
+        <EditableSpan value={task.title} onChange={changeTaskTitle} />
       </div>
-      <IconButton onClick={deleteTask} disabled={disabled}>
+      <IconButton onClick={deleteTask}>
         <DeleteIcon />
       </IconButton>
     </ListItem>

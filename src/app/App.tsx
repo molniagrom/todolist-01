@@ -9,12 +9,13 @@ import { useMeQuery } from "@/features/auth/api/authApi"
 import CircularProgress from "@mui/material/CircularProgress"
 import CssBaseline from "@mui/material/CssBaseline"
 import { ThemeProvider } from "@mui/material/styles"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import styles from "./App.module.css"
 
 export const App = () => {
-
   const themeMode = useAppSelector(selectThemeMode)
+  
+  const [isInitialized, setIsInitialized] = useState(false)
 
   const { data, isLoading } = useMeQuery()
 
@@ -27,9 +28,10 @@ export const App = () => {
     if (data?.resultCode === ResultCode.Success) {
       dispatch(setIsLoggedInAC({ isLoggedIn: true }))
     }
+    setIsInitialized(true)
   }, [isLoading])
 
-  if (isLoading) {
+  if (!isInitialized) {
     return (
       <div className={styles.circularProgressContainer}>
         <CircularProgress size={150} thickness={3} />

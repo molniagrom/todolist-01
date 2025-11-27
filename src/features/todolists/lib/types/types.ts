@@ -1,9 +1,7 @@
-import { RequestStatus } from "@/common/types"
-import { Todolist } from "../../api/todolistsApi.types"
+import type { Todolist } from "@/features/todolists/api/todolistsApi.types"
 
 export type DomainTodolist = Todolist & {
-    filter: FilterValues
-    entityStatus: RequestStatus
+  filter: FilterValues
 }
 
 export type FilterValues = "all" | "active" | "completed"
