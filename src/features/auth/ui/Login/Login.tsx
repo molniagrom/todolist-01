@@ -44,7 +44,9 @@ export const Login = () => {
   })
 
   const onSubmit: SubmitHandler<LoginInputs> = (data) => {
-    login(data).then((res) => {
+    const loginData = showCaptcha ? { ...data, captcha: captchaValue } : data
+    login(loginData).then((res) => {
+      // debugger
       if (res.data?.resultCode === ResultCode.Success) {
         dispatch(setIsLoggedInAC({ isLoggedIn: true }))
         localStorage.setItem(AUTH_TOKEN, res.data.data.token)
