@@ -46,7 +46,6 @@ export const Login = () => {
   const onSubmit: SubmitHandler<LoginInputs> = (data) => {
     const loginData = showCaptcha ? { ...data, captcha: captchaValue } : data
     login(loginData).then((res) => {
-      // debugger
       if (res.data?.resultCode === ResultCode.Success) {
         dispatch(setIsLoggedInAC({ isLoggedIn: true }))
         localStorage.setItem(AUTH_TOKEN, res.data.data.token)
@@ -93,7 +92,7 @@ export const Login = () => {
               type="password"
               label="Password"
               margin="normal"
-              error={!!errors.email}
+              error={!!errors.password}
               {...register("password")}
             />
             {errors.password && <span className={styles.errorMessage}>{errors.password.message}</span>}
