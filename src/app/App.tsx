@@ -6,8 +6,10 @@ import { useAppDispatch, useAppSelector } from "@/common/hooks"
 import { Routing } from "@/common/routing"
 import { getTheme } from "@/common/theme"
 import { useMeQuery } from "@/features/auth/api/authApi"
+import Box from "@mui/material/Box"
 import CircularProgress from "@mui/material/CircularProgress"
 import CssBaseline from "@mui/material/CssBaseline"
+import Typography from "@mui/material/Typography"
 import { ThemeProvider } from "@mui/material/styles"
 import { useEffect, useState } from "react"
 import styles from "./App.module.css"
@@ -44,6 +46,9 @@ export const App = () => {
       <div className={styles.app}>
         <CssBaseline />
         <Header />
+        <Box display="flex" justifyContent="center" alignItems="center" mt={2} mb={2}>
+          <Typography variant="h4">Todolist</Typography>
+        </Box>
         <Routing />
         <ErrorSnackbar />
       </div>
