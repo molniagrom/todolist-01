@@ -3,11 +3,13 @@ import { Main } from "@/app/Main"
 import { PageNotFound, ProtectedRoute } from "@/common/components"
 import { useAppSelector } from "@/common/hooks"
 import { Login } from "@/features/auth/ui/Login/Login"
+import { FaqPage } from "@/features/faq/FaqPage"
 import { Route, Routes } from "react-router"
 
 export const Path = {
   Main: "/",
   Login: "login",
+  Faq: "faq",
   NotFound: "*",
 } as const
 
@@ -18,6 +20,7 @@ export const Routing = () => {
     <Routes>
       <Route element={<ProtectedRoute isAllowed={isLoggedIn} redirectPath={Path.Login} />}>
         <Route path={Path.Main} element={<Main />} />
+        <Route path={Path.Faq} element={<FaqPage />} />
       </Route>
       <Route element={<ProtectedRoute isAllowed={!isLoggedIn} />}>
         <Route path={Path.Login} element={<Login />} />

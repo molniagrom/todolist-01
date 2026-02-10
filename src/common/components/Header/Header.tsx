@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from "@/common/hooks"
 import { containerSx } from "@/common/styles"
 import { getTheme } from "@/common/theme"
 import { useLogoutMutation } from "@/features/auth/api/authApi"
+import { Path } from "@/common/routing/Routing"
 import MenuIcon from "@mui/icons-material/Menu"
 import AppBar from "@mui/material/AppBar"
 import Container from "@mui/material/Container"
@@ -20,6 +21,7 @@ import IconButton from "@mui/material/IconButton"
 import LinearProgress from "@mui/material/LinearProgress"
 import Switch from "@mui/material/Switch"
 import Toolbar from "@mui/material/Toolbar"
+import { useNavigate } from "react-router-dom"
 
 export const Header = () => {
   const isLoggedIn = useAppSelector(selectIsLoggedIn)
@@ -27,6 +29,7 @@ export const Header = () => {
   const status = useAppSelector(selectAppStatus)
 
   const [logout] = useLogoutMutation()
+  const navigate = useNavigate()
 
   const dispatch = useAppDispatch()
 
@@ -34,6 +37,10 @@ export const Header = () => {
 
   const changeMode = () => {
     dispatch(changeThemeModeAC({ themeMode: themeMode === "light" ? "dark" : "light" }))
+  }
+
+  const faqHandler = () => {
+    navigate(Path.Faq)
   }
 
   const logoutHandler = () => {
@@ -58,7 +65,7 @@ export const Header = () => {
           </IconButton>
           <div>
             {isLoggedIn && <NavButton onClick={logoutHandler}>Sign out</NavButton>}
-            <NavButton background={theme.palette.primary.dark}>Faq</NavButton>
+            <NavButton onClick={faqHandler} background={theme.palette.primary.dark}>Faq</NavButton>
             <Switch color={"default"} onChange={changeMode} />
           </div>
         </Container>
