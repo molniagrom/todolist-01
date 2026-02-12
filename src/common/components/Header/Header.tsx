@@ -31,6 +31,7 @@ import { useState } from "react"
 import { Link as RouterLink, useNavigate } from "react-router-dom"
 
 const menuItems = [
+  { label: "Вернуться на главную", path: Path.Main },
   { label: "Dashboard", path: Path.Dashboard },
   { label: "Projects", path: Path.Projects },
   { label: "Calendar", path: Path.Calendar },
@@ -89,8 +90,9 @@ export const Header = () => {
               <Box
                 sx={{
                   position: "absolute",
-                  top: "88px",
-                  left: { xs: 16, sm: "calc(50% - 480px)" },
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
                   outline: "none",
                 }}
               >
@@ -98,7 +100,7 @@ export const Header = () => {
                   elevation={8}
                   sx={{
                     p: 3,
-                    minWidth: { xs: 240, sm: 280 },
+                    minWidth: { xs: 240, sm: 320 },
                     borderRadius: 3,
                     display: "flex",
                     flexDirection: "column",
