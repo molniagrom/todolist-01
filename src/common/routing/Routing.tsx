@@ -3,12 +3,14 @@ import { Main } from "@/app/Main"
 import { PageNotFound, ProtectedRoute } from "@/common/components"
 import { useAppSelector } from "@/common/hooks"
 import { Login } from "@/features/auth/ui/Login/Login"
+import { FaqPage } from "@/features/faq/FaqPage"
 import { StubPage } from "@/features/pages/StubPage"
 import { Route, Routes } from "react-router"
 
 export const Path = {
   Main: "/",
   Login: "login",
+  Faq: "faq",
   Dashboard: "dashboard",
   Projects: "projects",
   Calendar: "calendar",
@@ -23,6 +25,7 @@ export const Routing = () => {
     <Routes>
       <Route element={<ProtectedRoute isAllowed={isLoggedIn} redirectPath={Path.Login} />}>
         <Route path={Path.Main} element={<Main />} />
+        <Route path={Path.Faq} element={<FaqPage />} />
         <Route
           path={Path.Dashboard}
           element={<StubPage title="Dashboard" subtitle="Краткий обзор ваших задач и прогресса." />}

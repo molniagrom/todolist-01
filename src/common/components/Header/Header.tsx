@@ -127,8 +127,8 @@ export const Header = () => {
           </Modal>
           <div>
             {isLoggedIn && <NavButton onClick={logoutHandler}>Sign out</NavButton>}
-            <NavButton onClick={() => navigate(Path.Main)} background={theme.palette.primary.dark}>
-              Todolist
+            <NavButton onClick={() => navigate(Path.Faq)} background={theme.palette.primary.dark}>
+              Faq
             </NavButton>
             <Switch color={"default"} onChange={changeMode} />
           </div>
