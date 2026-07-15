@@ -15,6 +15,8 @@ import { containerSx } from "@/common/styles"
 import { getTheme } from "@/common/theme"
 import { useLogoutMutation } from "@/features/auth/api/authApi"
 import MenuIcon from "@mui/icons-material/Menu"
+import LightModeIcon from "@mui/icons-material/LightMode"
+import DarkModeIcon from "@mui/icons-material/DarkMode"
 import AppBar from "@mui/material/AppBar"
 import Box from "@mui/material/Box"
 import Container from "@mui/material/Container"
@@ -79,10 +81,10 @@ export const Header = () => {
   }
 
   return (
-    <AppBar position="static" sx={{ mb: "30px" }}>
-      <Toolbar>
+    <AppBar position="static" sx={{ mb: { xs: "16px", sm: "30px" } }}>
+      <Toolbar sx={{ minHeight: { xs: 56, sm: 64 } }}>
         <Container maxWidth={"lg"} sx={containerSx}>
-          <IconButton color="inherit" onClick={toggleMenu}>
+          <IconButton color="inherit" onClick={toggleMenu} sx={{ p: { xs: 1, sm: 1.5 } }}>
             <MenuIcon />
           </IconButton>
           <Modal open={isMenuOpen} onClose={closeMenu} closeAfterTransition>
@@ -99,7 +101,7 @@ export const Header = () => {
                 <Paper
                   elevation={8}
                   sx={{
-                    p: 3,
+                    p: { xs: 2, sm: 3 },
                     minWidth: { xs: 240, sm: 320 },
                     borderRadius: 3,
                     display: "flex",
@@ -107,7 +109,9 @@ export const Header = () => {
                     gap: 1.5,
                   }}
                 >
-                  <Typography variant="h6">Навигация</Typography>
+                  <Typography variant="h6" sx={{ fontSize: { xs: "1.1rem", sm: "1.25rem" } }}>
+                    Навигация
+                  </Typography>
                   {menuItems.map((item) => (
                     <Link
                       key={item.path}
@@ -117,21 +121,68 @@ export const Header = () => {
                       color="text.primary"
                       variant="body1"
                       onClick={closeMenu}
+                      sx={{ fontSize: { xs: "0.9rem", sm: "1rem" } }}
                     >
                       {item.label}
                     </Link>
                   ))}
+                  {isLoggedIn && (
+                    <Link
+                      component="button"
+                      underline="hover"
+                      color="error"
+                      variant="body1"
+                      onClick={logoutHandler}
+                      sx={{
+                        fontSize: { xs: "0.9rem", sm: "1rem" },
+                        mt: 1,
+                        textAlign: "left",
+                        background: "none",
+                        border: "none",
+                        cursor: "pointer",
+                        p: 0,
+                      }}
+                    >
+                      Выйти
+                    </Link>
+                  )}
                 </Paper>
               </Box>
             </Fade>
           </Modal>
-          <div>
-            {isLoggedIn && <NavButton onClick={logoutHandler}>Sign out</NavButton>}
-            <NavButton onClick={() => navigate(Path.Faq)} background={theme.palette.primary.dark}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: { xs: 0.5, sm: 1 } }}>
+            {isLoggedIn && (
+              <NavButton
+                onClick={logoutHandler}
+                sx={{
+                  fontSize: { xs: "0.75rem", sm: "0.875rem" },
+                  px: { xs: 1, sm: 2 },
+                  display: { xs: "none", sm: "inline-flex" },
+                }}
+              >
+                Sign out
+              </NavButton>
+            )}
+            <NavButton
+              onClick={() => navigate(Path.Faq)}
+              background={theme.palette.primary.dark}
+              sx={{
+                fontSize: { xs: "0.75rem", sm: "0.875rem" },
+                px: { xs: 1, sm: 2 },
+              }}
+            >
               Faq
             </NavButton>
-            <Switch color={"default"} onChange={changeMode} />
-          </div>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+              <LightModeIcon sx={{ color: themeMode === "light" ? "#FFD700" : "rgba(255,255,255,0.5)", fontSize: 20 }} />
+              <Switch
+                color={"default"}
+                onChange={changeMode}
+                checked={themeMode === "dark"}
+              />
+              <DarkModeIcon sx={{ color: themeMode === "dark" ? "#90CAF9" : "rgba(255,255,255,0.5)", fontSize: 20 }} />
+            </Box>
+          </Box>
         </Container>
       </Toolbar>
       {status === "loading" && <LinearProgress />}
