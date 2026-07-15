@@ -11,7 +11,7 @@ import { AUTH_TOKEN } from "@/common/constants"
 import { ResultCode } from "@/common/enums"
 import { useAppDispatch, useAppSelector } from "@/common/hooks"
 import { Path } from "@/common/routing/Routing"
-import { containerSx } from "@/common/styles"
+import { headerContainerSx } from "@/common/styles"
 import { getTheme } from "@/common/theme"
 import { useLogoutMutation } from "@/features/auth/api/authApi"
 import MenuIcon from "@mui/icons-material/Menu"
@@ -83,7 +83,7 @@ export const Header = () => {
   return (
     <AppBar position="static" sx={{ mb: { xs: "16px", sm: "30px" } }}>
       <Toolbar sx={{ minHeight: { xs: 56, sm: 64 } }}>
-        <Container maxWidth={"lg"} sx={containerSx}>
+        <Container maxWidth={"lg"} sx={headerContainerSx}>
           <IconButton color="inherit" onClick={toggleMenu} sx={{ p: { xs: 1, sm: 1.5 } }}>
             <MenuIcon />
           </IconButton>

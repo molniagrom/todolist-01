@@ -46,7 +46,7 @@ export const TaskItem = ({ task, todolist }: Props) => {
 
   return (
     <ListItem sx={getListItemSx(isTaskCompleted)}>
-      <Box sx={{ display: 'flex', alignItems: 'center', flex: 1, minWidth: 0 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', flex: 1, minWidth: 0 }}>
         <Checkbox checked={isTaskCompleted} onChange={changeTaskStatus} />
         <Box
           onClick={toggleExpand}
