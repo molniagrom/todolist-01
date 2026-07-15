@@ -1,11 +1,24 @@
-import Container from "@mui/material/Container"
-import Paper from "@mui/material/Paper"
-import Typography from "@mui/material/Typography"
-import Box from "@mui/material/Box"
-import Card from "@mui/material/Card"
-import CardContent from "@mui/material/CardContent"
+import Container from '@mui/material/Container'
+import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box'
+import CircularProgress from '@mui/material/CircularProgress'
+import { useGetTodolistsQuery } from '@/features/todolists/api/todolistsApi'
+import { StatsCards } from './StatsCards/StatsCards'
+import { TimelineCalendar } from './TimelineCalendar/TimelineCalendar'
 
 export const DashboardPage = () => {
+  const { data: todolists, isLoading: isTodolistsLoading } = useGetTodolistsQuery()
+
+  const totalTodolists = todolists?.length || 0
+
+  if (isTodolistsLoading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+        <CircularProgress />
+      </Box>
+    )
+  }
+
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
       <Typography variant="h4" component="h1" gutterBottom>
@@ -15,47 +28,13 @@ export const DashboardPage = () => {
         Краткий обзор ваших задач и прогресса.
       </Typography>
 
-      <Box sx={{ display: "flex", gap: 3, mb: 4 }}>
-        <Card sx={{ flex: 1 }}>
-          <CardContent>
-            <Typography variant="h6" gutterBottom>
-              Всего задач
-            </Typography>
-            <Typography variant="h3" color="primary">
-              0
-            </Typography>
-          </CardContent>
-        </Card>
-        <Card sx={{ flex: 1 }}>
-          <CardContent>
-            <Typography variant="h6" gutterBottom>
-              Активные
-            </Typography>
-            <Typography variant="h3" color="warning.main">
-              0
-            </Typography>
-          </CardContent>
-        </Card>
-        <Card sx={{ flex: 1 }}>
-          <CardContent>
-            <Typography variant="h6" gutterBottom>
-              Завершённые
-            </Typography>
-            <Typography variant="h3" color="success.main">
-              0
-            </Typography>
-          </CardContent>
-        </Card>
-      </Box>
+      <StatsCards
+        total={totalTodolists}
+        active={totalTodolists}
+        completed={0}
+      />
 
-      <Paper sx={{ p: 3 }}>
-        <Typography variant="h6" gutterBottom>
-          Последняя активность
-        </Typography>
-        <Typography color="text.secondary">
-          Пока нет активности. Создайте первую задачу!
-        </Typography>
-      </Paper>
+      <TimelineCalendar />
     </Container>
   )
 }

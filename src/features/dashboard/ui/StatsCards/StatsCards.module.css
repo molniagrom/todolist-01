@@ -1,0 +1,10 @@
+.container {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.card {
+  flex: 1;
+  text-align: center;
+}

@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  background-color: var(--mui-palette-background-paper);
+  border-radius: 16px;
+}
+
+.navButton {
+  flex-shrink: 0;
+}
+
+.daysContainer {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  gap: 4px;
+  overflow-x: auto;
+}
