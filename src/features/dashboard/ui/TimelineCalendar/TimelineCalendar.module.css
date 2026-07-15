@@ -14,3 +14,13 @@
   align-items: center;
   min-height: 200px;
 }
+
+@media (max-width: 600px) {
+  .container {
+    gap: 16px;
+  }
+
+  .taskSection {
+    padding: 16px;
+  }
+}

@@ -20,11 +20,15 @@ export const DashboardPage = () => {
   }
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-      <Typography variant="h4" component="h1" gutterBottom>
+    <Container maxWidth="lg" sx={{ mt: { xs: 2, sm: 4 }, mb: { xs: 2, sm: 4 }, px: { xs: 1, sm: 2 } }}>
+      <Typography variant="h4" component="h1" gutterBottom sx={{ fontSize: { xs: '1.75rem', sm: '2.125rem' } }}>
         Dashboard
       </Typography>
-      <Typography variant="subtitle1" color="text.secondary" sx={{ mb: 4 }}>
+      <Typography
+        variant="subtitle1"
+        color="text.secondary"
+        sx={{ mb: { xs: 2, sm: 4 }, fontSize: { xs: '0.875rem', sm: '1rem' } }}
+      >
         Краткий обзор ваших задач и прогресса.
       </Typography>
 

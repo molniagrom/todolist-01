@@ -6,13 +6,18 @@ type Props = {
 }
 
 export const NavButton = styled(Button)<Props>(({ background, theme }) => ({
-  minWidth: "110px",
+  minWidth: "auto",
   fontWeight: "bold",
   boxShadow: `0 0 0 2px ${theme.palette.primary.dark}, 4px 4px 0 0 ${theme.palette.primary.dark}`,
   borderRadius: "2px",
   textTransform: "capitalize",
-  margin: "0 10px",
-  padding: "8px 24px",
+  margin: "0 5px",
+  padding: "6px 16px",
   color: theme.palette.primary.contrastText,
   background: background || theme.palette.primary.light,
+  [theme.breakpoints.up("sm")]: {
+    minWidth: "110px",
+    margin: "0 10px",
+    padding: "8px 24px",
+  },
 }))

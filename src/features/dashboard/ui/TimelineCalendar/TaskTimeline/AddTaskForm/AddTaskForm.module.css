@@ -10,3 +10,9 @@
   gap: 8px;
   align-items: flex-start;
 }
+
+@media (max-width: 600px) {
+  .newTodolistRow {
+    flex-direction: column;
+  }
+}
