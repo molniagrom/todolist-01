@@ -2,7 +2,6 @@ import { FC, useMemo } from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Paper from '@mui/material/Paper'
-import CircularProgress from '@mui/material/CircularProgress'
 import { useAppDispatch, useAppSelector } from '@/common/hooks'
 import { useUpdateTaskMutation, useRemoveTaskMutation } from '@/features/todolists/api/tasksApi'
 import { DomainTask } from '@/features/todolists/api/tasksApi.types'
@@ -16,24 +15,29 @@ import {
 import { WeekDay } from '../../lib/types'
 import { formatDate, isToday } from '../../lib/utils/dateUtils'
 import { aggregateTasksByDate, getTasksForDate, calculateLoadLevel, sortTasksByTime } from '../../lib/utils/taskUtils'
-import { useAllTasks } from '../../lib/hooks/useAllTasks'
 import { WeekStrip } from './WeekStrip/WeekStrip'
 import { TaskTimeline } from './TaskTimeline/TaskTimeline'
 import styles from './TimelineCalendar.module.css'
 
-export const TimelineCalendar: FC = () => {
+type Props = {
+  allTasks: DomainTask[]
+  refetch: () => void
+  addTaskOptimistic: (task: DomainTask) => void
+  updateTaskOptimistic: (taskId: string, updates: Partial<DomainTask>) => void
+  removeTaskOptimistic: (taskId: string) => void
+}
+
+export const TimelineCalendar: FC<Props> = ({
+  allTasks,
+  refetch,
+  addTaskOptimistic,
+  updateTaskOptimistic,
+  removeTaskOptimistic,
+}) => {
   const dispatch = useAppDispatch()
   const selectedDate = useAppSelector(selectSelectedDate)
   const currentWeekStart = useAppSelector(selectCurrentWeekStart)
 
-  const {
-    allTasks,
-    isLoading,
-    refetch,
-    addTaskOptimistic,
-    updateTaskOptimistic,
-    removeTaskOptimistic,
-  } = useAllTasks()
   const [updateTask] = useUpdateTaskMutation()
   const [removeTask] = useRemoveTaskMutation()
 
@@ -135,14 +139,6 @@ export const TimelineCalendar: FC = () => {
       // Revert on error
       refetch()
     }
-  }
-
-  if (isLoading) {
-    return (
-      <Box className={styles.loading}>
-        <CircularProgress />
-      </Box>
-    )
   }
 
   return (

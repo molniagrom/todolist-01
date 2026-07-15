@@ -9,7 +9,14 @@ import { StatsCards } from './StatsCards/StatsCards'
 import { TimelineCalendar } from './TimelineCalendar/TimelineCalendar'
 
 export const DashboardPage = () => {
-  const { allTasks, isLoading } = useAllTasks()
+  const {
+    allTasks,
+    isLoading,
+    refetch,
+    addTaskOptimistic,
+    updateTaskOptimistic,
+    removeTaskOptimistic,
+  } = useAllTasks()
 
   const stats = useMemo(() => {
     const total = allTasks.length
@@ -45,7 +52,13 @@ export const DashboardPage = () => {
         completed={stats.completed}
       />
 
-      <TimelineCalendar />
+      <TimelineCalendar
+        allTasks={allTasks}
+        refetch={refetch}
+        addTaskOptimistic={addTaskOptimistic}
+        updateTaskOptimistic={updateTaskOptimistic}
+        removeTaskOptimistic={removeTaskOptimistic}
+      />
     </Container>
   )
 }
