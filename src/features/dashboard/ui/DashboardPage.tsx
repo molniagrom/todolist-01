@@ -1,17 +1,24 @@
+import { useMemo } from 'react'
 import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
-import { useGetTodolistsQuery } from '@/features/todolists/api/todolistsApi'
+import { TaskStatus } from '@/common/enums/enums'
+import { useAllTasks } from '../lib/hooks/useAllTasks'
 import { StatsCards } from './StatsCards/StatsCards'
 import { TimelineCalendar } from './TimelineCalendar/TimelineCalendar'
 
 export const DashboardPage = () => {
-  const { data: todolists, isLoading: isTodolistsLoading } = useGetTodolistsQuery()
+  const { allTasks, isLoading } = useAllTasks()
 
-  const totalTodolists = todolists?.length || 0
+  const stats = useMemo(() => {
+    const total = allTasks.length
+    const completed = allTasks.filter((t) => t.status === TaskStatus.Completed).length
+    const active = total - completed
+    return { total, active, completed }
+  }, [allTasks])
 
-  if (isTodolistsLoading) {
+  if (isLoading) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
         <CircularProgress />
@@ -33,9 +40,9 @@ export const DashboardPage = () => {
       </Typography>
 
       <StatsCards
-        total={totalTodolists}
-        active={totalTodolists}
-        completed={0}
+        total={stats.total}
+        active={stats.active}
+        completed={stats.completed}
       />
 
       <TimelineCalendar />
