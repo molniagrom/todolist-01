@@ -1,10 +1,13 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Paper from '@mui/material/Paper'
 import Checkbox from '@mui/material/Checkbox'
+import Button from '@mui/material/Button'
+import AddIcon from '@mui/icons-material/Add'
 import { DomainTask } from '@/features/todolists/api/tasksApi.types'
 import { TaskPriority } from '@/common/enums/enums'
+import { AddTaskForm } from './AddTaskForm/AddTaskForm'
 import styles from './TaskTimeline.module.css'
 
 type Props = {
@@ -29,13 +32,29 @@ const priorityLabels: Record<number, string> = {
 }
 
 export const TaskTimeline: FC<Props> = ({ tasks, onToggleTask }) => {
+  const [isAddFormOpen, setIsAddFormOpen] = useState(false)
+
   if (tasks.length === 0) {
     return (
-      <Paper className={styles.emptyState}>
-        <Typography color="text.secondary">
-          Нет задач на этот день
-        </Typography>
-      </Paper>
+      <>
+        <Paper className={styles.emptyState}>
+          <Typography color="text.secondary">
+            Нет задач на этот день
+          </Typography>
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={() => setIsAddFormOpen(true)}
+            sx={{ mt: 2 }}
+          >
+            Добавить задачу
+          </Button>
+        </Paper>
+        <AddTaskForm
+          open={isAddFormOpen}
+          onClose={() => setIsAddFormOpen(false)}
+        />
+      </>
     )
   }
 
@@ -77,6 +96,19 @@ export const TaskTimeline: FC<Props> = ({ tasks, onToggleTask }) => {
           </Paper>
         )
       })}
+      <Button
+        variant="outlined"
+        startIcon={<AddIcon />}
+        onClick={() => setIsAddFormOpen(true)}
+        fullWidth
+        sx={{ mt: 1 }}
+      >
+        Добавить задачу
+      </Button>
+      <AddTaskForm
+        open={isAddFormOpen}
+        onClose={() => setIsAddFormOpen(false)}
+      />
     </Box>
   )
 }
