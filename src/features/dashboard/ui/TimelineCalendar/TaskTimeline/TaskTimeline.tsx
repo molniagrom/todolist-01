@@ -18,6 +18,7 @@ import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
+import { useTheme } from '@mui/material/styles'
 import { DomainTask } from '@/features/todolists/api/tasksApi.types'
 import { TaskPriority } from '@/common/enums/enums'
 import { isScheduledTask } from '@/features/dashboard/lib/utils/taskUtils'
@@ -57,6 +58,7 @@ export const TaskTimeline: FC<Props> = ({
   onUpdateTask,
   onTaskAdded,
 }) => {
+  const theme = useTheme()
   const [isAddFormOpen, setIsAddFormOpen] = useState(false)
   const [editingTask, setEditingTask] = useState<DomainTask | null>(null)
   const [editTitle, setEditTitle] = useState('')
@@ -133,7 +135,7 @@ export const TaskTimeline: FC<Props> = ({
         return (
           <Paper key={task.id} className={styles.taskItem}>
             <Box className={styles.timeSection}>
-              <Typography variant="body2" className={styles.time}>
+              <Typography variant="body2" className={styles.time} sx={{ color: theme.palette.text.secondary }}>
                 {time}
               </Typography>
             </Box>

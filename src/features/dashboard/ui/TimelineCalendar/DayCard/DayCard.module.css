@@ -10,22 +10,8 @@
   border: 2px solid transparent;
 }
 
-.dayCard:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.selected {
-  background-color: var(--mui-palette-primary-main) !important;
-  color: white;
-}
-
-.selected .dayName,
-.selected .dayNumber {
-  color: white;
-}
-
 .today {
-  border-color: var(--mui-palette-primary-main);
+  border-color: currentColor;
 }
 
 .dayName {

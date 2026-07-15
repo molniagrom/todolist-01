@@ -2,6 +2,7 @@ import { FC } from 'react'
 import ButtonBase from '@mui/material/ButtonBase'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
+import { useTheme } from '@mui/material/styles'
 import { WeekDay } from '@/features/dashboard/lib/types'
 import styles from './DayCard.module.css'
 
@@ -19,15 +20,34 @@ const loadColors = {
 }
 
 export const DayCard: FC<Props> = ({ day, isSelected, onClick }) => {
+  const theme = useTheme()
+
   return (
     <ButtonBase
-      className={`${styles.dayCard} ${isSelected ? styles.selected : ''} ${day.isToday ? styles.today : ''}`}
+      className={`${styles.dayCard} ${day.isToday ? styles.today : ''}`}
       onClick={onClick}
+      sx={{
+        backgroundColor: isSelected ? theme.palette.primary.main : 'transparent',
+        color: isSelected ? theme.palette.primary.contrastText : 'inherit',
+        '&:hover': {
+          backgroundColor: isSelected
+            ? theme.palette.primary.main
+            : 'rgba(255, 255, 255, 0.1)',
+        },
+      }}
     >
-      <Typography variant="caption" className={styles.dayName}>
+      <Typography
+        variant="caption"
+        className={styles.dayName}
+        sx={{ color: isSelected ? theme.palette.primary.contrastText : 'inherit' }}
+      >
         {day.dayName}
       </Typography>
-      <Typography variant="h6" className={styles.dayNumber}>
+      <Typography
+        variant="h6"
+        className={styles.dayNumber}
+        sx={{ color: isSelected ? theme.palette.primary.contrastText : 'inherit' }}
+      >
         {day.dayNumber}
       </Typography>
       {day.loadLevel !== 'none' && (
