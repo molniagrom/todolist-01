@@ -4,8 +4,7 @@ import Typography from '@mui/material/Typography'
 import Paper from '@mui/material/Paper'
 import CircularProgress from '@mui/material/CircularProgress'
 import { useAppDispatch, useAppSelector } from '@/common/hooks'
-import { useGetTodolistsQuery } from '@/features/todolists/api/todolistsApi'
-import { useUpdateTaskMutation } from '@/features/todolists/api/tasksApi'
+import { useUpdateTaskMutation, useRemoveTaskMutation } from '@/features/todolists/api/tasksApi'
 import { DomainTask } from '@/features/todolists/api/tasksApi.types'
 import { TaskStatus } from '@/common/enums/enums'
 import {
@@ -17,6 +16,7 @@ import {
 import { WeekDay } from '../../lib/types'
 import { formatDate, isToday } from '../../lib/utils/dateUtils'
 import { aggregateTasksByDate, getTasksForDate, calculateLoadLevel, sortTasksByTime } from '../../lib/utils/taskUtils'
+import { useAllTasks } from '../../lib/hooks/useAllTasks'
 import { WeekStrip } from './WeekStrip/WeekStrip'
 import { TaskTimeline } from './TaskTimeline/TaskTimeline'
 import styles from './TimelineCalendar.module.css'
@@ -26,15 +26,9 @@ export const TimelineCalendar: FC = () => {
   const selectedDate = useAppSelector(selectSelectedDate)
   const currentWeekStart = useAppSelector(selectCurrentWeekStart)
 
-  const { data: todolists, isLoading: isTodolistsLoading } = useGetTodolistsQuery()
+  const { allTasks, isLoading, refetch } = useAllTasks()
   const [updateTask] = useUpdateTaskMutation()
-
-  const allTasks = useMemo(() => {
-    if (!todolists) return []
-    return todolists.flatMap(() => {
-      return []
-    })
-  }, [todolists])
+  const [removeTask] = useRemoveTaskMutation()
 
   const taskCountMap = useMemo(() => {
     return aggregateTasksByDate(allTasks)
@@ -90,9 +84,31 @@ export const TimelineCalendar: FC = () => {
         description: task.description,
       },
     })
+    refetch()
   }
 
-  if (isTodolistsLoading) {
+  const handleDeleteTask = async (task: DomainTask) => {
+    await removeTask({ todolistId: task.todoListId, taskId: task.id })
+    refetch()
+  }
+
+  const handleUpdateTask = async (task: DomainTask, updates: Partial<DomainTask>) => {
+    await updateTask({
+      todolistId: task.todoListId,
+      taskId: task.id,
+      model: {
+        title: updates.title ?? task.title,
+        status: updates.status ?? task.status,
+        priority: updates.priority ?? task.priority,
+        startDate: updates.startDate ?? task.startDate,
+        deadline: updates.deadline ?? task.deadline,
+        description: updates.description ?? task.description,
+      },
+    })
+    refetch()
+  }
+
+  if (isLoading) {
     return (
       <Box className={styles.loading}>
         <CircularProgress />
@@ -115,7 +131,14 @@ export const TimelineCalendar: FC = () => {
             month: 'long',
           })}
         </Typography>
-        <TaskTimeline tasks={selectedTasks} onToggleTask={handleToggleTask} />
+        <TaskTimeline
+          tasks={selectedTasks}
+          selectedDate={selectedDate}
+          onToggleTask={handleToggleTask}
+          onDeleteTask={handleDeleteTask}
+          onUpdateTask={handleUpdateTask}
+          refetch={refetch}
+        />
       </Paper>
     </Box>
   )
