@@ -1,5 +1,18 @@
 import { DomainTask } from '@/features/todolists/api/tasksApi.types'
-import { LoadLevel } from '../types'
+import { LoadLevel, TaskType } from '../types'
+
+export const getTaskType = (task: DomainTask): TaskType => {
+  if (task.startDate || task.deadline) return 'scheduled'
+  return 'general'
+}
+
+export const isScheduledTask = (task: DomainTask): boolean => {
+  return getTaskType(task) === 'scheduled'
+}
+
+export const isGeneralTask = (task: DomainTask): boolean => {
+  return getTaskType(task) === 'general'
+}
 
 export const aggregateTasksByDate = (tasks: DomainTask[]): Map<string, number> => {
   const map = new Map<string, number>()
@@ -15,8 +28,24 @@ export const aggregateTasksByDate = (tasks: DomainTask[]): Map<string, number> =
 
 export const getTasksForDate = (tasks: DomainTask[], date: string): DomainTask[] => {
   return tasks.filter((task) => {
-    const taskDate = task.startDate || task.addedDate
-    return taskDate && taskDate.split('T')[0] === date
+    // Scheduled tasks: show on their startDate
+    if (task.startDate) {
+      return task.startDate.split('T')[0] === date
+    }
+    // General tasks: show on their addedDate
+    return task.addedDate.split('T')[0] === date
+  })
+}
+
+export const getScheduledTasksForDate = (tasks: DomainTask[], date: string): DomainTask[] => {
+  return tasks.filter((task) => {
+    return task.startDate && task.startDate.split('T')[0] === date
+  })
+}
+
+export const getGeneralTasksForDate = (tasks: DomainTask[], date: string): DomainTask[] => {
+  return tasks.filter((task) => {
+    return !task.startDate && task.addedDate.split('T')[0] === date
   })
 }
 

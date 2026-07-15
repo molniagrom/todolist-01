@@ -8,3 +8,5 @@ export interface WeekDay {
 }
 
 export type LoadLevel = 'none' | 'low' | 'medium' | 'high'
+
+export type TaskType = 'scheduled' | 'general'
