@@ -30,7 +30,7 @@ type Props = {
   onToggleTask: (task: DomainTask) => void
   onDeleteTask: (task: DomainTask) => void
   onUpdateTask: (task: DomainTask, updates: Partial<DomainTask>) => void
-  refetch: () => void
+  onTaskAdded: (task: DomainTask) => void
 }
 
 const priorityColors: Record<number, string> = {
@@ -55,7 +55,7 @@ export const TaskTimeline: FC<Props> = ({
   onToggleTask,
   onDeleteTask,
   onUpdateTask,
-  refetch,
+  onTaskAdded,
 }) => {
   const [isAddFormOpen, setIsAddFormOpen] = useState(false)
   const [editingTask, setEditingTask] = useState<DomainTask | null>(null)
@@ -116,7 +116,7 @@ export const TaskTimeline: FC<Props> = ({
           open={isAddFormOpen}
           onClose={() => setIsAddFormOpen(false)}
           selectedDate={selectedDate}
-          onTaskAdded={refetch}
+          onTaskAdded={onTaskAdded}
         />
       </>
     )
@@ -249,7 +249,7 @@ export const TaskTimeline: FC<Props> = ({
         open={isAddFormOpen}
         onClose={() => setIsAddFormOpen(false)}
         selectedDate={selectedDate}
-        onTaskAdded={refetch}
+        onTaskAdded={onTaskAdded}
       />
 
       {/* Edit Dialog */}

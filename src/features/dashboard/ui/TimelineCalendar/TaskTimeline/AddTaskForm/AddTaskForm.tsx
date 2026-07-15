@@ -17,6 +17,7 @@ import AddIcon from '@mui/icons-material/Add'
 import InputAdornment from '@mui/material/InputAdornment'
 import { useGetTodolistsQuery, useAddTodolistMutation } from '@/features/todolists/api/todolistsApi'
 import { useAddTaskMutation, useUpdateTaskMutation } from '@/features/todolists/api/tasksApi'
+import { DomainTask } from '@/features/todolists/api/tasksApi.types'
 import { TaskPriority } from '@/common/enums/enums'
 import styles from './AddTaskForm.module.css'
 
@@ -24,7 +25,7 @@ type Props = {
   open: boolean
   onClose: () => void
   selectedDate: string
-  onTaskAdded?: () => void
+  onTaskAdded?: (task: DomainTask) => void
 }
 
 const priorityLabels: Record<number, string> = {
@@ -123,7 +124,16 @@ export const AddTaskForm: FC<Props> = ({ open, onClose, selectedDate, onTaskAdde
       setError('')
       setIsCreatingTodolist(false)
       setNewTodolistName('')
-      onTaskAdded?.()
+
+      // Get the final task with all updates
+      let finalTask = newTask
+      if (hasTime) {
+        finalTask = { ...newTask, startDate: `${selectedDate}T${time}:00.000Z`, priority }
+      } else {
+        finalTask = { ...newTask, priority }
+      }
+
+      onTaskAdded?.(finalTask)
       onClose()
     } catch {
       setError('Ошибка при создании задачи')

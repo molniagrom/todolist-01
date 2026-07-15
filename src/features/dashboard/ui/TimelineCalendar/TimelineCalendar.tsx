@@ -26,7 +26,14 @@ export const TimelineCalendar: FC = () => {
   const selectedDate = useAppSelector(selectSelectedDate)
   const currentWeekStart = useAppSelector(selectCurrentWeekStart)
 
-  const { allTasks, isLoading, refetch } = useAllTasks()
+  const {
+    allTasks,
+    isLoading,
+    refetch,
+    addTaskOptimistic,
+    updateTaskOptimistic,
+    removeTaskOptimistic,
+  } = useAllTasks()
   const [updateTask] = useUpdateTaskMutation()
   const [removeTask] = useRemoveTaskMutation()
 
@@ -72,40 +79,62 @@ export const TimelineCalendar: FC = () => {
 
   const handleToggleTask = async (task: DomainTask) => {
     const newStatus = task.status === TaskStatus.Completed ? TaskStatus.New : TaskStatus.Completed
-    await updateTask({
-      todolistId: task.todoListId,
-      taskId: task.id,
-      model: {
-        title: task.title,
-        status: newStatus,
-        priority: task.priority,
-        startDate: task.startDate,
-        deadline: task.deadline,
-        description: task.description,
-      },
-    })
-    refetch()
+
+    // Optimistic update - update UI immediately
+    updateTaskOptimistic(task.id, { status: newStatus })
+
+    try {
+      await updateTask({
+        todolistId: task.todoListId,
+        taskId: task.id,
+        model: {
+          title: task.title,
+          status: newStatus,
+          priority: task.priority,
+          startDate: task.startDate,
+          deadline: task.deadline,
+          description: task.description,
+        },
+      }).unwrap()
+    } catch {
+      // Revert on error
+      refetch()
+    }
   }
 
   const handleDeleteTask = async (task: DomainTask) => {
-    await removeTask({ todolistId: task.todoListId, taskId: task.id })
-    refetch()
+    // Optimistic update - remove from UI immediately
+    removeTaskOptimistic(task.id)
+
+    try {
+      await removeTask({ todolistId: task.todoListId, taskId: task.id }).unwrap()
+    } catch {
+      // Revert on error
+      refetch()
+    }
   }
 
   const handleUpdateTask = async (task: DomainTask, updates: Partial<DomainTask>) => {
-    await updateTask({
-      todolistId: task.todoListId,
-      taskId: task.id,
-      model: {
-        title: updates.title ?? task.title,
-        status: updates.status ?? task.status,
-        priority: updates.priority ?? task.priority,
-        startDate: updates.startDate ?? task.startDate,
-        deadline: updates.deadline ?? task.deadline,
-        description: updates.description ?? task.description,
-      },
-    })
-    refetch()
+    // Optimistic update - update UI immediately
+    updateTaskOptimistic(task.id, updates)
+
+    try {
+      await updateTask({
+        todolistId: task.todoListId,
+        taskId: task.id,
+        model: {
+          title: updates.title ?? task.title,
+          status: updates.status ?? task.status,
+          priority: updates.priority ?? task.priority,
+          startDate: updates.startDate ?? task.startDate,
+          deadline: updates.deadline ?? task.deadline,
+          description: updates.description ?? task.description,
+        },
+      }).unwrap()
+    } catch {
+      // Revert on error
+      refetch()
+    }
   }
 
   if (isLoading) {
@@ -137,7 +166,7 @@ export const TimelineCalendar: FC = () => {
           onToggleTask={handleToggleTask}
           onDeleteTask={handleDeleteTask}
           onUpdateTask={handleUpdateTask}
-          refetch={refetch}
+          onTaskAdded={addTaskOptimistic}
         />
       </Paper>
     </Box>
