@@ -12,13 +12,12 @@ import MenuItem from '@mui/material/MenuItem'
 import Box from '@mui/material/Box'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
-import IconButton from '@mui/material/IconButton'
-import AddIcon from '@mui/icons-material/Add'
-import InputAdornment from '@mui/material/InputAdornment'
 import { useGetTodolistsQuery, useAddTodolistMutation } from '@/features/todolists/api/todolistsApi'
 import { useAddTaskMutation, useUpdateTaskMutation } from '@/features/todolists/api/tasksApi'
 import { DomainTask } from '@/features/todolists/api/tasksApi.types'
 import { TaskPriority } from '@/common/enums/enums'
+import { priorityLabels } from '@/features/dashboard/lib/constants'
+import { TodolistSelector } from './TodolistSelector/TodolistSelector'
 import styles from './AddTaskForm.module.css'
 
 type Props = {
@@ -28,14 +27,6 @@ type Props = {
   onTaskAdded?: (task: DomainTask) => void
 }
 
-const priorityLabels: Record<number, string> = {
-  [TaskPriority.Low]: 'Низкий',
-  [TaskPriority.Middle]: 'Средний',
-  [TaskPriority.Hi]: 'Высокий',
-  [TaskPriority.Urgently]: 'Срочный',
-  [TaskPriority.Later]: 'Позже',
-}
-
 export const AddTaskForm: FC<Props> = ({ open, onClose, selectedDate, onTaskAdded }) => {
   const [title, setTitle] = useState('')
   const [todolistId, setTodolistId] = useState('')
@@ -43,26 +34,25 @@ export const AddTaskForm: FC<Props> = ({ open, onClose, selectedDate, onTaskAdde
   const [time, setTime] = useState('09:00')
   const [hasTime, setHasTime] = useState(true)
   const [error, setError] = useState('')
-  const [isCreatingTodolist, setIsCreatingTodolist] = useState(false)
-  const [newTodolistName, setNewTodolistName] = useState('')
 
   const { data: todolists } = useGetTodolistsQuery()
   const [addTodolist] = useAddTodolistMutation()
   const [addTask] = useAddTaskMutation()
   const [updateTask] = useUpdateTaskMutation()
 
-  const handleCreateTodolist = async () => {
-    if (!newTodolistName.trim()) {
-      setError('Введите название списка')
-      return
-    }
+  const resetForm = () => {
+    setTitle('')
+    setTodolistId('')
+    setPriority(TaskPriority.Low)
+    setTime('09:00')
+    setHasTime(true)
+    setError('')
+  }
 
+  const handleCreateTodolist = async (name: string) => {
     try {
-      const result = await addTodolist(newTodolistName.trim()).unwrap()
-      const newTodolistId = result.data.item.id
-      setTodolistId(newTodolistId)
-      setNewTodolistName('')
-      setIsCreatingTodolist(false)
+      const result = await addTodolist(name).unwrap()
+      setTodolistId(result.data.item.id)
       setError('')
     } catch {
       setError('Ошибка при создании списка')
@@ -80,59 +70,25 @@ export const AddTaskForm: FC<Props> = ({ open, onClose, selectedDate, onTaskAdde
     }
 
     try {
-      // 1. Create task
       const result = await addTask({ todolistId, title: title.trim() }).unwrap()
       const newTask = result.data.item
 
-      // 2. Update task with startDate and priority (if time is enabled)
-      if (hasTime) {
-        const startDate = `${selectedDate}T${time}:00.000Z`
-        await updateTask({
-          todolistId,
-          taskId: newTask.id,
-          model: {
-            description: newTask.description,
-            title: newTask.title,
-            status: newTask.status,
-            priority,
-            startDate,
-            deadline: newTask.deadline,
-          },
-        }).unwrap()
-      } else {
-        // Update priority even without time
-        await updateTask({
-          todolistId,
-          taskId: newTask.id,
-          model: {
-            description: newTask.description,
-            title: newTask.title,
-            status: newTask.status,
-            priority,
-            startDate: newTask.startDate,
-            deadline: newTask.deadline,
-          },
-        }).unwrap()
-      }
+      const startDate = hasTime ? `${selectedDate}T${time}:00.000Z` : newTask.startDate
+      await updateTask({
+        todolistId,
+        taskId: newTask.id,
+        model: {
+          description: newTask.description,
+          title: newTask.title,
+          status: newTask.status,
+          priority,
+          startDate,
+          deadline: newTask.deadline,
+        },
+      }).unwrap()
 
-      // Reset form
-      setTitle('')
-      setTodolistId('')
-      setPriority(TaskPriority.Low)
-      setTime('09:00')
-      setHasTime(true)
-      setError('')
-      setIsCreatingTodolist(false)
-      setNewTodolistName('')
-
-      // Get the final task with all updates
-      let finalTask = newTask
-      if (hasTime) {
-        finalTask = { ...newTask, startDate: `${selectedDate}T${time}:00.000Z`, priority }
-      } else {
-        finalTask = { ...newTask, priority }
-      }
-
+      const finalTask = { ...newTask, startDate, priority }
+      resetForm()
       onTaskAdded?.(finalTask)
       onClose()
     } catch {
@@ -141,14 +97,7 @@ export const AddTaskForm: FC<Props> = ({ open, onClose, selectedDate, onTaskAdde
   }
 
   const handleClose = () => {
-    setTitle('')
-    setTodolistId('')
-    setPriority(TaskPriority.Low)
-    setTime('09:00')
-    setHasTime(true)
-    setError('')
-    setIsCreatingTodolist(false)
-    setNewTodolistName('')
+    resetForm()
     onClose()
   }
 
@@ -170,72 +119,16 @@ export const AddTaskForm: FC<Props> = ({ open, onClose, selectedDate, onTaskAdde
             helperText={error}
           />
 
-          {/* Todolist selector */}
-          <Box>
-            {isCreatingTodolist ? (
-              <Box className={styles.newTodolistRow}>
-                <TextField
-                  label="Название нового списка"
-                  value={newTodolistName}
-                  onChange={(e) => setNewTodolistName(e.target.value)}
-                  fullWidth
-                  size="small"
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      handleCreateTodolist()
-                    }
-                  }}
-                />
-                <Button
-                  variant="contained"
-                  onClick={handleCreateTodolist}
-                  sx={{ minWidth: 'auto', px: 2 }}
-                >
-                  Создать
-                </Button>
-                <Button
-                  variant="text"
-                  onClick={() => {
-                    setIsCreatingTodolist(false)
-                    setNewTodolistName('')
-                  }}
-                >
-                  Отмена
-                </Button>
-              </Box>
-            ) : (
-              <FormControl fullWidth>
-                <InputLabel>Список задач</InputLabel>
-                <Select
-                  value={todolistId}
-                  label="Список задач"
-                  onChange={(e) => {
-                    setTodolistId(e.target.value)
-                    setError('')
-                  }}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        size="small"
-                        onClick={() => setIsCreatingTodolist(true)}
-                        sx={{ mr: 2 }}
-                      >
-                        <AddIcon fontSize="small" />
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                >
-                  {todolists?.map((tl) => (
-                    <MenuItem key={tl.id} value={tl.id}>
-                      {tl.title}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            )}
-          </Box>
+          <TodolistSelector
+            todolists={todolists || []}
+            value={todolistId}
+            onChange={(value) => {
+              setTodolistId(value)
+              setError('')
+            }}
+            onCreateTodolist={handleCreateTodolist}
+          />
 
-          {/* Priority selector */}
           <FormControl fullWidth>
             <InputLabel>Приоритет</InputLabel>
             <Select
