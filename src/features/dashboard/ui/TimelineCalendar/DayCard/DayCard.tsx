@@ -4,19 +4,13 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { useTheme } from '@mui/material/styles'
 import { WeekDay } from '@/features/dashboard/lib/types'
+import { loadColors } from '@/features/dashboard/lib/constants'
 import styles from './DayCard.module.css'
 
 type Props = {
   day: WeekDay
   isSelected: boolean
   onClick: () => void
-}
-
-const loadColors = {
-  none: 'transparent',
-  low: '#4caf50',
-  medium: '#ff9800',
-  high: '#f44336',
 }
 
 export const DayCard: FC<Props> = ({ day, isSelected, onClick }) => {
