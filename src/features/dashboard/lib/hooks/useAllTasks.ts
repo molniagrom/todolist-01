@@ -28,21 +28,26 @@ export const useAllTasks = () => {
       setIsInitialLoad(true)
     }
 
-    const tasks: DomainTask[] = []
-
-    for (const tl of todolists) {
-      try {
-        const result = await dispatch(
+    // Parallel fetching for better performance
+    const results = await Promise.allSettled(
+      todolists.map((tl) =>
+        dispatch(
           tasksApi.endpoints.getTasks.initiate({
             todolistId: tl.id,
             params: { page: 1 },
           })
         ).unwrap()
-        tasks.push(...result.items)
-      } catch (e) {
-        console.error(`Failed to fetch tasks for todolist ${tl.id}`, e)
+      )
+    )
+
+    const tasks: DomainTask[] = []
+    results.forEach((result, index) => {
+      if (result.status === 'fulfilled') {
+        tasks.push(...result.value.items)
+      } else {
+        console.error(`Failed to fetch tasks for todolist ${todolists[index].id}`, result.reason)
       }
-    }
+    })
 
     if (isMountedRef.current) {
       setAllTasks(tasks)
@@ -54,12 +59,10 @@ export const useAllTasks = () => {
     fetchTasks(true)
   }, [fetchTasks])
 
-  // Silent refetch - no loading state
   const refetch = useCallback(() => {
     fetchTasks(false)
   }, [fetchTasks])
 
-  // Optimistic update helpers
   const addTaskOptimistic = useCallback((task: DomainTask) => {
     setAllTasks((prev) => [...prev, task])
   }, [])
