@@ -46,8 +46,8 @@ export const TaskItem = ({ task, todolist }: Props) => {
 
   return (
     <ListItem sx={getListItemSx(isTaskCompleted)}>
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', flex: 1, minWidth: 0 }}>
-        <Checkbox checked={isTaskCompleted} onChange={changeTaskStatus} />
+      <Box sx={{ display: 'flex', alignItems: 'center', flex: 1, minWidth: 0, overflow: 'hidden' }}>
+        <Checkbox checked={isTaskCompleted} onChange={changeTaskStatus} sx={{ flexShrink: 0 }} />
         <Box
           onClick={toggleExpand}
           sx={{
@@ -62,10 +62,10 @@ export const TaskItem = ({ task, todolist }: Props) => {
         >
           <Box
             sx={{
-              overflow: isExpanded ? 'visible' : 'hidden',
-              textOverflow: isExpanded ? 'clip' : 'ellipsis',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
               whiteSpace: isExpanded ? 'normal' : 'nowrap',
-              pr: !isExpanded && task.title.length > 30 ? 4 : 0,
+              display: 'block',
             }}
           >
             <EditableSpan value={task.title} onChange={changeTaskTitle} />
@@ -101,7 +101,7 @@ export const TaskItem = ({ task, todolist }: Props) => {
           )}
         </Box>
       </Box>
-      <IconButton onClick={deleteTask}>
+      <IconButton onClick={deleteTask} sx={{ flexShrink: 0 }}>
         <DeleteIcon />
       </IconButton>
     </ListItem>
