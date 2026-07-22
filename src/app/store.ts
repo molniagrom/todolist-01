@@ -3,14 +3,17 @@ import { configureStore } from "@reduxjs/toolkit"
 import { setupListeners } from "@reduxjs/toolkit/query"
 import { appReducer, appSlice } from "./app-slice.ts"
 import { dashboardReducer } from "@/features/dashboard/api/dashboard-slice"
+import { projectsApi } from "@/features/projects/api/projectsApi"
 
 export const store = configureStore({
   reducer: {
     [appSlice.name]: appReducer,
     dashboard: dashboardReducer,
     [baseApi.reducerPath]: baseApi.reducer,
+    [projectsApi.reducerPath]: projectsApi.reducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(baseApi.middleware),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(baseApi.middleware, projectsApi.middleware),
 })
 
 setupListeners(store.dispatch)
