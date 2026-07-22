@@ -1,0 +1,28 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.colorPicker {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.colorCircle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 3px solid transparent;
+  transition: border-color 0.2s, opacity 0.2s;
+}
+
+.colorCircle:hover {
+  opacity: 0.8;
+}
+
+.colorCircleSelected {
+  border-color: var(--mui-palette-text-primary, rgba(0, 0, 0, 0.87));
+}

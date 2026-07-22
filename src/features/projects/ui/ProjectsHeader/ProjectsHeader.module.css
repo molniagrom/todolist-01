@@ -1,0 +1,44 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+  gap: 16px;
+  flex-direction: column;
+}
+
+@media (min-width: 600px) {
+  .header {
+    flex-direction: row;
+  }
+}
+
+.title {
+  font-size: 1.75rem;
+}
+
+@media (min-width: 600px) {
+  .title {
+    font-size: 2.125rem;
+  }
+}
+
+.subtitle {
+  font-size: 0.875rem;
+}
+
+@media (min-width: 600px) {
+  .subtitle {
+    font-size: 1rem;
+  }
+}
+
+.createButton {
+  align-self: stretch;
+}
+
+@media (min-width: 600px) {
+  .createButton {
+    align-self: auto;
+  }
+}

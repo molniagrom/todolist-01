@@ -1,0 +1,26 @@
+.banner {
+  padding: 16px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--mui-palette-primary-dark, #1565c0);
+  color: white;
+  border-radius: 8px;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.exitButton {
+  border-color: white;
+  color: white;
+}
+
+.exitButton:hover {
+  border-color: white;
+  background-color: rgba(255, 255, 255, 0.1);
+}

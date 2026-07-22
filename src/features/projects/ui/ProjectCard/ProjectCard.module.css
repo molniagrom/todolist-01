@@ -1,0 +1,45 @@
+.card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.colorStrip {
+  height: 4px;
+  border-radius: 4px 4px 0 0;
+}
+
+.cardContent {
+  flex-grow: 1;
+}
+
+.titleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.title {
+  word-break: break-word;
+}
+
+.description {
+  margin-bottom: 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cardActions {
+  justify-content: space-between;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-bottom: 16px;
+}
