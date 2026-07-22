@@ -160,7 +160,7 @@ export const AddTaskForm: FC<Props> = ({ open, onClose, selectedDate, onTaskAdde
               value={time}
               onChange={(e) => setTime(e.target.value)}
               fullWidth
-              InputLabelProps={{ shrink: true }}
+              slotProps={{ inputLabel: { shrink: true } }}
             />
           )}
         </Box>
