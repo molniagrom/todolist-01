@@ -6,7 +6,7 @@ import { Login } from "@/features/auth/ui/Login/Login"
 import { DashboardPage } from "@/features/dashboard"
 import { FaqPage } from "@/features/faq/FaqPage"
 import { CalendarPage } from "@/features/calendar"
-import { ProjectsPage } from "@/features/projects"
+import { ProjectsPage, KanbanBoardPage } from "@/features/projects"
 import { ProfilePage } from "@/features/profile"
 import { Route, Routes } from "react-router"
 
@@ -16,6 +16,7 @@ export const Path = {
   Faq: "faq",
   Dashboard: "dashboard",
   Projects: "projects",
+  ProjectBoard: "projects/:projectId",
   Calendar: "calendar",
   Profile: "profile",
   NotFound: "*",
@@ -31,6 +32,7 @@ export const Routing = () => {
         <Route path={Path.Faq} element={<FaqPage />} />
         <Route path={Path.Dashboard} element={<DashboardPage />} />
         <Route path={Path.Projects} element={<ProjectsPage />} />
+        <Route path={Path.ProjectBoard} element={<KanbanBoardPage />} />
         <Route path={Path.Calendar} element={<CalendarPage />} />
         <Route path={Path.Profile} element={<ProfilePage />} />
       </Route>

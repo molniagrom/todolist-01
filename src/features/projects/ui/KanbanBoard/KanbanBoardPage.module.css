@@ -1,0 +1,55 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 64px);
+  background-color: #1e1f21;
+  overflow: hidden;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 64px);
+  background-color: #1e1f21;
+}
+
+.board {
+  display: flex;
+  gap: 16px;
+  padding: 16px 24px;
+  overflow-x: auto;
+  flex: 1;
+  align-items: flex-start;
+}
+
+.board::-webkit-scrollbar {
+  height: 6px;
+}
+
+.board::-webkit-scrollbar-track {
+  background: #2b2c2f;
+  border-radius: 3px;
+}
+
+.board::-webkit-scrollbar-thumb {
+  background: #3c3d42;
+  border-radius: 3px;
+}
+
+.addColumnButton {
+  min-width: 280px;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px dashed #3c3d42;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.addColumnButton:hover {
+  border-color: #4c82f6;
+  background-color: rgba(76, 130, 246, 0.05);
+}

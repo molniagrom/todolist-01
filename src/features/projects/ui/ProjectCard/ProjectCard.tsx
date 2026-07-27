@@ -1,4 +1,5 @@
 import { FC } from "react"
+import { useNavigate } from "react-router"
 import Card from "@mui/material/Card"
 import CardContent from "@mui/material/CardContent"
 import CardActions from "@mui/material/CardActions"
@@ -25,6 +26,7 @@ type Props = {
 }
 
 export const ProjectCard: FC<Props> = ({ project, onEdit, onDelete, onEnterFocus }) => {
+  const navigate = useNavigate()
   const { anchorEl, menuOpen, handleMenuOpen, handleMenuClose } = useCardMenu()
   const { progress, completed, total } = useProjectStats(project.stats.completedTasks, project.stats.totalTasks)
 
@@ -52,7 +54,7 @@ export const ProjectCard: FC<Props> = ({ project, onEdit, onDelete, onEnterFocus
       </CardContent>
 
       <CardActions className={styles.cardActions}>
-        <Button size="small" onClick={() => onEdit(project)}>
+        <Button size="small" onClick={() => navigate(`/projects/${project.id}`)}>
           Открыть
         </Button>
         <Tooltip title="Войти в фокус">

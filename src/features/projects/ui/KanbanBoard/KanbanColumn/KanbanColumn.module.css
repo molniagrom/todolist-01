@@ -1,0 +1,113 @@
+.column {
+  min-width: 280px;
+  max-width: 300px;
+  width: 280px;
+  background-color: #252629;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 140px);
+  flex-shrink: 0;
+  transition: background-color 0.2s;
+}
+
+.columnOver {
+  background-color: #2a2b30;
+}
+
+.dragging {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  border: 1px solid #4c82f6;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 12px 12px 8px;
+  gap: 8px;
+}
+
+.dragHandle {
+  cursor: grab;
+  color: #9e9ea4;
+  display: flex;
+  align-items: center;
+  padding: 2px;
+  border-radius: 4px;
+  transition: color 0.2s;
+}
+
+.dragHandle:hover {
+  color: #e1e2e5;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #e1e2e5;
+  flex: 1;
+}
+
+.titleInput {
+  flex: 1;
+}
+
+.titleInput :global(.MuiOutlinedInput-root) {
+  font-size: 14px;
+  font-weight: 600;
+  color: #e1e2e5;
+  background-color: #2b2c2f;
+  border-radius: 4px;
+}
+
+.titleInput :global(.MuiOutlinedInput-notchedOutline) {
+  border-color: #4c82f6;
+}
+
+.badge {
+  background-color: #333438;
+  color: #9e9ea4;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 1px 8px;
+  border-radius: 10px;
+  min-width: 24px;
+  text-align: center;
+}
+
+.taskList {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 8px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.taskList::-webkit-scrollbar {
+  width: 4px;
+}
+
+.taskList::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.taskList::-webkit-scrollbar-thumb {
+  background: #3c3d42;
+  border-radius: 2px;
+}
+
+.addButton {
+  justify-content: flex-start;
+  color: #9e9ea4;
+  text-transform: none;
+  font-size: 13px;
+  padding: 8px 12px;
+  border-radius: 0 0 10px 10px;
+}
+
+.addButton:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #e1e2e5;
+}

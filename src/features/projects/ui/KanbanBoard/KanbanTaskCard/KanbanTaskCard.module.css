@@ -1,0 +1,92 @@
+.card {
+  background-color: #2f3034;
+  border: 1px solid #38393d;
+  border-radius: 8px;
+  padding: 12px;
+  cursor: grab;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  border-color: #4c82f6;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.drag {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  z-index: 100;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 400;
+  color: #e1e2e5;
+  line-height: 1.4;
+  flex: 1;
+}
+
+.menuButton {
+  opacity: 0;
+  transition: opacity 0.2s;
+  flex-shrink: 0;
+}
+
+.card:hover .menuButton {
+  opacity: 1;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.leftInfo {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.taskId {
+  font-size: 12px;
+  font-weight: 500;
+  color: #9e9ea4;
+}
+
+.rightInfo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dashboardBadge {
+  font-size: 10px;
+  font-weight: 500;
+  color: #4c82f6;
+  background-color: rgba(76, 130, 246, 0.1);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatarText {
+  font-size: 10px;
+  font-weight: 600;
+  color: #fff;
+}

@@ -1,0 +1,415 @@
+.dialog :global(.MuiDialog-paper) {
+  background-color: #1e1f21;
+  border-radius: 12px;
+  max-height: 90vh;
+  overflow: hidden;
+}
+
+.paper {
+  background-color: #1e1f21;
+}
+
+.content {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  height: 85vh;
+  overflow: hidden;
+}
+
+.scrollArea {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 32px;
+}
+
+.scrollArea::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollArea::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollArea::-webkit-scrollbar-thumb {
+  background: #3c3d42;
+  border-radius: 3px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.taskIdBadge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.taskIdText {
+  color: #9e9ea4;
+  font-size: 13px;
+}
+
+.headerIcon {
+  color: #9e9ea4;
+  width: 32px;
+  height: 32px;
+}
+
+.headerIcon:hover {
+  color: #e1e2e5;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.viewersBadge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #9e9ea4;
+  border: 1px solid #3c3d42;
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 12px;
+}
+
+/* Title */
+.titleInput {
+  margin-bottom: 8px;
+}
+
+.titleInput :global(.MuiInput-input) {
+  font-size: 24px;
+  font-weight: 700;
+  color: #e1e2e5;
+  padding: 4px 0;
+}
+
+.addSubtaskIcon {
+  color: #9e9ea4;
+  border: 1px solid #3c3d42;
+  border-radius: 6px;
+  margin-bottom: 24px;
+}
+
+.addSubtaskIcon:hover {
+  border-color: #4c82f6;
+  color: #4c82f6;
+}
+
+/* Sections */
+.section {
+  margin-bottom: 8px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 4px 0;
+  color: #9e9ea4;
+}
+
+.sectionHeader:hover {
+  color: #e1e2e5;
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #e1e2e5;
+}
+
+.subtaskCount {
+  color: #9e9ea4;
+  margin-left: 8px;
+}
+
+.divider {
+  border-color: #2f3034;
+  margin: 8px 0;
+}
+
+/* Description */
+.descriptionPlaceholder {
+  color: #9e9ea4;
+  cursor: pointer;
+  padding: 8px 0;
+}
+
+.descriptionPlaceholder:hover {
+  color: #e1e2e5;
+}
+
+.descriptionInput :global(.MuiInput-input) {
+  color: #e1e2e5;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Attachments */
+.dropZone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px dashed #3c3d42;
+  border-radius: 8px;
+  padding: 24px;
+  margin-top: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.dropZone:hover {
+  border-color: #4c82f6;
+}
+
+.uploadIcon {
+  color: #52c41a;
+}
+
+.uploadText {
+  color: #9e9ea4;
+}
+
+.attachmentsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.attachmentCard {
+  position: relative;
+  width: 120px;
+  background-color: #252629;
+  border: 1px solid #3c3d42;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.attachmentCard:hover {
+  border-color: #4c82f6;
+}
+
+.attachmentImage {
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+  display: block;
+}
+
+.fileIconWrapper {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #2b2c2f;
+}
+
+.attachmentInfo {
+  padding: 6px 8px;
+}
+
+.attachmentName {
+  display: block;
+  font-size: 11px;
+  color: #e1e2e5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.attachmentSize {
+  display: block;
+  font-size: 10px;
+  color: #9e9ea4;
+  margin-top: 2px;
+}
+
+.attachmentRemove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.attachmentCard:hover .attachmentRemove {
+  opacity: 1;
+}
+
+.attachmentRemove:hover {
+  background-color: rgba(255, 0, 0, 0.8);
+}
+
+/* Subtasks */
+.subtasksList {
+  margin-top: 8px;
+}
+
+.subtaskItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 0;
+}
+
+.subtaskTitle {
+  flex: 1;
+  color: #e1e2e5;
+}
+
+.subtaskCompleted {
+  flex: 1;
+  color: #9e9ea4;
+  text-decoration: line-through;
+}
+
+.subtaskDelete {
+  opacity: 0;
+  color: #9e9ea4;
+}
+
+.subtaskItem:hover .subtaskDelete {
+  opacity: 1;
+}
+
+.addSubtaskRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 0;
+}
+
+.subtaskInput :global(.MuiInput-input) {
+  color: #e1e2e5;
+  font-size: 14px;
+}
+
+.placeholderText {
+  color: #9e9ea4;
+}
+
+/* Comments */
+.commentInput {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  border: 1px solid #3c3d42;
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 8px;
+}
+
+.commentAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #fa8c16;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.commentField {
+  flex: 1;
+}
+
+.commentField :global(.MuiInput-input) {
+  color: #e1e2e5;
+  font-size: 14px;
+}
+
+.quickReplies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.quickReply {
+  text-transform: none;
+  font-size: 12px;
+  color: #9e9ea4;
+  border: 1px solid #3c3d42;
+  border-radius: 16px;
+  padding: 2px 10px;
+  min-height: 28px;
+}
+
+.quickReply:hover {
+  border-color: #4c82f6;
+  color: #e1e2e5;
+  background-color: rgba(76, 130, 246, 0.1);
+}
+
+/* Bottom bar */
+.bottomBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 32px;
+  border-top: 1px solid #2f3034;
+  background-color: #1e1f21;
+}
+
+.dashboardToggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #9e9ea4;
+}
+
+.bottomActions {
+  display: flex;
+  gap: 8px;
+}
+
+.cancelButton {
+  color: #9e9ea4;
+  text-transform: none;
+}
+
+.cancelButton:hover {
+  color: #e1e2e5;
+}
+
+.saveButton {
+  background-color: #4c82f6;
+  text-transform: none;
+  padding: 6px 20px;
+}
+
+.saveButton:hover {
+  background-color: #5b8ff9;
+}
