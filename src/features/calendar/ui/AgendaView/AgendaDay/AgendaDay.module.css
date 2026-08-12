@@ -6,12 +6,12 @@
   margin-bottom: 8px;
   text-transform: capitalize;
   font-weight: 500;
-  color: var(--mui-palette-text-secondary, rgba(0, 0, 0, 0.6));
+  color: var(--color-text-secondary, #666666);
 }
 
 .dayTitle.today {
   font-weight: 700;
-  color: var(--mui-palette-primary-main, #1976d2);
+  color: var(--color-primary-main, #F48FB1);
 }
 
 .taskList {

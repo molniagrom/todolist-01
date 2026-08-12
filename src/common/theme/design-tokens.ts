@@ -15,31 +15,53 @@ export const designTokens = {
     fontWeight: { regular: 400, medium: 500, semibold: 600, bold: 700 },
     lineHeight: { tight: 1.1, normal: 1.4, relaxed: 1.6 },
   },
+  spacing: {
+    1: "4px", 2: "8px", 3: "12px", 4: "16px",
+    5: "20px", 6: "24px", 8: "32px", 10: "40px",
+  },
+  shape: {
+    sm: "4px", md: "8px", lg: "12px", full: "50%",
+  },
+  shadows: {
+    sm: "0 2px 8px rgba(0, 0, 0, 0.3)",
+    md: "0 8px 16px rgba(0, 0, 0, 0.15)",
+    lg: "0 8px 24px rgba(0, 0, 0, 0.5)",
+  },
+  transitions: {
+    fast: "0.15s", normal: "0.3s", slow: "0.5s",
+  },
 } as const
 
-export const cssVariables: Record<`--${string}`, string | number> = {
-  "--font-family-base": designTokens.typography.fontFamily,
-  "--font-size-xs": designTokens.typography.fontSize.xs,
-  "--font-size-sm": designTokens.typography.fontSize.sm,
-  "--font-size-md": designTokens.typography.fontSize.md,
-  "--font-size-lg": designTokens.typography.fontSize.lg,
-  "--font-size-xl": designTokens.typography.fontSize.xl,
-  "--font-size-h1": designTokens.typography.fontSize.h1,
-  "--font-weight-regular": designTokens.typography.fontWeight.regular,
-  "--font-weight-medium": designTokens.typography.fontWeight.medium,
-  "--font-weight-semibold": designTokens.typography.fontWeight.semibold,
-  "--font-weight-bold": designTokens.typography.fontWeight.bold,
-  "--line-height-tight": designTokens.typography.lineHeight.tight,
-  "--line-height-normal": designTokens.typography.lineHeight.normal,
-  "--line-height-relaxed": designTokens.typography.lineHeight.relaxed,
-  "--color-kanban-background": designTokens.colors.surface.kanban,
-  "--color-kanban-surface": designTokens.colors.surface.kanbanElevated,
-  "--color-kanban-surface-hover": designTokens.colors.surface.kanbanHover,
-  "--color-kanban-text": designTokens.colors.text.kanbanPrimary,
-  "--color-kanban-text-muted": designTokens.colors.text.kanbanSecondary,
-  "--color-kanban-border": designTokens.colors.border.kanban,
-  "--color-primary-kanban": designTokens.colors.primary.kanban,
-  "--color-primary-kanban-hover": designTokens.colors.primary.kanbanHover,
-}
-
 export type DesignTokens = typeof designTokens
+
+type ThemeMode = "light" | "dark"
+
+export const getThemeCssVariables = (mode: ThemeMode): Record<`--${string}`, string> => {
+  const c = designTokens.colors
+  if (mode === "light") {
+    return {
+      "--color-text-primary": c.text.primaryLight,
+      "--color-text-secondary": c.text.secondaryLight,
+      "--color-text-disabled": "#BDBDBD",
+      "--color-bg-paper": c.surface.light,
+      "--color-primary-main": c.primary.light,
+      "--color-primary-dark": "#E91E63",
+      "--color-primary-contrast": c.text.inverse,
+      "--color-action-hover": "rgba(0, 0, 0, 0.04)",
+      "--color-action-selected": "rgba(0, 0, 0, 0.08)",
+      "--color-divider": c.border.light,
+    }
+  }
+  return {
+    "--color-text-primary": c.text.primaryDark,
+    "--color-text-secondary": c.text.secondaryDark,
+    "--color-text-disabled": "#666666",
+    "--color-bg-paper": c.surface.dark,
+    "--color-primary-main": c.primary.dark,
+    "--color-primary-dark": "#FFA000",
+    "--color-primary-contrast": "#000000",
+    "--color-action-hover": "rgba(255, 255, 255, 0.08)",
+    "--color-action-selected": "rgba(255, 255, 255, 0.12)",
+    "--color-divider": c.border.dark,
+  }
+}
