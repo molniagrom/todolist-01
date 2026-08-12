@@ -1,0 +1,99 @@
+.column {
+  min-width: 0;
+}
+
+.dayHeader {
+  text-align: center;
+  padding: 8px 0;
+  cursor: pointer;
+  border-radius: 4px;
+  background-color: transparent;
+  border: none;
+  margin-bottom: 8px;
+}
+
+.dayHeader.today {
+  background-color: var(--mui-palette-action-hover, rgba(0, 0, 0, 0.04));
+  border: 2px solid var(--mui-palette-primary-main, #1976d2);
+}
+
+.dayHeader.selected {
+  background-color: var(--mui-palette-primary-main, #1976d2);
+  border: none;
+}
+
+.dayName {
+  text-transform: uppercase;
+  color: var(--mui-palette-text-secondary, rgba(0, 0, 0, 0.6));
+}
+
+.dayName.selected {
+  color: var(--mui-palette-primary-contrastText, #fff);
+}
+
+.dayNumber {
+  color: var(--mui-palette-text-primary, rgba(0, 0, 0, 0.87));
+  line-height: 1;
+}
+
+.dayNumber.selected {
+  color: var(--mui-palette-primary-contrastText, #fff);
+}
+
+.taskList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.emptyText {
+  text-align: center;
+  padding: 16px 0;
+  color: var(--mui-palette-text-secondary, rgba(0, 0, 0, 0.6));
+}
+
+.taskPaper {
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.taskPaper.done {
+  opacity: 0.6;
+}
+
+.taskContent {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.priorityDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.taskTitle {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--mui-palette-text-secondary, rgba(0, 0, 0, 0.6));
+}
+
+.taskTitle.done {
+  text-decoration: line-through;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+}
+
+.checkbox {
+  padding: 0;
+}

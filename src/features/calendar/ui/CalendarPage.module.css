@@ -1,0 +1,47 @@
+.loading {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.container {
+  margin-top: 32px;
+  margin-bottom: 32px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.title {
+  font-size: 2.125rem;
+}
+
+.subtitle {
+  margin-bottom: 16px;
+  font-size: 1rem;
+}
+
+.paper {
+  padding: 24px;
+}
+
+@media (max-width: 599px) {
+  .container {
+    margin-top: 16px;
+    margin-bottom: 16px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .subtitle {
+    margin-bottom: 8px;
+    font-size: 0.875rem;
+  }
+
+  .paper {
+    padding: 12px;
+  }
+}

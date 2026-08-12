@@ -1,0 +1,54 @@
+.daySection {
+  margin-bottom: 24px;
+}
+
+.dayTitle {
+  margin-bottom: 8px;
+  text-transform: capitalize;
+  font-weight: 500;
+  color: var(--mui-palette-text-secondary, rgba(0, 0, 0, 0.6));
+}
+
+.dayTitle.today {
+  font-weight: 700;
+  color: var(--mui-palette-primary-main, #1976d2);
+}
+
+.taskList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.taskPaper {
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.taskPaper.done {
+  opacity: 0.6;
+}
+
+.priorityDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.taskTitle {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.taskTitle.done {
+  text-decoration: line-through;
+}
+
+.checkbox {
+  padding: 0;
+}
