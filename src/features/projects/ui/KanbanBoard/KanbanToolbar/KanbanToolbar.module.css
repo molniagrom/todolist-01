@@ -4,8 +4,8 @@
   justify-content: space-between;
   height: 56px;
   padding: 0 24px;
-  border-bottom: 1px solid #3c3d42;
-  background-color: #1e1f21;
+  border-bottom: 1px solid var(--color-kanban-border);
+  background-color: var(--color-kanban-background);
   flex-shrink: 0;
 }
 
@@ -16,7 +16,7 @@
 }
 
 .backButton {
-  color: #9e9ea4;
+  color: var(--color-kanban-text-muted);
 }
 
 .projectIndicator {
@@ -27,9 +27,9 @@
 }
 
 .projectTitle {
-  font-size: 16px;
-  font-weight: 600;
-  color: #e1e2e5;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-kanban-text);
   white-space: nowrap;
 }
 
@@ -38,14 +38,14 @@
 }
 
 .searchField :global(.MuiOutlinedInput-root) {
-  background-color: #2b2c2f;
+  background-color: var(--color-kanban-surface);
   border-radius: 6px;
-  font-size: 13px;
-  color: #e1e2e5;
+  font-size: var(--font-size-sm);
+  color: var(--color-kanban-text);
 }
 
 .searchField :global(.MuiOutlinedInput-notchedOutline) {
-  border-color: #38393d;
+  border-color: var(--color-kanban-border);
 }
 
 .avatarStack {
@@ -56,9 +56,9 @@
 .avatar {
   width: 28px;
   height: 28px;
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   margin-left: -6px;
-  border: 2px solid #1e1f21;
+  border: 2px solid var(--color-kanban-background);
 }
 
 .avatar:first-child {
@@ -66,17 +66,17 @@
 }
 
 .filterButton {
-  color: #9e9ea4;
-  border: 1px solid #3c3d42;
+  color: var(--color-kanban-text-muted);
+  border: 1px solid var(--color-kanban-border);
   border-radius: 6px;
   text-transform: none;
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   padding: 4px 12px;
 }
 
 .filterButton:hover {
-  border-color: #5b8ff9;
-  color: #e1e2e5;
+  border-color: var(--color-primary-kanban-hover);
+  color: var(--color-kanban-text);
 }
 
 .rightBlock {
@@ -86,26 +86,26 @@
 }
 
 .sprintButton {
-  background-color: #4c82f6;
+  background-color: var(--color-primary-kanban);
   text-transform: none;
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   padding: 6px 16px;
   border-radius: 6px;
 }
 
 .sprintButton:hover {
-  background-color: #5b8ff9;
+  background-color: var(--color-primary-kanban-hover);
 }
 
 .utilityButton {
   width: 36px;
   height: 36px;
   border-radius: 6px;
-  color: #9e9ea4;
-  background-color: #2b2c2f;
+  color: var(--color-kanban-text-muted);
+  background-color: var(--color-kanban-surface);
 }
 
 .utilityButton:hover {
-  background-color: #3c3d42;
-  color: #e1e2e5;
+  background-color: var(--color-kanban-surface-hover);
+  color: var(--color-kanban-text);
 }

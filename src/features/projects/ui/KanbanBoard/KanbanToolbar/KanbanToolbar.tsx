@@ -16,6 +16,7 @@ import TuneIcon from "@mui/icons-material/Tune"
 import CampaignIcon from "@mui/icons-material/Campaign"
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz"
 import styles from "./KanbanToolbar.module.css"
+import { designTokens } from "@/common/theme"
 
 type Props = {
   projectTitle: string
@@ -55,7 +56,7 @@ export const KanbanToolbar: FC<Props> = ({
             input: {
               startAdornment: (
                 <InputAdornment position="start">
-                  <SearchIcon fontSize="small" sx={{ color: "#9e9ea4" }} />
+                  <SearchIcon fontSize="small" sx={{ color: designTokens.colors.icon.muted }} />
                 </InputAdornment>
               ),
             },
@@ -63,17 +64,17 @@ export const KanbanToolbar: FC<Props> = ({
         />
 
         <Box className={styles.avatarStack}>
-          <Avatar className={styles.avatar} sx={{ bgcolor: "#3c3d42" }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="#9e9ea4">
+          <Avatar className={styles.avatar} sx={{ bgcolor: designTokens.colors.surface.kanbanHover }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill={designTokens.colors.icon.muted}>
               <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
             </svg>
           </Avatar>
-          <Avatar className={styles.avatar} sx={{ bgcolor: "#fa8c16" }}>U</Avatar>
-          <Avatar className={styles.avatar} sx={{ bgcolor: "#1890ff" }}>AB</Avatar>
-          <Avatar className={styles.avatar} sx={{ bgcolor: "#1890ff" }}>IL</Avatar>
-          <Avatar className={styles.avatar} sx={{ bgcolor: "#52c41a" }}>V</Avatar>
-          <Avatar className={styles.avatar} sx={{ bgcolor: "#fa8c16" }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff">
+          <Avatar className={styles.avatar} sx={{ bgcolor: designTokens.colors.status.accent }}>U</Avatar>
+          <Avatar className={styles.avatar} sx={{ bgcolor: designTokens.colors.status.info }}>AB</Avatar>
+          <Avatar className={styles.avatar} sx={{ bgcolor: designTokens.colors.status.info }}>IL</Avatar>
+          <Avatar className={styles.avatar} sx={{ bgcolor: designTokens.colors.status.success }}>V</Avatar>
+          <Avatar className={styles.avatar} sx={{ bgcolor: designTokens.colors.status.accent }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill={designTokens.colors.text.inverse}>
               <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
             </svg>
           </Avatar>

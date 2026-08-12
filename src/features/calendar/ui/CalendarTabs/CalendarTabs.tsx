@@ -9,7 +9,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard'
 import type { CalendarMode } from '../../lib/hooks/useCalendarState'
 import styles from './CalendarTabs.module.css'
 
-const tabs: { value: CalendarMode; label: string; icon: React.ReactNode }[] = [
+const tabs: { value: CalendarMode; label: string; icon: React.ReactElement }[] = [
   { value: 'month', label: 'Месяц', icon: <CalendarMonthIcon fontSize="small" /> },
   { value: 'week', label: 'Неделя', icon: <ViewWeekIcon fontSize="small" /> },
   { value: 'agenda', label: 'Повестка', icon: <ListAltIcon fontSize="small" /> },

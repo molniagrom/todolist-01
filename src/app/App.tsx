@@ -12,7 +12,9 @@ import CssBaseline from "@mui/material/CssBaseline"
 import Typography from "@mui/material/Typography"
 import { ThemeProvider } from "@mui/material/styles"
 import { useEffect, useState } from "react"
+import type { CSSProperties } from "react"
 import styles from "./App.module.css"
+import { cssVariables } from "@/common/theme"
 
 export const App = () => {
   const themeMode = useAppSelector(selectThemeMode)
@@ -24,6 +26,16 @@ export const App = () => {
   const dispatch = useAppDispatch()
 
   const theme = getTheme(themeMode)
+
+  useEffect(() => {
+    Object.entries(cssVariables).forEach(([name, value]) => {
+      document.documentElement.style.setProperty(name, String(value))
+    })
+
+    return () => {
+      Object.keys(cssVariables).forEach((name) => document.documentElement.style.removeProperty(name))
+    }
+  }, [])
 
   useEffect(() => {
     if (isLoading) return
@@ -43,7 +55,7 @@ export const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <div className={styles.app}>
+      <div className={styles.app} style={cssVariables as CSSProperties}>
         <CssBaseline />
         <Header />
         <Box display="flex" justifyContent="center" alignItems="center" mt={2} mb={2}>

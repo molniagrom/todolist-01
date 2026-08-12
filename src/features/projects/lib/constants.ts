@@ -1,12 +1,14 @@
+import { designTokens } from "@/common/theme"
+
 export const PROJECT_COLORS = [
-  '#f44336',
-  '#ff9800',
-  '#ffeb3b',
-  '#4caf50',
-  '#2196f3',
-  '#9c27b0',
-  '#e91e63',
-  '#607d8b',
+  designTokens.colors.status.error,
+  designTokens.colors.status.warning,
+  designTokens.colors.status.projectYellow,
+  designTokens.colors.status.successMaterial,
+  designTokens.colors.status.info,
+  designTokens.colors.status.urgent,
+  designTokens.colors.status.projectPink,
+  designTokens.colors.status.projectSlate,
 ] as const
 
 export const FOCUS_MODE_KEY = 'focus_project_id'
