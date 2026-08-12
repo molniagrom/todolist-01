@@ -10,6 +10,8 @@ export const kanbanTaskSchema = z.object({
   showInDashboard: z.boolean(),
   assignee: z.string().optional(),
   type: z.string().optional(),
+  startDate: z.string().optional(),
+  deadline: z.string().optional(),
   subtasks: z.array(z.object({
     id: z.string(),
     title: z.string(),
@@ -44,6 +46,8 @@ export type UpdateKanbanTaskPayload = {
   order?: number
   showInDashboard?: boolean
   assignee?: string
+  startDate?: string
+  deadline?: string
   subtasks?: KanbanTask["subtasks"]
   linkedTaskIds?: string[]
   attachments?: KanbanTask["attachments"]
