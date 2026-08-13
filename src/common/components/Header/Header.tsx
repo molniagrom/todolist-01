@@ -13,11 +13,14 @@ import { useAppDispatch, useAppSelector } from "@/common/hooks"
 import { Path } from "@/common/routing/Routing"
 import { headerContainerSx } from "@/common/styles"
 import { getTheme } from "@/common/theme"
+import { useMeQuery } from "@/features/auth/api/authApi"
 import { useLogoutMutation } from "@/features/auth/api/authApi"
+import { PROFILE_UPDATED_EVENT } from "@/features/profile/lib/useProfile"
 import MenuIcon from "@mui/icons-material/Menu"
 import LightModeIcon from "@mui/icons-material/LightMode"
 import DarkModeIcon from "@mui/icons-material/DarkMode"
 import AppBar from "@mui/material/AppBar"
+import Avatar from "@mui/material/Avatar"
 import Box from "@mui/material/Box"
 import Container from "@mui/material/Container"
 import Fade from "@mui/material/Fade"
@@ -29,7 +32,7 @@ import Paper from "@mui/material/Paper"
 import Switch from "@mui/material/Switch"
 import Toolbar from "@mui/material/Toolbar"
 import Typography from "@mui/material/Typography"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Link as RouterLink, useNavigate } from "react-router-dom"
 
 const menuItems = [
@@ -44,6 +47,33 @@ export const Header = () => {
   const isLoggedIn = useAppSelector(selectIsLoggedIn)
   const themeMode = useAppSelector(selectThemeMode)
   const status = useAppSelector(selectAppStatus)
+
+  const { data: meData } = useMeQuery()
+  const login = meData?.data?.login || ''
+
+  const readAvatar = () => {
+    if (!isLoggedIn) return ''
+    try {
+      const raw = localStorage.getItem('profileData')
+      if (raw) return JSON.parse(raw).avatar || ''
+    } catch { /* skip */ }
+    return ''
+  }
+
+  const [avatarUrl, setAvatarUrl] = useState(readAvatar)
+
+  useEffect(() => {
+    setAvatarUrl(readAvatar())
+    const handleUpdate = () => setAvatarUrl(readAvatar())
+    window.addEventListener(PROFILE_UPDATED_EVENT, handleUpdate)
+    window.addEventListener('storage', handleUpdate)
+    return () => {
+      window.removeEventListener(PROFILE_UPDATED_EVENT, handleUpdate)
+      window.removeEventListener('storage', handleUpdate)
+    }
+  }, [isLoggedIn])
+
+  const initial = login ? login.charAt(0).toUpperCase() : '?'
 
   const [logout] = useLogoutMutation()
   const navigate = useNavigate()
@@ -112,6 +142,22 @@ export const Header = () => {
                   <Typography variant="h6" sx={{ fontSize: { xs: "1.1rem", sm: "1.25rem" } }}>
                     Навигация
                   </Typography>
+                  {isLoggedIn && (
+                    <Box
+                      sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 1, cursor: "pointer" }}
+                      onClick={() => { closeMenu(); navigate(Path.Profile) }}
+                    >
+                      <Avatar
+                        src={avatarUrl || undefined}
+                        sx={{ width: 36, height: 36, fontSize: "0.875rem", bgcolor: "primary.main" }}
+                      >
+                        {!avatarUrl && initial}
+                      </Avatar>
+                      <Typography variant="body2" color="text.secondary">
+                        {login}
+                      </Typography>
+                    </Box>
+                  )}
                   {menuItems.map((item) => (
                     <Link
                       key={item.path}
@@ -152,16 +198,31 @@ export const Header = () => {
           </Modal>
           <Box sx={{ display: "flex", alignItems: "center", gap: { xs: 0.5, sm: 1 } }}>
             {isLoggedIn && (
-              <NavButton
-                onClick={logoutHandler}
-                sx={{
-                  fontSize: { xs: "0.75rem", sm: "0.875rem" },
-                  px: { xs: 1, sm: 2 },
-                  display: { xs: "none", sm: "inline-flex" },
-                }}
-              >
-                Sign out
-              </NavButton>
+              <>
+                <Avatar
+                  src={avatarUrl || undefined}
+                  sx={{
+                    width: 32,
+                    height: 32,
+                    fontSize: '0.875rem',
+                    cursor: 'pointer',
+                    bgcolor: 'primary.main',
+                  }}
+                  onClick={() => navigate(Path.Profile)}
+                >
+                  {!avatarUrl && initial}
+                </Avatar>
+                <NavButton
+                  onClick={logoutHandler}
+                  sx={{
+                    fontSize: { xs: "0.75rem", sm: "0.875rem" },
+                    px: { xs: 1, sm: 2 },
+                    display: { xs: "none", sm: "inline-flex" },
+                  }}
+                >
+                  Sign out
+                </NavButton>
+              </>
             )}
             <NavButton
               onClick={() => navigate(Path.Faq)}

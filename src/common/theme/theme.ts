@@ -44,5 +44,16 @@ export const getTheme = (themeMode: ThemeMode) => {
       body1: { fontSize: designTokens.typography.fontSize.md, lineHeight: designTokens.typography.lineHeight.normal },
       button: { fontWeight: designTokens.typography.fontWeight.semibold, textTransform: "none" },
     },
+    spacing: 8,
+    shape: {
+      borderRadius: parseInt(designTokens.shape.md),
+    },
+    shadows: [
+      "none",
+      designTokens.shadows.sm,
+      designTokens.shadows.md,
+      designTokens.shadows.lg,
+      ...Array(21).fill(designTokens.shadows.lg),
+    ] as unknown as string[],
   })
 }
