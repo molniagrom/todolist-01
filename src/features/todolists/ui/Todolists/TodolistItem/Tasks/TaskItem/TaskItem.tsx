@@ -5,6 +5,7 @@ import { useRemoveTaskMutation, useUpdateTaskMutation } from "@/features/todolis
 import type { DomainTask } from "@/features/todolists/api/tasksApi.types"
 import type { DomainTodolist } from "@/features/todolists/lib/types"
 import { createTaskModel } from "@/features/todolists/lib/utils"
+import { saveActivity } from "@/features/profile"
 import DeleteIcon from "@mui/icons-material/Delete"
 import Checkbox from "@mui/material/Checkbox"
 import IconButton from "@mui/material/IconButton"
@@ -25,17 +26,21 @@ export const TaskItem = ({ task, todolist }: Props) => {
 
   const deleteTask = () => {
     removeTask({ todolistId: todolist.id, taskId: task.id })
+    saveActivity({ type: 'delete', text: `Задача «${task.title}» удалена` })
   }
 
   const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
     const status = e.currentTarget.checked ? TaskStatus.Completed : TaskStatus.New
     const model = createTaskModel(task, { status })
     updateTask({ taskId: task.id, todolistId: todolist.id, model })
+    const label = status === TaskStatus.Completed ? 'выполнена' : 'возвращена в работу'
+    saveActivity({ type: 'update', text: `Задача «${task.title}» ${label}` })
   }
 
   const changeTaskTitle = (title: string) => {
     const model = createTaskModel(task, { title })
     updateTask({ taskId: task.id, todolistId: todolist.id, model })
+    saveActivity({ type: 'update', text: `Задача переименована в «${title}»` })
   }
 
   const toggleExpand = () => {

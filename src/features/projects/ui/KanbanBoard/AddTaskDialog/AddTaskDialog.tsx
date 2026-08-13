@@ -8,6 +8,7 @@ import Button from "@mui/material/Button"
 import FormControlLabel from "@mui/material/FormControlLabel"
 import Checkbox from "@mui/material/Checkbox"
 import { useCreateTaskMutation } from "../../../api/kanbanTasksApi"
+import { saveActivity } from "@/features/profile"
 
 type Props = {
   open: boolean
@@ -31,6 +32,7 @@ export const AddTaskDialog: FC<Props> = ({ open, onClose, projectId, columnId })
       showInDashboard,
     })
 
+    saveActivity({ type: 'create', text: `Задача «${title.trim()}» создана в Kanban` })
     setTitle("")
     setShowInDashboard(false)
     onClose()

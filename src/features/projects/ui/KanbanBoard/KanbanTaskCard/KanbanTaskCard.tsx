@@ -16,6 +16,7 @@ import { useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
 import type { KanbanTask } from "../../../api/kanbanTasksApi.types"
 import { useUpdateTaskMutation, useDeleteTaskMutation } from "../../../api/kanbanTasksApi"
+import { saveActivity } from "@/features/profile"
 import { EditTaskDialog } from "../EditTaskDialog/EditTaskDialog"
 import styles from "./KanbanTaskCard.module.css"
 
@@ -112,6 +113,10 @@ export const KanbanTaskCard: FC<Props> = ({ task }) => {
           onClick={() => {
             setMenuAnchor(null)
             updateTask({ id: task.id, showInDashboard: !task.showInDashboard })
+            saveActivity({
+              type: 'update',
+              text: `Задача «${task.title}» ${task.showInDashboard ? 'скрыта из' : 'добавлена в'} Dashboard`,
+            })
           }}
         >
           <ListItemIcon>
@@ -129,6 +134,7 @@ export const KanbanTaskCard: FC<Props> = ({ task }) => {
           onClick={() => {
             setMenuAnchor(null)
             deleteTask(task.id)
+            saveActivity({ type: 'delete', text: `Задача «${task.title}» удалена из Kanban` })
           }}
         >
           <ListItemIcon>

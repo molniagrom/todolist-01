@@ -17,6 +17,7 @@ import { useAddTaskMutation, useUpdateTaskMutation } from '@/features/todolists/
 import { DomainTask } from '@/features/todolists/api/tasksApi.types'
 import { TaskPriority } from '@/common/enums/enums'
 import { priorityLabels } from '@/features/dashboard/lib/constants'
+import { saveActivity } from '@/features/profile'
 import { TodolistSelector } from './TodolistSelector/TodolistSelector'
 import styles from './AddTaskForm.module.css'
 
@@ -54,6 +55,7 @@ export const AddTaskForm: FC<Props> = ({ open, onClose, selectedDate, onTaskAdde
       const result = await addTodolist(name).unwrap()
       setTodolistId(result.data.item.id)
       setError('')
+      saveActivity({ type: 'create', text: `Список «${name}» создан` })
     } catch {
       setError('Ошибка при создании списка')
     }
@@ -91,6 +93,7 @@ export const AddTaskForm: FC<Props> = ({ open, onClose, selectedDate, onTaskAdde
       resetForm()
       onTaskAdded?.(finalTask)
       onClose()
+      saveActivity({ type: 'create', text: `Задача «${title.trim()}» создана` })
     } catch {
       setError('Ошибка при создании задачи')
     }

@@ -26,6 +26,7 @@ import LinkIcon from "@mui/icons-material/Link"
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile"
 import { useUpdateTaskMutation } from "../../../api/kanbanTasksApi"
 import type { KanbanTask } from "../../../api/kanbanTasksApi.types"
+import { saveActivity } from "@/features/profile"
 import styles from "./EditTaskDialog.module.css"
 
 type Props = {
@@ -100,6 +101,7 @@ export const EditTaskDialog: FC<Props> = ({ open, onClose, task }) => {
         dataUrl: a.preview,
       })),
     })
+    saveActivity({ type: 'update', text: `Задача «${title.trim()}» обновлена в Kanban` })
     onClose()
   }
 

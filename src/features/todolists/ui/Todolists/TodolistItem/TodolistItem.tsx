@@ -1,6 +1,7 @@
 import { useAddTaskMutation, useUpdateTaskMutation } from '@/features/todolists/api/tasksApi'
 import type { DomainTodolist } from '@/features/todolists/lib/types'
 import { TaskPriority } from '@/common/enums/enums'
+import { saveActivity } from '@/features/profile'
 import { FilterButtons } from './FilterButtons/FilterButtons'
 import { Tasks } from './Tasks/Tasks'
 import { TodolistTitle } from './TodolistTitle/TodolistTitle'
@@ -31,6 +32,8 @@ export const TodolistItem = ({ todolist }: Props) => {
         deadline: newTask.deadline,
       },
     })
+
+    saveActivity({ type: 'create', text: `Задача «${title}» создана` })
   }
 
   return (

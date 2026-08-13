@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '@/common/hooks'
 import { useUpdateTaskMutation, useRemoveTaskMutation } from '@/features/todolists/api/tasksApi'
 import { DomainTask } from '@/features/todolists/api/tasksApi.types'
 import { TaskStatus } from '@/common/enums/enums'
+import { saveActivity } from '@/features/profile'
 import {
   selectSelectedDate,
   selectCurrentWeekStart,
@@ -100,6 +101,8 @@ export const TimelineCalendar: FC<Props> = ({
           description: task.description,
         },
       }).unwrap()
+      const label = newStatus === TaskStatus.Completed ? 'выполнена' : 'возвращена в работу'
+      saveActivity({ type: 'update', text: `Задача «${task.title}» ${label}` })
     } catch {
       // Revert on error
       refetch()
@@ -112,6 +115,7 @@ export const TimelineCalendar: FC<Props> = ({
 
     try {
       await removeTask({ todolistId: task.todoListId, taskId: task.id }).unwrap()
+      saveActivity({ type: 'delete', text: `Задача «${task.title}» удалена` })
     } catch {
       // Revert on error
       refetch()
@@ -135,6 +139,9 @@ export const TimelineCalendar: FC<Props> = ({
           description: updates.description ?? task.description,
         },
       }).unwrap()
+      if (updates.title && updates.title !== task.title) {
+        saveActivity({ type: 'update', text: `Задача переименована в «${updates.title}»` })
+      }
     } catch {
       // Revert on error
       refetch()
