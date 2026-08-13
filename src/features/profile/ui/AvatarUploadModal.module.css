@@ -1,0 +1,75 @@
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-4) var(--spacing-6);
+}
+
+.content {
+  padding: var(--spacing-4) var(--spacing-6) !important;
+  min-height: 300px;
+}
+
+.uploadStep {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-4);
+  padding: var(--spacing-8) 0;
+}
+
+.uploadIcon {
+  font-size: 48px !important;
+  color: var(--color-text-secondary);
+}
+
+.uploadText {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-md);
+}
+
+.cropStep {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.cropperContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.cropFrame {
+  width: 280px;
+  height: 280px;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  position: relative;
+  background-color: var(--color-bg-default);
+  border: 2px solid var(--color-divider);
+}
+
+.cropImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform-origin: center center;
+  transition: transform 0.1s ease;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: 0 var(--spacing-2);
+}
+
+.toolbar .MuiSlider-root {
+  flex: 1;
+}
+
+.actions {
+  padding: var(--spacing-3) var(--spacing-6) var(--spacing-4);
+  gap: var(--spacing-3);
+}

@@ -1,0 +1,254 @@
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: var(--spacing-6) var(--spacing-4);
+}
+
+.title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-2) !important;
+}
+
+.subtitle {
+  font-size: var(--font-size-md);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-6) !important;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  margin-bottom: var(--spacing-6);
+}
+
+.avatarSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-3);
+  flex-shrink: 0;
+}
+
+.avatarWrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.avatarCircle {
+  width: 120px;
+  height: 120px;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  background-color: var(--color-primary-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--color-divider);
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatarFallback {
+  color: var(--color-primary-contrast);
+  font-size: 36px;
+  font-weight: var(--font-weight-bold);
+  user-select: none;
+}
+
+.avatarDeleteBtn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  border: none;
+  background-color: var(--color-bg-paper);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.avatarWrapper:hover .avatarDeleteBtn {
+  opacity: 1;
+}
+
+.avatarDeleteBtn:hover {
+  color: var(--color-status-error);
+  background-color: var(--color-bg-paper);
+}
+
+.selectPhotoBtn {
+  font-size: var(--font-size-sm) !important;
+  text-transform: none !important;
+  color: var(--color-primary-main) !important;
+  padding: 0 !important;
+  min-width: 0 !important;
+}
+
+.userName {
+  font-size: 24px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.userEmail {
+  font-size: var(--font-size-md);
+  color: var(--color-text-secondary);
+}
+
+/* Stats */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-4);
+  margin-bottom: var(--spacing-6);
+}
+
+@media (max-width: 799px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.statCard {
+  padding: var(--spacing-4);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-paper);
+  border: 1px solid var(--color-divider);
+  text-align: center;
+  transition: box-shadow var(--transition-fast);
+}
+
+.statCard:hover {
+  box-shadow: var(--shadow-sm);
+}
+
+.statValue {
+  font-size: 32px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-tight);
+}
+
+.statLabel {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-top: var(--spacing-1);
+}
+
+.statCard.completed .statValue {
+  color: var(--color-status-success);
+}
+
+.statCard.overdue .statValue {
+  color: var(--color-status-error);
+}
+
+/* Settings */
+.section {
+  background-color: var(--color-bg-paper);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-6);
+  margin-bottom: var(--spacing-6);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-5) !important;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.formRow {
+  display: flex;
+  gap: var(--spacing-4);
+}
+
+@media (max-width: 599px) {
+  .formRow {
+    flex-direction: column;
+  }
+}
+
+.formActions {
+  display: flex;
+  gap: var(--spacing-3);
+  margin-top: var(--spacing-2);
+}
+
+/* Activity */
+.activityList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.activityItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-3);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-paper);
+  border: 1px solid var(--color-divider);
+}
+
+.activityDot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+
+.activityDot.create {
+  background-color: var(--color-status-success);
+}
+
+.activityDot.update {
+  background-color: var(--color-status-info);
+}
+
+.activityDot.delete {
+  background-color: var(--color-status-error);
+}
+
+.activityText {
+  flex: 1;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+}
+
+.activityTime {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+.emptyText {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  text-align: center;
+  padding: var(--spacing-6) 0;
+}
